@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.Security.Application;
 using O2.DotNetWrappers.ExtensionMethods;
@@ -295,7 +296,18 @@ namespace TeamMentor.CoreLib
         }        
         [ManageUsers]   public static bool          updateTmUser        (this TM_UserData userData, int userId, string userName, string firstname, string lastname, string title, string company, string email, string country, string state, bool passwordExpired,bool userEnabled, int groupId)
         {
-            return userData.tmUser(userId).updateTmUser(userName, firstname, lastname,  title, company, email,country, state, passwordExpired,userEnabled,groupId);
+            try
+            {
+                return userData.tmUser(userId).updateTmUser(userName, firstname, lastname, title, company, email,
+                                                            country,
+                                                            state, passwordExpired, userEnabled, groupId);
+            }
+            catch (ValidationException)
+            {
+                userData.ReloadData();
+
+                throw;
+            }
         }		                
         [ManageUsers]   public static List<string>  getUserRoles        (this TM_UserData userData, int userId)
         {
