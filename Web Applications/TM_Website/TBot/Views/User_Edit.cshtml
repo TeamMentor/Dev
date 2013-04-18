@@ -1,17 +1,18 @@
 ﻿<script>
     
 function TMUser($scope,$http)
-    {        
-        $scope.update = function(userData)
-            {                
-                $scope.result = " ... saving user";
-                $http.put('/rest/user',userData)
-                    .success(function(data)
-                        {                            
-                            $scope.result = (data) ? "(User details saved)" : "Error: Failed to Save user!";
-                        })
-
-            }
+    {
+    $scope.update = function(userData) {
+        $scope.result = " ... saving user";
+        $http.put('/rest/user', userData)
+            .success(function(data) {
+                $scope.result = (data) ? "(User details saved)" : "Error: Failed to Save user!";
+            })
+            .error(function () {
+                        $scope.result = "Error: Failed to Save user!";
+                    });
+                };
+        };
 
         var userName = window.location.search.substring(1);
         if (userName != "")
@@ -47,36 +48,36 @@ function TMUser($scope,$http)
 
             <div class="input-prepend">
                 <span class="add-on" style="width:120px;">UserName</span>
-                <input type="text" style="width:250px;" ng-model="userData.UserName" required/>
+                <input type="text" style="width:250px;" ng-model="userData.UserName" required maxlength="30"/>
             </div><br/>
             <div class="input-prepend">
                 <span class="add-on" style="width:120px;">Email</span>
-                <input type="email" style="width:250px;" ng-model="userData.Email" required/>
+                <input type="email" style="width:250px;" ng-model="userData.Email" required maxlength="50"/>
             </div><br/>        
             <div class="input-prepend">
                 <span class="add-on" style="width:120px;">FirstName</span>
-                <input type="text" style="width:250px;" ng-model="userData.FirstName"/>
+                <input type="text" style="width:250px;" ng-model="userData.FirstName" required maxlength="30"/>
             </div><br/>
             <div class="input-prepend">
                 <span class="add-on" style="width:120px;">LastName</span>
-                <input type="text" style="width:250px;" ng-model="userData.LastName"/>
+                <input type="text" style="width:250px;" ng-model="userData.LastName" required maxlength="30"/>
             </div><br/>
             <div class="input-prepend">
                 <span class="add-on" style="width:120px;">Company</span>
-                <input type="text" style="width:250px;" ng-model="userData.Company"/>
+                <input type="text" style="width:250px;" ng-model="userData.Company" required maxlength="30"/>
             </div><br/>
             <div class="input-prepend">
                 <span class="add-on" style="width:120px;">Job/Title</span>
-                <input type="text" style="width:250px;" ng-model="userData.Title"/>
+                <input type="text" style="width:250px;" ng-model="userData.Title" required maxlength="30"/>
             </div><br/>
             <div class="input-prepend">
                 <span class="add-on" style="width:120px;">Country</span>
-                <input type="text" style="width:250px;" ng-model="userData.Country"/>
+                <input type="text" style="width:250px;" ng-model="userData.Country" required maxlength="30"/>
             </div><br/>
             
             <div class="input-prepend">
                 <span class="add-on" style="width:120px;">State</span>
-                <input type="text" style="width:250px;" ng-model="userData.State"/>
+                <input type="text" style="width:250px;" ng-model="userData.State" required maxlength="30"/>
             </div><br/>
             <!--<div class="input-prepend">
                     <span class="add-on" style="width:120px;">Account Expiration Date</span>
