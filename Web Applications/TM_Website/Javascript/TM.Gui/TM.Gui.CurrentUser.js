@@ -97,16 +97,27 @@ TM.Gui.CurrentUser =
         ,	isUserLoaded		: function()		{	return isDefined(TM.Gui.CurrentUser.userData.UserName); }					
 
         ,	checkPwdComplexity	: function(password, passwordConfirm, errorDiv)
-                                                    {									
+                                                    {
+                                                            var errorMessage;
+            
                                                             if (password != passwordConfirm)
-                                                                $(errorDiv).text("Passwords don't match");
+                                                                errorMessage = "Passwords don't match";
                                                             else if (password.length < 8)
-                                                                $(errorDiv).text("Password must be at least 8 characters").fadeIn();
+                                                                errorMessage = "Password must be at least 8 characters";
                                                             else if (/^[a-zA-Z0-9]+$/.test(password))	
-                                                                $(errorDiv).text("Password must contain a non-letter and a non-number character");
+                                                                errorMessage = "Password must contain a non-letter and a non-number character";
                                                             else
-                                                                return true;										
-                                                            $(errorDiv).fadeIn();
+                                                                return true;
+
+                                                            if (errorDiv == null)
+                                                            {
+                                                                alert(errorMessage);
+                                                            }
+                                                            else
+                                                            {
+                                                                $(errorDiv).text(errorMessage).fadeIn();
+                                                            }
+                                                            
                                                             return false;
                                                     }
     }

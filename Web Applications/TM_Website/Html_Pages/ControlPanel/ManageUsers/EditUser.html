@@ -63,10 +63,24 @@
 		{
 			var newPassword = "newPassword".$().val();
 			if (newPassword != "")
-			{				
-				updateUserPassword(editUserId, "userName".$().val(), newPassword, 
-									function (data) { if (data.d ==false) {alert('Failed to update user password')}} ); 
-			}
+			    {
+			        if (TM.Gui.CurrentUser.checkPwdComplexity(newPassword, newPassword, null))
+			            {
+			                updateUserPassword(editUserId, "userName".$().val(), newPassword,
+			                    function(data)
+			                        {
+			                            if (data.d == false)
+			                            {
+			                                alert('Failed to update user password');
+			                            }
+			                        });
+			            }
+			        else
+			            {
+			                return false;
+			            }
+			    }
+	    
 			updateUser(editUserId, 
 					   "userName".$().val(),
 					   "firstName".$().val(),

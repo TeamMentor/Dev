@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.Security.Application;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
@@ -107,11 +108,16 @@ namespace TeamMentor.CoreLib
                 tmUser.GroupID = groupId > -1 ? groupId : tmUser.GroupID;
                 tmUser.AccountStatus.PasswordExpired = passwordExpired;
                 tmUser.AccountStatus.UserEnabled = userEnabled;
-                tmUser.saveTmUser();
-                return true;
+
+                if (tmUser.user().validation_Ok())
+                {
+                    tmUser.saveTmUser();
+
+                    return true;
+                }
             }
             
-            "[updateTmUser] provided username didn't match provided tmUser".error();
+            "[updateTmUser] provided username didn't match provided tmUser or validation failed".error();
             return false;
         }
         
