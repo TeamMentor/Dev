@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Security.Principal;
 using System.Threading;
+using System.Web;
 using O2.DotNetWrappers.ExtensionMethods;
 using PostSharp.Aspects;
 
@@ -66,6 +67,23 @@ namespace TeamMentor.CoreLib
             if (argument is T)
                 return (T) argument;
             return default(T);
+        }
+    }
+
+    [Serializable]
+    public class TrimSearchTextAspectAttribute : MethodInterceptionAspect {
+        public override void OnInvoke(MethodInterceptionArgs args) {
+            if (args.Arguments.count() < 3)
+            {
+                args.Proceed();
+                return;
+            }
+            var searchText = (string)args.Arguments[2];
+            var searchTextEncoded = HttpUtility.HtmlEncode(searchText).lower().trim();   
+
+            args.Arguments.SetArgument(2, searchTextEncoded);
+
+            args.Proceed();
         }
     }
 
