@@ -14,7 +14,7 @@ namespace TeamMentor.CoreLib
         [DataMember]
         [Required]
         [StringLength(30, MinimumLength = 8)]
-        [RegularExpression("([A-Za-z])+([0-9])+|([0-9])+([A-Za-z])+", ErrorMessage = "Password must contain a letter and a number.")]
+        [RegularExpression(ValidationRegex.Password, ErrorMessage = ValidationRegex.PasswordErrorMessage)]
         public string Password { get; set; }
 		[DataMember][Required][StringLength(30)]    public string   State       { get; set; }		
 		[DataMember][Required][StringLength(30)]    public string   Title       { get; set; }

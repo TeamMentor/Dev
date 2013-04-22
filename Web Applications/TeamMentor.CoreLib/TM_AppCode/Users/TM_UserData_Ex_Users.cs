@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.Security.Application;
 using O2.DotNetWrappers.ExtensionMethods;
+using TeamMentor.CoreLib.TM_AppCode.Schemas;
 
 namespace TeamMentor.CoreLib
 {
@@ -185,6 +186,11 @@ namespace TeamMentor.CoreLib
             var tmUser = tmAuthentication.currentUser;
             if (tmUser.notNull())
             {
+                if (new Password(newPassword).validation_Failed())
+                {
+                    return false;
+                }
+
                 if (tmUser.SecretData.PasswordHash == tmUser.createPasswordHash(currentPassword))
                 {
                     var newPasswordHash =  tmUser.createPasswordHash(newPassword);
@@ -273,6 +279,11 @@ namespace TeamMentor.CoreLib
         {		            
             if (tmUser.notNull())
             {                
+                if (new Password(password).validation_Failed())
+                {
+                    return false;
+                }
+
                 tmUser.SecretData.PasswordHash       = tmUser.createPasswordHash(password);
                 tmUser.AccountStatus.PasswordExpired = false;
                 tmUser.saveTmUser();

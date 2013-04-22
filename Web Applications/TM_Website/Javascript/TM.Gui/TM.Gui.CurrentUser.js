@@ -104,8 +104,8 @@ TM.Gui.CurrentUser =
                                                                 errorMessage = "Passwords don't match";
                                                             else if (password.length < 8)
                                                                 errorMessage = "Password must be at least 8 characters";
-                                                            else if (/^[a-zA-Z0-9]+$/.test(password))	
-                                                                errorMessage = "Password must contain a non-letter and a non-number character";
+                                                            else if (!/([A-Za-z])+([0-9])+|([0-9])+([A-Za-z])+/.test(password))	
+                                                                errorMessage = "Password must contain a letter and number character.";
                                                             else
                                                                 return true;
 
