@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.Security.Application;
 using O2.DotNetWrappers.ExtensionMethods;
+using TeamMentor.CoreLib.TM_AppCode.Schemas;
 
 namespace TeamMentor.CoreLib
 {
@@ -184,6 +186,11 @@ namespace TeamMentor.CoreLib
             var tmUser = tmAuthentication.currentUser;
             if (tmUser.notNull())
             {
+                if (new Password(newPassword).validation_Failed())
+                {
+                    return false;
+                }
+
                 if (tmUser.SecretData.PasswordHash == tmUser.createPasswordHash(currentPassword))
                 {
                     var newPasswordHash =  tmUser.createPasswordHash(newPassword);
@@ -272,6 +279,11 @@ namespace TeamMentor.CoreLib
         {		            
             if (tmUser.notNull())
             {                
+                if (new Password(password).validation_Failed())
+                {
+                    return false;
+                }
+
                 tmUser.SecretData.PasswordHash       = tmUser.createPasswordHash(password);
                 tmUser.AccountStatus.PasswordExpired = false;
                 tmUser.saveTmUser();
@@ -295,7 +307,14 @@ namespace TeamMentor.CoreLib
         }        
         [ManageUsers]   public static bool          updateTmUser        (this TM_UserData userData, int userId, string userName, string firstname, string lastname, string title, string company, string email, string country, string state, bool passwordExpired,bool userEnabled, int groupId)
         {
-            return userData.tmUser(userId).updateTmUser(userName, firstname, lastname,  title, company, email,country, state, passwordExpired,userEnabled,groupId);
+            bool success = userData.tmUser(userId).updateTmUser(userName, firstname, lastname, title, company, email, country, state, passwordExpired, userEnabled, groupId);
+
+            if (!success)
+            {
+                userData.ReloadData();
+            }
+
+            return success;
         }		                
         [ManageUsers]   public static List<string>  getUserRoles        (this TM_UserData userData, int userId)
         {
