@@ -28,7 +28,7 @@ namespace TeamMentor.CoreLib
         public GuidanceItem_V3()
         {
             //guidanceItemId= Guid.Empty.next(7.randomNumbers().toInt());			
-            guidanceItemId = Guid.NewGuid();
+            guidanceItemId = Guid.NewGuid().crypto();
         }
         
         public GuidanceItem_V3(GuidanceItem guidanceItem)

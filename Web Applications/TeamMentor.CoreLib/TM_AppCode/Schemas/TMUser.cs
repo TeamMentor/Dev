@@ -29,10 +29,10 @@ namespace TeamMentor.CoreLib
 
         public TMUser()
         {
-            ID = Guid.NewGuid();
+            ID = Guid.NewGuid().crypto();
             SecretData      = new UserSecretData
                                     {
-                                        //SingleUseLoginToken = Guid.NewGuid(),
+                                        //SingleUseLoginToken = Guid.NewGuid().get_crypto(),
                                         PasswordResetToken  = null                  // default to Null
                                     };
 

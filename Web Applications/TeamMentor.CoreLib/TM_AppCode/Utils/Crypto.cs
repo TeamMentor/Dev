@@ -51,6 +51,18 @@ namespace TeamMentor.CoreLib
         }
     }
 
+    public static class Guid_ExtensionMethods
+    {
+        public static Guid crypto(this Guid guid)
+        {
+            using (RNGCryptoServiceProvider _rng = new RNGCryptoServiceProvider()) {
+                byte[] _obj = new byte[16];
+                _rng.GetBytes(_obj);
+                return new Guid(_obj);
+            }
+        }
+    }
+
     public class EncyptDecrypt
     {
         
@@ -85,7 +97,6 @@ namespace TeamMentor.CoreLib
             ecs.Close();
             return Convert.ToBase64String(ms.ToArray());
         }
-
     }
 
 

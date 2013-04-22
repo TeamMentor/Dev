@@ -37,7 +37,7 @@ namespace TeamMentor.UnitTests.CoreLib
         [Test][Assert_Editor]
         public void GetContentForRandomGuid()
         {
-            var guid = Guid.NewGuid();            
+            var guid = Guid.NewGuid().crypto();            
             Assert.Throws<Exception>(() => handleUrlRequest.handleRequest("content" , guid.str()), "content");            
             Assert.Throws<Exception>(() => handleUrlRequest.handleRequest("raw"     , guid.str()), "raw");            
             Assert.Throws<Exception>(() => handleUrlRequest.handleRequest("xml"     , guid.str()), "xml");

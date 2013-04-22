@@ -45,7 +45,7 @@ namespace TeamMentor.CoreLib
                     var tmUser = getUserFromSSOToken(ssoToken);
                     if (tmUser.notNull())
                     {
-                        var sessionId = tmUser.login(Guid.NewGuid());
+                        var sessionId = tmUser.login(Guid.NewGuid().get_crypto());
                         new TM_WebServices().tmAuthentication.sessionID = sessionId;
                         return sessionId;
                     }
@@ -89,7 +89,7 @@ namespace TeamMentor.CoreLib
             if (tmUser.isNull())
                 return null;
             if (tmUser.SSOKey.isGuid().isFalse())
-                tmUser.SSOKey = Guid.NewGuid().str();
+                tmUser.SSOKey = Guid.NewGuid().get_crypto().str();
             tmUser.saveTmUser();
             return MachineKey.Encode(tmUser.serialize(false).asciiBytes(),MachineKeyProtection.All);
         }

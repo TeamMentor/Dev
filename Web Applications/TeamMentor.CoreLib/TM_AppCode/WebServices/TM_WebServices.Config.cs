@@ -54,15 +54,15 @@ namespace TeamMentor.CoreLib
         [WebMethod(EnableSession = true)] [Admin]	            public string		CreateWebEditorSecret()	
                                                                                                     {
                                                                                                         var webEditorSecretDataFile = AppDomain.CurrentDomain.BaseDirectory.pathCombine("webEditorSecretData.config");
-                                                                                                        Guid.NewGuid().str().serialize(webEditorSecretDataFile);
+                                                                                                        Guid.NewGuid().crypto().str().serialize(webEditorSecretDataFile);
                                                                                                         return webEditorSecretDataFile.load<string>();
                                                                                                         //this (below) doesn't work because the webeditor is an *.ashx and doesn't have access to the HttpContext Session object
-                                                                                                        /*var session = HttpContextFactory.Current.Session;
-                                                                                                        if (session["webEditorSecretData"].isNull())
-                                                                                                            session["webEditorSecretData"] = Guid.NewGuid().str();
-                                                                                                        return (string)session["webEditorSecretData"];
-                                                                                                        */
-                                                                                                    }						
+            /*var session = HttpContextFactory.Current.Session;
+            if (session["webEditorSecretData"].isNull())
+                session["webEditorSecretData"] = Guid.NewGuid().get_crypto().str();
+            return (string)session["webEditorSecretData"];
+            */
+        }						
         [WebMethod(EnableSession = true)] [Admin]	            public string		TMConfigFileLocation()			{	return TMConfig.Location;  }		
         [WebMethod(EnableSession = true)] [Admin]	            public TMConfig		TMConfigFile()
                                                                                     {	
@@ -90,7 +90,7 @@ namespace TeamMentor.CoreLib
 
         [WebMethod(EnableSession = true)] [Admin]	           public Guid			GetUploadToken()
                                                                                     {
-                                                                                        var uploadToken = Guid.NewGuid();
+                                                                                        var uploadToken = Guid.NewGuid().crypto();
                                                                                         FileUpload.UploadTokens.Add(uploadToken);
                                                                                         return uploadToken;
                                                                                     }

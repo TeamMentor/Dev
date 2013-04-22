@@ -50,7 +50,7 @@ namespace TeamMentor.UnitTests.CoreLib
         }
         [Test] public void CheckServerTransferOnPasswordReset()
         {
-            var resetToken = Guid.NewGuid().str();
+            var resetToken = Guid.NewGuid().crypto().str();
             handleUrlRequest.handleRequest("passwordreset", resetToken);
             var expectedRedirect = "/Html_Pages/Gui/Pages/passwordReset.html";
             Assert.AreEqual (expectedRedirect,context.Response.RedirectLocation ,"Password redirect location");

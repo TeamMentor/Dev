@@ -81,8 +81,8 @@ namespace TeamMentor.CoreLib
             return userData.newUser(username, password, email,"FName","LName","A Note", "El Title","The Company","The Country","The State",groupId);
         }        
         public static int           newUser                     (this TM_UserData userData, string  username, string password, string email, string firstname, string lastname, string note , string title, string company, string country, string state, int groupId)
-        {			
-            var userId = Guid.NewGuid().hash();  //10000000.random();//10.randomNumbers().toInt();
+        {
+            var userId = Guid.NewGuid().crypto();  //10000000.random();//10.randomNumbers().toInt();
             if (userId < 0)						// find a .net that does this (maybe called 'invert')
                 userId = -userId;
             "Creating new user: {0} with id {1}".debug(username, userId);

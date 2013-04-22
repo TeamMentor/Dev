@@ -51,7 +51,7 @@ namespace TeamMentor.CoreLib
                         if (pwdOk)
                         {
                             if(tmUser.account_Enabled())
-                                return tmUser.login(Guid.NewGuid());                    // call login with a new SessionID            
+                                return tmUser.login(Guid.NewGuid().crypto());                    // call login with a new SessionID            
                             
                             tmUser.logUserActivity("Login Fail",  "pwd ok, but account disabled");
                         }
@@ -71,7 +71,7 @@ namespace TeamMentor.CoreLib
         }
         public static Guid              login (this TMUser tmUser)                                         
         {
-            return tmUser.login(Guid.NewGuid());
+            return tmUser.login(Guid.NewGuid().crypto());
         }        
         public static Guid              login (this TMUser tmUser, Guid sessionId)                         
         {

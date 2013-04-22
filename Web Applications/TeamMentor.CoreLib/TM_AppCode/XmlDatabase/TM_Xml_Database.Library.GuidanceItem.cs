@@ -197,8 +197,8 @@ namespace TeamMentor.CoreLib
             return tmDatabase.xmlDB_GuidanceItem(guidanceItemId, null);
         }
         public static TeamMentor_Article        fixGuidanceItemFileDueToGuidConflict(this TM_Xml_Database tmDatabase, Guid original_Guid, string fullPath)
-        {			
-            var newGuid = Guid.NewGuid();
+        {
+            var newGuid = Guid.NewGuid().crypto();
             var newPath = fullPath.replace(original_Guid.str(), newGuid.str());
             Files.moveFile(fullPath, newPath);
             "[xmlDB_GuidanceItem] resolved GuidanceItem ID conflict for  Id '{0}' was already mapped. \nExisting path: \t{1} \nNew path:  \t{2}".error(original_Guid, fullPath , newPath);
@@ -280,7 +280,7 @@ namespace TeamMentor.CoreLib
     {
         [EditArticles]  public static TeamMentor_Article xmlDB_RandomGuidanceItem(this TM_Xml_Database tmDatabase)
         {
-            return tmDatabase.xmlDB_RandomGuidanceItem(Guid.NewGuid());
+            return tmDatabase.xmlDB_RandomGuidanceItem(Guid.NewGuid().crypto());
         }
         [EditArticles]  public static TeamMentor_Article xmlDB_RandomGuidanceItem(this TM_Xml_Database tmDatabase, Guid libraryId)
         {
@@ -307,7 +307,7 @@ namespace TeamMentor.CoreLib
                     Metadata = new TeamMentor_Article_Metadata
                         {
                             Id = (guidanceItemId == Guid.Empty)
-                                     ? Guid.NewGuid()
+                                     ? Guid.NewGuid().crypto()
                                      : guidanceItemId,
                             Library_Id = libraryId,
                             Author = author,
@@ -329,8 +329,8 @@ namespace TeamMentor.CoreLib
             return article;
         }
         [EditArticles]  public static Guid xmlDB_Create_Article(this TM_Xml_Database tmDatabase, TeamMentor_Article article)
-        {             
-            article.Metadata.Id = Guid.NewGuid();
+        {
+            article.Metadata.Id = Guid.NewGuid().crypto();
             if(article.xmlDB_Save_Article(tmDatabase))
                 return article.Metadata.Id;
             return Guid.Empty;
