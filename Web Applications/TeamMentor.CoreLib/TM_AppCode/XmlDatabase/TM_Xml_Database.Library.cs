@@ -161,7 +161,7 @@ namespace TeamMentor.CoreLib
                 "[TM_Xml_Database] there was already a library called '{0}' to returning it".debug(libraryCaption);
                 return existingLibrary;
             }
-            tmDatabase.xmlDB_NewGuidanceExplorer(Guid.NewGuid(), libraryCaption);
+            tmDatabase.xmlDB_NewGuidanceExplorer(Guid.NewGuid().crypto(), libraryCaption);
             return tmDatabase.tmLibrary(libraryCaption);
         }		
     }
@@ -207,7 +207,7 @@ namespace TeamMentor.CoreLib
             if (folder.isNull())
                 return null;
             if (folder.folderId.isNull())				// handle legacy case where there is no folderId in the guidanceitems object
-                    folder.folderId = Guid.NewGuid().str();	
+                folder.folderId = Guid.NewGuid().crypto().str();	
             var tmFolder= new Folder_V3	
                     {
                         libraryId = libraryId,

@@ -45,7 +45,7 @@ namespace TeamMentor.UnitTests.TM_XmlDatabase
         [Test] public void PBKDF2_Multiple()
         {
             var password = "!1234567!";
-            var salt = Guid.NewGuid().str();	        
+            var salt = Guid.NewGuid().crypto().str();	        
             "{0}\n{1}\n-------\n".info(password, salt);
             for (int i = 1; i < 6; i++)
             {
@@ -77,10 +77,10 @@ namespace TeamMentor.UnitTests.TM_XmlDatabase
                         Assert.Less     (100, timeSpan.TotalMilliseconds); // slowest calculation should be slower than 500 milliseconds                        
                         "ok: {0} : {1}".info(timeSpan.Milliseconds,passwordHash);
                     };
-            checkPassword("!1234567!", Guid.NewGuid().str()); // normal values
-            checkPassword("a", Guid.NewGuid().str());         // weak password
+            checkPassword("!1234567!", Guid.NewGuid().crypto().str()); // normal values
+            checkPassword("a", Guid.NewGuid().crypto().str());         // weak password
             checkPassword("!1234567!", "a");                  // weak salt
-            checkPassword("", Guid.NewGuid().str());          // no password
+            checkPassword("", Guid.NewGuid().crypto().str());          // no password
             checkPassword("!1234567!", "");                   // no salt
             checkPassword("","");                             // no password and no salt	        
         }

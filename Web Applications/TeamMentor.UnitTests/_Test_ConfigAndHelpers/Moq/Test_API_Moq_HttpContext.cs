@@ -82,7 +82,7 @@ namespace TeamMentor.UnitTests
             var sessionId     = session.SessionID;
             var sessionKey1   = "SessionID";
             var sessionKey2   = "SessionID".add_RandomLetters(10);
-            var sessionValue1 = Guid.NewGuid();
+            var sessionValue1 = Guid.NewGuid().crypto();
             var sessionValue2 = "A value".add_RandomLetters(10);
 
             Assert.IsNotNull  (session             , "session was null");

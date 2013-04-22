@@ -15,10 +15,11 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
         
         [Test] [Assert_Editor] public void CreateLibrary_and_UpdateLibrary()
         {  
-            var newLibrary = new Library { 
-                                            id = Guid.NewGuid().str(),
-                                            caption = "temp_lib_{0}".format(6.randomLetters())
-                                          };										  
+            var newLibrary = new Library 
+                                    {
+                                        id = Guid.NewGuid().crypto().str(),
+                                        caption = "temp_lib_{0}".format(6.randomLetters())
+                                    };										  
             tmWebServices.CreateLibrary(newLibrary);    		     		
             var createdLibrary = tmWebServices.GetLibraryById(newLibrary.id.guid());    		
             Assert.That(createdLibrary.notNull(), "could not fetch new Library with Id: {0}".format(newLibrary.id));    	
@@ -183,8 +184,11 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
         public Guid createTempLibrary()
         {
             "creating temp library".info();
-            var newLibrary = new Library { 	id = Guid.NewGuid().str(),
-                                            caption = "temp_lib_{0}".format(6.randomLetters()) };										  
+            var newLibrary = new Library 
+                                    {
+                                        id = Guid.NewGuid().crypto().str(),
+                                        caption = "temp_lib_{0}".format(6.randomLetters()) 
+                                    };										  
             tmWebServices.CreateLibrary(newLibrary);  
             return newLibrary.id.guid();
         }         
@@ -199,8 +203,8 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
                                         caption = "test view", 
                                         creatorCaption = "guidanceLibrary", 	    								
                                         parentFolder = "a folder",
-                                        criteria = "",	    								
-                                        id = Guid.NewGuid().str(),
+                                        criteria = "",
+                                        id = Guid.NewGuid().crypto().str(),
                                         library = createTempLibrary().str()
                                      };
             var newFolder = createTempFolder(newView.library.guid());	    							 
