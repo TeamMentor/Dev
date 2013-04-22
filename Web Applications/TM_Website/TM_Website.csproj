@@ -106,6 +106,14 @@
     <Content Include="Aspx_Pages\images\ui-icons_fcd113_256x240.png" />
     <Content Include="Css\ArticleEditor.css" />
     <Content Include="Css\ArticleViewer.css" />
+    <Content Include="Css\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="Css\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Css\bootstrap\css\bootstrap.css" />
+    <Content Include="Css\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Css\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Css\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Css\bootstrap\js\bootstrap.js" />
+    <Content Include="Css\bootstrap\js\bootstrap.min.js" />
     <Content Include="Css\default.css" />
     <Content Include="Css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Css\images\ui-bg_flat_75_ffffff_40x100.png" />

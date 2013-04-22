@@ -8,6 +8,12 @@ namespace TeamMentor.CoreLib
         public string Subject       { get; set; }
         public string Message       { get; set; }
     }
+    public class FeedbackMessage_Post 
+    {
+        public string From { get; set; }
+        public string Subject { get; set; }
+        public string Message { get; set; }
+    }
     public class EmailMessage : EmailMessage_Post
     {
         public string     From          { get; set; }                
@@ -27,6 +33,14 @@ namespace TeamMentor.CoreLib
             To      = emailMessage_Post.To;
             Subject = emailMessage_Post.Subject;
             Message = emailMessage_Post.Message;
+        }
+
+        public EmailMessage(FeedbackMessage_Post feedbackMessage_Post) : this()
+        {
+            To = "teammentor-feedback@securityinnovation.com";
+            From = feedbackMessage_Post.From;
+            Subject = feedbackMessage_Post.Subject;
+            Message = feedbackMessage_Post.Message;
         }
     }
 
