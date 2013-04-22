@@ -10,8 +10,12 @@ namespace TeamMentor.CoreLib
         [DataMember][Required][StringLength(30)]    public string   Country     { get; set; }        
         [DataMember][Required][StringLength(30)]    public string   Firstname   { get; set; }
 		[DataMember][Required][StringLength(30)]    public string   Lastname    { get; set; }        
-        [DataMember][Required][StringLength(30)]    public string   Note        { get; set; }		
-		[DataMember][Required][StringLength(30)]    public string   Password    { get; set; }
+        [DataMember][Required][StringLength(30)]    public string   Note        { get; set; }
+        [DataMember]
+        [Required]
+        [StringLength(30, MinimumLength = 8)]
+        [RegularExpression("([A-Za-z])+([0-9])+|([0-9])+([A-Za-z])+", ErrorMessage = "Password must contain a letter and a number.")]
+        public string Password { get; set; }
 		[DataMember][Required][StringLength(30)]    public string   State       { get; set; }		
 		[DataMember][Required][StringLength(30)]    public string   Title       { get; set; }
 		[DataMember][Required][StringLength(30)]    public string   Username    { get; set; }
