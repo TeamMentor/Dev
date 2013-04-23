@@ -1,0 +1,40 @@
+﻿@using System
+@using System.Linq
+@using O2.DotNetWrappers.ExtensionMethods
+@using TeamMentor.CoreLib
+
+@{
+    var weekAgo = DateTime.Today.AddDays(-7).ToFileTimeUtc();
+    var userName = System.Web.HttpContext.Current.Request["userName"];
+    var max = System.Web.HttpContext.Current.Request["max"].toInt();
+
+    if (max == 0) {
+        max = 50;
+    }
+}
+
+@{
+    <h5>Users Logged in Pages Viewed</h5>
+
+    <ul>
+        <table class="table table-striped table-condensed">
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>When</th>                        
+                <th>IPAdress</th>  
+            </tr> 
+            @foreach (var user in TM_UserData.Current.TMUsers.Where(x => x.UserActivities.Any(y => y.When > weekAgo)))
+            {
+                <tr>
+                    <td>@user.UserName </td>
+                    <td>@user.FirstName.replace("FName", "") @user.LastName.replace("LName", "")</td>
+                    <td>@user.UserActivities.Last().When.ToDateTime()</td>
+                    <td>@user.UserActivities.Last().IPAddress</td>
+                </tr>
+            }
+        </table>
+    </ul>
+}
+
+It's @DateTime.Now.ToLongTimeString()  on @DateTime.Now.ToLongDateString()
