@@ -106,6 +106,14 @@
     <Content Include="Aspx_Pages\images\ui-icons_fcd113_256x240.png" />
     <Content Include="Css\ArticleEditor.css" />
     <Content Include="Css\ArticleViewer.css" />
+    <Content Include="Css\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="Css\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Css\bootstrap\css\bootstrap.css" />
+    <Content Include="Css\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Css\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Css\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Css\bootstrap\js\bootstrap.js" />
+    <Content Include="Css\bootstrap\js\bootstrap.min.js" />
     <Content Include="Css\default.css" />
     <Content Include="Css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Css\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -582,7 +590,7 @@
     <Content Include="Javascript\_mappings\HomePage_JS.txt" />
     <Content Include="Javascript\_mappings\HomePage_JS_TM.txt" />
     <Content Include="TBot\Tests\hello.cshtml" />
-    <Content Include="TBot\Tests\theTime.cshtml" />
+    <Content Include="TBot\Reports\Who_Logged_In_This_Week.cshtml" />
     <Content Include="TBot\TBotMain.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -666,6 +674,11 @@
     <Content Include="TBot\Admin\Import Legacy Users.cshtml" />
     <Content Include="TBot\Users\New Random User.cshtml" />
     <Content Include="TBot\Admin\UserData FirstScript.cshtml" />
+    <Content Include="TBot\Tests\theTime.cshtml" />
+    <Content Include="TBot\Reports\Logged_In_Users_Pages_Viewed.cshtml" />
+    <Content Include="TBot\Reports\Users_With_Expired_Passwords.cshtml" />
+    <Content Include="TBot\Reports\Users_With_Expired_Accounts.cshtml" />
+    <Content Include="TBot\Reports\Users_With_Disabled_Accounts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
