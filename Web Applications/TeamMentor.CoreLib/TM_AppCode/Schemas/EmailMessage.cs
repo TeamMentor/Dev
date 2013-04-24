@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 
 namespace TeamMentor.CoreLib
 {
@@ -37,8 +38,7 @@ namespace TeamMentor.CoreLib
 
         public EmailMessage(FeedbackMessage_Post feedbackMessage_Post) : this()
         {
-            //To = "teammentor-feedback@securityinnovation.com";
-            To = "kofisarfo@gmail.com";
+            To = ConfigurationManager.AppSettings["EmailArticleFeedbackTo"] ?? "teammentor-feedback@securityinnovation.com";
             From = feedbackMessage_Post.From;
             Subject = feedbackMessage_Post.Subject;
             Message = feedbackMessage_Post.Message;
