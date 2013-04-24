@@ -47,6 +47,7 @@ namespace TeamMentor.UnitTests.REST_Direct
         [Test][Assert_Admin]        
         public void Script_ViewEmailsSent()
         {
+            TM_UserData.Current = new TM_UserData();
             //tests one script to make sure core engine is working
             // (run CheckThatAllTBotPagesLoad to test all scripts)
             var tbotBrain = new TBot_Brain(TmRest);
@@ -100,6 +101,12 @@ namespace TeamMentor.UnitTests.REST_Direct
             TmRest.TBot_Run("Git");// trigger unpack of NGit and Sharpen dlls
             var fluentSharpGit = new O2.FluentSharp.API_NGit();
             Assert.NotNull(fluentSharpGit, "fluentSharpGit was null");
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            TM_UserData.Current = null;
         }
     }
 }

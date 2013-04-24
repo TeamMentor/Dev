@@ -23,17 +23,15 @@ namespace TeamMentor.CoreLib
 		[OperationContract][WebGet	 (UriTemplate = "/sessionId"					        )]	string		SessionId                   ();
 		[OperationContract][WebGet	 (UriTemplate = "/logout"						        )]	Guid		Logout                      ();
 		[OperationContract][WebGet   (UriTemplate = "/login/{username}/{password}"	        )]	Guid		Login                       (string username, string password);                
-//        [OperationContract][WebGet   (UriTemplate = "/loginToken/{username}"	            )]	Guid		GetLoginToken               (string username);                        
-//        [OperationContract][WebGet   (UriTemplate = "/sendLoginToken/{username}"            )]	bool		SendLoginTokenForUser       (string username);
+//      [OperationContract][WebGet   (UriTemplate = "/loginToken/{username}"	            )]	Guid		GetLoginToken               (string username);                        
+//      [OperationContract][WebGet   (UriTemplate = "/sendLoginToken/{username}"            )]	bool		SendLoginTokenForUser       (string username);
 		[OperationContract][WebInvoke(UriTemplate = "/login/", Method = "PUT"               )]	Guid		Login_using_Credentials     (TM_Credentials credentials);
         [OperationContract][WebInvoke(UriTemplate = "/sendEmail/", Method = "PUT"           )]	bool		SendEmail                   (EmailMessage_Post emailMessagePost);        
-
+        [OperationContract][WebInvoke(UriTemplate = "/sendFeedback/", Method = "PUT"       )]	bool		SendFeedback                (FeedbackMessage_Post emailMessagePost);        
         
-        
-        
-        //Active Sessions
-//        [OperationContract][WebGet	 (UriTemplate = "/gzip/all"					)]	List<string>    ActiveSessions();
-//        [OperationContract][WebGet	 (UriTemplate = "/sessions/{sessionId}"		    )]	TMUser          ActiveSession(string sessionId);
+//      Active Sessions
+//      [OperationContract][WebGet	 (UriTemplate = "/gzip/all"					            )]	List<string>    ActiveSessions();
+//      [OperationContract][WebGet	 (UriTemplate = "/sessions/{sessionId}"		            )]	TMUser          ActiveSession(string sessionId);
  
 		//User and RBAC
         [OperationContract][WebGet(UriTemplate = "/user/loggedIn"				)]	bool		    User_LoggedIn();
@@ -42,7 +40,6 @@ namespace TeamMentor.CoreLib
 		[OperationContract][WebGet(UriTemplate = "/user/roles"					)]	List<string>	RBAC_CurrentPrincipal_Roles();
 		[OperationContract][WebGet(UriTemplate = "/user/hasRole/{role}"			)]	bool			RBAC_HasRole(string role);
 		[OperationContract][WebGet(UriTemplate = "/user/isAdmin"				)]	bool			RBAC_IsAdmin();		
-	 
 
 		//Admin: User Management				
 						
@@ -55,23 +52,22 @@ namespace TeamMentor.CoreLib
 //		[OperationContract] [WebInvoke(UriTemplate = "/user/update"			,	Method = "PUT", ResponseFormat = WebMessageFormat.Json)]	bool		user_Update(TM_User user);
 //		[OperationContract] [WebInvoke(UriTemplate = "/user/new"			,	Method = "PUT", ResponseFormat = WebMessageFormat.Json)]	int			user_New(TM_User user);
 //		[OperationContract] [WebInvoke(UriTemplate = "/user/delete/{userId}",	Method = "PUT", ResponseFormat = WebMessageFormat.Json)]	bool		DeleteUser(string userId);
-		
 
 		//Admin
-		[OperationContract] [WebGet(UriTemplate = "/admin/reloadCache")]		string		    Admin_ReloadCache();
-        [OperationContract] [WebGet(UriTemplate = "/admin/restart")]		    string		    Admin_Restart();
-        [OperationContract] [WebGet(UriTemplate = "/admin/script/{name}")]	    string		    Admin_InvokeScript(string name);
-        [OperationContract] [WebGet(UriTemplate = "/admin/logs")]		        string		    Admin_Logs();
-        [OperationContract] [WebGet(UriTemplate = "/admin/logs/reset")]		    string		    Admin_Logs_Reset();
-        [OperationContract] [WebGet(UriTemplate = "/admin/reload_UserData")]    bool		    Reload_UserData();        
-        [OperationContract] [WebGet(UriTemplate = "/admin/reload_TMConfig")]    bool		    Reload_TMConfig(); 
-        [OperationContract] [WebGet(UriTemplate = "/admin/reload_Cache")]       string		    Reload_Cache(); 
+		[OperationContract] [WebGet(UriTemplate = "/admin/reloadCache"          )]	string		    Admin_ReloadCache();
+        [OperationContract] [WebGet(UriTemplate = "/admin/restart"              )]  string		    Admin_Restart();
+        [OperationContract] [WebGet(UriTemplate = "/admin/script/{name}"        )]	string		    Admin_InvokeScript(string name);
+        [OperationContract] [WebGet(UriTemplate = "/admin/logs"                 )]	string		    Admin_Logs();
+        [OperationContract] [WebGet(UriTemplate = "/admin/logs/reset"           )]	string		    Admin_Logs_Reset();
+        [OperationContract] [WebGet(UriTemplate = "/admin/reload_UserData"      )]  bool		    Reload_UserData();        
+        [OperationContract] [WebGet(UriTemplate = "/admin/reload_TMConfig"      )]  bool		    Reload_TMConfig(); 
+        [OperationContract] [WebGet(UriTemplate = "/admin/reload_Cache"         )]  string		    Reload_Cache(); 
         
-        [OperationContract] [WebGet(UriTemplate = "/admin/secretData")]		    TM_SecretData	Get_TM_SecretData();
-        [OperationContract] [WebGet(UriTemplate = "/admin/gitUserData")]		string	        Get_GitUserConfig();
+        [OperationContract] [WebGet(UriTemplate = "/admin/secretData"           )]  TM_SecretData	Get_TM_SecretData();
+        [OperationContract] [WebGet(UriTemplate = "/admin/gitUserData"          )]	string	        Get_GitUserConfig();
 
-        [OperationContract] [WebGet(UriTemplate = "/admin/firstScript")]		string	        FirstScript_FileContents();
-        [OperationContract] [WebGet(UriTemplate = "/admin/firstScript/invoke")] string	        FirstScript_Invoke();
+        [OperationContract] [WebGet(UriTemplate = "/admin/firstScript"          )]	string	        FirstScript_FileContents();
+        [OperationContract] [WebGet(UriTemplate = "/admin/firstScript/invoke"   )]  string	        FirstScript_Invoke();
 
         [OperationContract] [WebInvoke(UriTemplate = "/admin/secretData"  , Method = "PUT")] bool	Set_TM_SecretData(TM_SecretData tmSecretData);
         [OperationContract] [WebInvoke(UriTemplate = "/admin/gitUserData" , Method = "PUT")] bool	Set_GitUserConfig(string gitUserConfig_Data);
@@ -83,12 +79,12 @@ namespace TeamMentor.CoreLib
 		//[OperationContract] [WebGet(UriTemplate = "/users/activites"		)]  Stream		users_Activities();
 
         //TBot
-        [OperationContract] [WebGet(UriTemplate = "/tbot"	        )]      Stream		TBot_Show();
-        [OperationContract] [WebGet(UriTemplate = "/tbot/list"      )]	    Stream		TBot_List();
-        [OperationContract] [WebGet(UriTemplate = "/tbot/run/{what}")]	    Stream		TBot_Run (string what);
+        [OperationContract] [WebGet(UriTemplate = "/tbot"	                    )]  Stream		TBot_Show();
+        [OperationContract] [WebGet(UriTemplate = "/tbot/list"                  )]	Stream		TBot_List();
+        [OperationContract] [WebGet(UriTemplate = "/tbot/run/{what}"            )]	Stream		TBot_Run (string what);
         
         //html page redirects
-//        [OperationContract][WebGet   (UriTemplate = "/redirect/afterLoginToken/{username}/{loginToken}" )]	void Redirect_After_Login_Using_Token(string username, string loginToken);
+        //[OperationContract][WebGet   (UriTemplate = "/redirect/afterLoginToken/{username}/{loginToken}" )]	void Redirect_After_Login_Using_Token(string username, string loginToken);
         //[OperationContract][WebGet   (UriTemplate = "/redirect/passwordReset/{email}"                   )]	void Redirect_ToPasswordReset(string email);                                    
         [OperationContract][WebGet   (UriTemplate = "/redirect/login/{referer}"                         )]	void Redirect_Login                  (string referer);
         [OperationContract][WebGet   (UriTemplate = "/redirect/passwordReset/{userId}"                  )]	void Redirect_PasswordResetPage      (string userId);
