@@ -23,7 +23,7 @@ namespace TeamMentor.CoreLib
             Metadata = new TeamMentor_Article_Metadata();
             Content = new TeamMentor_Article_Content();
 
-            Metadata.Id = Guid.NewGuid();
+            Metadata.Id = Guid.NewGuid().crypto();
         }
     }
 

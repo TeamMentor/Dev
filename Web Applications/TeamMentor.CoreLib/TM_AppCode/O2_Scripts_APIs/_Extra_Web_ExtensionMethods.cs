@@ -21,8 +21,9 @@ namespace FluentSharp
             {
                 return request.GetResponse().Headers;                                
             }
-            catch (WebException)
-            {                
+            catch (WebException ex)
+            {   
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }

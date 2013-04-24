@@ -33,7 +33,7 @@ namespace TeamMentor.CoreLib
                 return null;
             }
             if (libraryId == Guid.Empty)
-                libraryId = Guid.NewGuid();
+                libraryId = Guid.NewGuid().crypto();
             var newGuidanceExplorer = new guidanceExplorer
                 {
                     library = new urn.microsoft.guidanceexplorer.Library
