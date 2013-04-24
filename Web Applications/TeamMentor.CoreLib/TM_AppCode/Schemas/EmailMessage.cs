@@ -37,7 +37,8 @@ namespace TeamMentor.CoreLib
 
         public EmailMessage(FeedbackMessage_Post feedbackMessage_Post) : this()
         {
-            To = "teammentor-feedback@securityinnovation.com";
+            //To = "teammentor-feedback@securityinnovation.com";
+            To = "kofisarfo@gmail.com";
             From = feedbackMessage_Post.From;
             Subject = feedbackMessage_Post.Subject;
             Message = feedbackMessage_Post.Message;
