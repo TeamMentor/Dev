@@ -205,7 +205,7 @@ namespace TeamMentor.CoreLib
                     if (guidanceExplorers.hasKey(libraryGuid))
                     {
                         "[addGuidanceExplorerObject]: for {0} , duplicate LibraryID detected, assiging a new Library Id: {0}".error(newGuidanceExplorer.library.caption, libraryGuid);
-                        libraryGuid = Guid.NewGuid();
+                        libraryGuid = Guid.NewGuid().crypto();
                         newGuidanceExplorer.library.name = libraryGuid.str();
                         "[addGuidanceExplorerObject]: new ID for library {0} is now {1}".error(newGuidanceExplorer.library.caption, libraryGuid);
                         newGuidanceExplorer.xmlDB_Save_GuidanceExplorer(TM_Xml_Database.Current);//, false);
