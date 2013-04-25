@@ -1,0 +1,56 @@
+﻿ @using System
+@using System.Collections.Generic
+@using System.Globalization
+@using System.Linq
+@using O2.DotNetWrappers.ExtensionMethods
+@using TeamMentor.CoreLib
+
+@{
+    var twoWeeksAgo = DateTime.Today.AddDays(-14).ToFileTimeUtc();
+    var pageViewed = System.Web.HttpContext.Current.Request["page"];
+    var max = System.Web.HttpContext.Current.Request["max"].toInt();
+    if (max == 0) {
+        max = 50;
+    }
+
+    var loggedInUsers = TM_UserData.Current.TMUsers.Where(x => x.UserActivities.Any(y => y.When > twoWeeksAgo));
+    var pagesVisited = new List<string>();
+    var inUsers = loggedInUsers as TMUser[] ?? loggedInUsers.ToArray();
+
+    if (pageViewed == null)
+    {
+        foreach (var page in inUsers.SelectMany(user => user.UserActivities.Select(x => x.Detail).Where(page => !pagesVisited.Contains(page)))) {
+            pagesVisited.add(page.ToLower());
+        }
+    }
+    else
+    {
+        pagesVisited.add(pageViewed.ToLower());
+    }
+}
+
+@{
+    <h5>Page Views History</h5>
+
+    <ul>
+        <table class="table table-striped table-condensed">
+            <tr>
+                <th>Page</th>
+                <th>User</th>
+                <th>When</th>
+                <th>IP Address</th>
+            </tr>
+            @foreach (var userActivity in inUsers.SelectMany(x => x.UserActivities).Where(y => y.Action == "View Article Html" && pagesVisited.Contains(y.Detail.ToLower())).OrderByDescending(z => z.When))
+            {
+                <tr>
+                    <td><a href="Page_Views_History?page=@userActivity.Detail">@userActivity.Detail</a></td>
+                    <td>@userActivity.Who</td>
+                    <td>@userActivity.When.ToDateTime()</td>
+                    <td>@userActivity.IPAddress</td>
+                </tr>
+            }
+        </table>
+    </ul>
+}
+
+It's @DateTime.Now.ToLongTimeString()  on @DateTime.Now.ToLongDateString()
