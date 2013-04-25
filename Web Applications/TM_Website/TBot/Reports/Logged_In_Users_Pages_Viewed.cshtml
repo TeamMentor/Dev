@@ -1,4 +1,4 @@
-﻿@using System
+﻿ @using System
 @using System.Collections.Generic
 @using System.Globalization
 @using System.Linq
@@ -41,11 +41,11 @@
                     @foreach (var user in inUsers)
                     {
                         <td>@{
-                        var capturedPage = page;
-                        var views = user.UserActivities.Where(x => x.Detail == capturedPage && x.When > today);
-                        }
-
-                            @views.Count().ToString(CultureInfo.InvariantCulture).replace("0", string.Empty)</td>
+                                var capturedPage = page;
+                                var views = user.UserActivities.Where(x => x.Detail == capturedPage && x.When > today);
+                            }
+                            <a href="User_Action_History_Filtered?action=&detail=@capturedPage&username=@user.UserName">@views.Count().ToString(CultureInfo.InvariantCulture).replace("0", string.Empty)</a>
+                            </td>
                     }
                 </tr>
             }

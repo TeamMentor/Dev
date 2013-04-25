@@ -27,7 +27,7 @@
             @foreach (var user in TM_UserData.Current.TMUsers.Where(x => x.UserActivities.Any(y => y.When > weekAgo)))
             {
                 <tr>
-                    <td>@user.UserName </td>
+                    <td><a href="User_Action_History_Filtered?userName=@user.UserName&userAction=User%20Login">@user.UserName</a></td>
                     <td>@user.FirstName.replace("FName", "") @user.LastName.replace("LName", "")</td>
                     <td>@user.UserActivities.Last().When.ToDateTime()</td>
                     <td>@user.UserActivities.Last().IPAddress</td>
