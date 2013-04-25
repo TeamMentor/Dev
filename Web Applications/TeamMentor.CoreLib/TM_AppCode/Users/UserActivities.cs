@@ -15,6 +15,26 @@ namespace TeamMentor.CoreLib
         [XmlAttribute] public long      When		{ get; set; }        
     }
 
+    public static class UserActivities_Ex
+    {
+        public static string ToDateTime(this long when)
+        {
+            var result = DateTime.FromFileTimeUtc(ConvertFileTimeToLocalTime(when));
+            return string.Format("{0:G}", @result);
+        }
+
+        private static long ConvertFileTimeToLocalTime(long fileTime) {
+            return fileTime + ((long)TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalMilliseconds * 10000);
+        }
+
+        public static string ReplaceZeroWith(this DateTime dateTime, string replacement)
+        {
+            return dateTime < DateTime.Parse("1 JAN 1970") 
+                ? replacement 
+                : string.Format("{0:G}", dateTime);
+        }
+    }
+
     public class UserActivities
     {
         public static UserActivities Current { get; set; }
