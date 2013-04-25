@@ -679,6 +679,7 @@
     <Content Include="TBot\Reports\Users_With_Expired_Passwords.cshtml" />
     <Content Include="TBot\Reports\Users_With_Expired_Accounts.cshtml" />
     <Content Include="TBot\Reports\Users_With_Disabled_Accounts.cshtml" />
+    <Content Include="TBot\Reports\User_Login_History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
