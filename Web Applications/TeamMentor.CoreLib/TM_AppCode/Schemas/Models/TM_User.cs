@@ -33,6 +33,16 @@ namespace TeamMentor.CoreLib
         [DataMember]                                public bool     PasswordExpired { get; set; } 
         [DataMember]                                public bool     UserEnabled     { get; set; } 
         [DataMember]                                public int	    GroupID	        { get; set; }
+//      [DataMember]                                public LoginFailedReason LastLoginFailureReason { get; set; }
+
+        public enum LoginFailedReason
+        {
+            None,
+            PasswordInvalid,
+            PasswordExpired,
+            AccountExpired,
+            AccountDisabled
+        }
     }
 
 

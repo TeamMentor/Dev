@@ -51,10 +51,13 @@ namespace TeamMentor.CoreLib
         {
             return TmWebServices.ResetLogs();	        
         }
-        
         public bool   SendEmail(EmailMessage_Post emailMessagePost)
         {
             return TmWebServices.SendEmail(emailMessagePost);            
+        }
+        public bool SendFeedback(FeedbackMessage_Post emailMessagePost) 
+        {
+            return TmWebServices.SendEmail(emailMessagePost);
         }
         public Stream TBot_Show()
         {

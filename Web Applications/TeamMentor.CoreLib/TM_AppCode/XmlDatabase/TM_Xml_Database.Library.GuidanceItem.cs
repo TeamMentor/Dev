@@ -16,6 +16,8 @@ namespace TeamMentor.CoreLib
         {
             return tmDatabase.guidanceItems_SearchTitleAndHtml(tmDatabase.xmlDB_GuidanceItems() , searchText);
         }        
+
+        [TrimSearchTextAspect]
         public static List<Guid> guidanceItems_SearchTitleAndHtml(this TM_Xml_Database tmDatabase, List<Guid> guidanceItemsIds, string searchText)
         {
             List<TeamMentor_Article> guidanceItems;
@@ -54,30 +56,32 @@ namespace TeamMentor.CoreLib
                 return tmDatabase.guidanceItems_SearchTitleAndHtml(guidanceItems, searchText);
             return tmDatabase.guidanceItems_SearchTitle(guidanceItems, searchText);
         }
-        
+
+        [TrimSearchTextAspect]
         public static List<Guid> guidanceItems_SearchTitleAndHtml(this TM_Xml_Database tmDatabase, List<TeamMentor_Article> guidanceItems, string searchText)
         {
-            var searchTextEncoded = HttpUtility.HtmlEncode(searchText).lower();   
+            //var searchTextEncoded = HttpUtility.HtmlEncode(searchText).lower();   
             
             //var maxNumberOfItemsToReturn = 100;			
             "There are {0} GIs to search".error(guidanceItems.size());
             return 	(from guidanceItem in guidanceItems
                      where guidanceItem.Metadata.Title.valid() &&
-                           (guidanceItem.Metadata.Title.lower().contains(searchTextEncoded)       ||
+                           (guidanceItem.Metadata.Title.lower().contains(searchText) ||
 //					        guidanceItem.title.regEx	   				(searchText) 	 ||
-                            guidanceItem.Content.Data.Value.lower().contains(searchTextEncoded) )
+                            guidanceItem.Content.Data.Value.lower().contains(searchText))
 //                       || guidanceItem.htmlContent.regEx			(searchText)           )									
                      select guidanceItem.Metadata.Id
                     ).toList(); 
         }
 
+        [TrimSearchTextAspect]
         public static List<Guid> guidanceItems_SearchTitle(this TM_Xml_Database tmDatabase, List<TeamMentor_Article> guidanceItems, string searchText)
         {
-            var searchTextEncoded = HttpUtility.HtmlEncode(searchText).lower();
+            //var searchTextEncoded = HttpUtility.HtmlEncode(searchText).lower();
                        
             return (from guidanceItem in guidanceItems
                     where guidanceItem.Metadata.Title.valid() &&
-                          guidanceItem.Metadata.Title.lower().contains(searchTextEncoded)            
+                          guidanceItem.Metadata.Title.lower().contains(searchText)            
                     select guidanceItem.Metadata.Id
                     ).toList();
         }        
@@ -256,7 +260,7 @@ namespace TeamMentor.CoreLib
                             return article;
                         }
                         else
-					        "[xmlDB_GuidanceItem] Failed to load article at path: {0} (see errors for reason)".error(fullPath);
+                            "[xmlDB_GuidanceItem] Failed to load article at path: {0} (see errors for reason)".error(fullPath);
                     }
                     else
                         "[xmlDB_GuidanceItem] could not find file: {0}".error(fullPath);
