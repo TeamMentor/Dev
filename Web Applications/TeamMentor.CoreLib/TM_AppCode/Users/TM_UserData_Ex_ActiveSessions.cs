@@ -70,7 +70,7 @@ namespace TeamMentor.CoreLib
                             tmUser.LastLoginFailureReason = TM_User.LoginFailedReason.AccountDisabled;
                             return Guid.Empty;
                         }
-                        return tmUser.login(Guid.NewGuid()); // call login with a new SessionID            
+                        return tmUser.login(Guid.NewGuid().crypto()); // call login with a new SessionID            
                     }
                 }
             }
@@ -82,7 +82,7 @@ namespace TeamMentor.CoreLib
         }
         public static Guid              login (this TMUser tmUser)                                         
         {
-            return tmUser.login(Guid.NewGuid());
+            return tmUser.login(Guid.NewGuid().crypto());
         }        
         public static Guid              login (this TMUser tmUser, Guid sessionId)                         
         {
