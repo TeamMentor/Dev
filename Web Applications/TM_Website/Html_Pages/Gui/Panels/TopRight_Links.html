@@ -37,7 +37,11 @@
                                                 {
                                                     openUrl("/html_pages/Gui/Panels/About_TeamMentor.html".add_TimeToUrl(), "About TeamMentor", 750,510)
                                                 }
-            ,	loginPage					: function ()
+            ,   submitFeedback             : function () 
+                                                {
+                                                    openUrl("/html_pages/Gui/Panels/Submit_Feedback.html".add_TimeToUrl(), "Submit Feedback", 360, 420)
+                                                }
+            ,   loginPage                   : function ()
                                                 { 		
                                                     loadDialog('/Html_Pages/Gui/Dialogs/Login.Html'); 
                                                     //document.location = "/Login";
@@ -119,11 +123,26 @@
 
                                                     this.topRightMenuDiv.$().append("<br/>" + TM.tmVersion);
                                                     
-                                                    if(TM.Gui.CurrentUser.loggedIn())			
-                                                    {                                                                                                                    
-                                                        this.topRightMenuDiv.$()                                                            
-                                                            .append("<br/><br/>Logged in as:<b> {0}  </b>  ".format(userData.UserName))
-                                                            .add_Link("About").click(this.aboutTeamMentor);                                                        
+                                                    if(TM.Gui.CurrentUser.loggedIn())
+                                                    {
+                                                        this.topRightMenuDiv.$()
+                                                            .append("<br/><br/>Logged in as:<b> {0}</b>".format(userData.UserName));
+                                                        
+                                                        this.topRightMenuDiv.$()
+                                                            .append("&nbsp;&nbsp;");
+
+                                                        this.topRightMenuDiv.$()
+                                                            .add_Link("About").click(this.aboutTeamMentor);
+
+                                                        this.topRightMenuDiv.$()
+                                                            .append("&nbsp;&nbsp;");
+
+                                                        this.topRightMenuDiv.$()
+                                                            //.append("&nbsp;&nbsp;")
+                                                            .add_Link("Feedback").click(this.submitFeedback);
+
+                                                        this.topRightMenuDiv.$()
+                                                            .append("&nbsp;&nbsp;");
                                                     }
                                                     else
                                                     {                                                                                                                    

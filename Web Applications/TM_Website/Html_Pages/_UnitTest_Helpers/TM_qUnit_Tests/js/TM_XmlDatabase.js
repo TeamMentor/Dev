@@ -14,8 +14,9 @@ var getLibrariesToDisable = function()
 		return librariesToDisable;
 	};
 
-asyncTest("login As Admin", function() 
-	{
+asyncTest("login As Admin", function () 
+    {
+        stop();
 		QUnit.login_as_Admin(
 			function(sessionID)
 				{
