@@ -1,0 +1,46 @@
+﻿
+@using System.Linq
+@using TeamMentor.CoreLib
+@using O2.DotNetWrappers.ExtensionMethods
+@using FluentSharp;
+
+@{
+    var sentMessages = SendEmails.Sent_EmailMessages.reverse();
+    var index = sentMessages.size();
+    var feedback = sentMessages.Where(x => x.Subject.ToLower().contains("feedback")).toList();
+}
+
+<h4>Team Mentor Application & Articles Feedback</h4>
+<p>
+    <b>Feedback comments:</b> @feedback.Count()<br/>
+</p>
+<br/>
+<style>
+ table { table-layout: auto; }
+ table th, table td { overflow: auto; }
+</style>
+    <table class="table table-striped table-condensed">
+        <tr>
+            <th>#</th>
+            <th>Created</th>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Message</th>            
+        </tr>
+    @foreach (var comment in feedback)
+    {
+        var trClass = (comment.SentStatus == SentStatus.Offline ||  comment.SentStatus == SentStatus.Error) ? "error" : "";
+        <tr class="@trClass" >
+            <td> @(--index)</td>            
+            <td> @comment.Created_Date.fromFileTimeUtc()</td>                    
+            <td> @comment.From</td>                        
+            <td> @comment.Subject </td>
+            <td><pre style="height: 3pc; overflow-y: scroll;">@comment.Message</pre></td>
+            <!--<td><textarea class="input-xxlarge" >@comment.Message </textarea> </td>            -->
+        </tr>
+    }
+    </table>
+
+
+
+
