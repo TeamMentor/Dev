@@ -666,6 +666,7 @@
     <Content Include="TBot\Admin\Import Legacy Users.cshtml" />
     <Content Include="TBot\Users\New Random User.cshtml" />
     <Content Include="TBot\Admin\UserData FirstScript.cshtml" />
+    <Content Include="TBot\Views\User_ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

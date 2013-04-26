@@ -34,6 +34,7 @@ function TMUser($scope,$http)
     	
     <a href="User_View?userName={{userData.UserName}}" class="btn btn-info" >View User</a>
     <a href="User_Edit?{{userData.UserName}}" class="btn btn-info" disabled>Edit User</a>
+    <a href="User_ChangePassword?{{userData.UserName}}" class="btn btn-info">Change Password</a>
     <a href="User_Activities?userName={{userData.UserName}}" class="btn btn-info" >View Activity/Logs</a>
     <a href="User_Raw?userName={{userData.UserName}}">Raw/Xml Data</a>
 
@@ -78,6 +79,16 @@ function TMUser($scope,$http)
                 <span class="add-on" style="width:120px;">State</span>
                 <input type="text" style="width:250px;" ng-model="userData.State"/>
             </div><br/>
+            <div class="input-prepend">
+                <span class="add-on" style="width:120px;">Group ID</span>
+                <select style="width:264px;" ng-model="userData.GroupID" required>
+                    <option value='0'>Anonymous</option>
+                    <option value='1'>Admin</option>
+                    <option value='2'>Reader</option>
+                    <option value='3'>Editor</option>
+                    <option value='4'>Developer</option>
+                </select>
+            </div><br/>
             <!--<div class="input-prepend">
                     <span class="add-on" style="width:120px;">Account Expiration Date</span>
                     <input type="text" style="width:250px;" ng-model="userData.ExpirationDate"/>
@@ -114,13 +125,7 @@ function TMUser($scope,$http)
     </form>
     
     <small><a href="javascript:window.location = window.location">reload page</a></small>
-    <br/>
-    <br/>
-    <b>save result</b>        	
-    <pre></pre>	
-    <b>raw data</b>
-    <pre>{{userData}}</pre>
-        
+
 </div>
 
 
