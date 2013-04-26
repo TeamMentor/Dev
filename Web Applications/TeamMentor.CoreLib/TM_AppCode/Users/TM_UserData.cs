@@ -79,5 +79,15 @@ namespace TeamMentor.CoreLib
             this.createDefaultAdminUser();  // make sure the admin user exists and is configured
             return this;
         }
+
+        public int LoginStatus(string username)
+        {
+            var user = username.tmUser();
+            if (user == null)
+            {
+                return (int)TM_User.LoginFailedReason.UserUnknown;
+            }
+            return (int) user.LastLoginFailureReason;
+        }
     }
 }

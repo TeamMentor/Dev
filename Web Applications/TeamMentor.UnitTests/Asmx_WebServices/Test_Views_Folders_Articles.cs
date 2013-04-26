@@ -16,7 +16,7 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
         [Test] [Assert_Editor] public void CreateLibrary_and_UpdateLibrary()
         {  
             var newLibrary = new Library { 
-                                            id = Guid.NewGuid().str(),
+                                            id = Guid.NewGuid().crypto().str(),
                                             caption = "temp_lib_{0}".format(6.randomLetters())
                                           };										  
             tmWebServices.CreateLibrary(newLibrary);    		     		
@@ -183,7 +183,7 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
         public Guid createTempLibrary()
         {
             "creating temp library".info();
-            var newLibrary = new Library { 	id = Guid.NewGuid().str(),
+            var newLibrary = new Library { 	id = Guid.NewGuid().crypto().str(),
                                             caption = "temp_lib_{0}".format(6.randomLetters()) };										  
             tmWebServices.CreateLibrary(newLibrary);  
             return newLibrary.id.guid();
@@ -200,7 +200,7 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
                                         creatorCaption = "guidanceLibrary", 	    								
                                         parentFolder = "a folder",
                                         criteria = "",	    								
-                                        id = Guid.NewGuid().str(),
+                                        id = Guid.NewGuid().crypto().str(),
                                         library = createTempLibrary().str()
                                      };
             var newFolder = createTempFolder(newView.library.guid());	    							 

@@ -95,6 +95,11 @@ namespace TeamMentor.CoreLib
             var emailMessage = new EmailMessage(emailMessagePost);
             return send(emailMessage);
         }
+        public bool send(FeedbackMessage_Post feedbackMessagePost) 
+        {
+            var emailMessage = new EmailMessage(feedbackMessagePost);
+            return send(emailMessage);
+        }
         public bool send(EmailMessage emailMessage)
         {
             Sent_EmailMessages.Add(emailMessage);

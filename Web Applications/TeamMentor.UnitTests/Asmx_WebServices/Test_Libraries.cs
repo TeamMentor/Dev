@@ -245,32 +245,52 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
         }    	
         [Test] public void Search_TitleAndHtml()
         {
-                        
+            Search_TitleAndHtmlFor("XSS", true);
+        }
+        // Issue #428 - https://github.com/TeamMentor/Master/issues/428
+        // TeamMentor Search feature: We need to implement TrimEnd function to avoid trailing characters
+        [Test] public void Search_TitleAndHtml_Should_Trim_Search_Text()
+        {
+            Search_TitleAndHtmlFor("XSS   ", true);
+        }
+
+        [Test] public void Search_TitleAndHtml_Fail() {
+            Search_TitleAndHtmlMissingFor("@this_text_should_not_exist@");
+        }
+
+        private void Search_TitleAndHtmlMissingFor(string searchFor)
+        {
+            Search_TitleAndHtmlFor(searchFor, false);
+        }
+
+        private void Search_TitleAndHtmlFor(string searchFor, Boolean shouldFindResults)
+        {
             var viewId = "fc1c5b9c-becb-44a2-9812-40090d9bd135".guid(); //A02: Cross-Site Scripting (XSS)
-            var searchFor = "XSS";	
             var guidanceItemsIds = new List<Guid>();
-            
+
             Func<string, List<Guid>> searchTitleAndHtml =
                 (searchText) => tmWebServices.XmlDatabase_GuidanceItems_SearchTitleAndHtml(guidanceItemsIds, searchText);
-            
-            
+
             //test searching on all content			
             var matchedIds = searchTitleAndHtml(searchFor);
-            Assert.That(matchedIds.size() > 0, "no results when searching all GIs"); 
-            
-            //test search on view's guidanceItems
-            var view = tmWebServices.GetViewById(viewId);  
-            guidanceItemsIds = view.guidanceItems;   
-            //var guidanceItems = tmXmlDatabase.xmlDB_GuidanceItems(guidanceItemsIds);			 				
-            
-            matchedIds = searchTitleAndHtml(searchFor);
-            Assert.That(matchedIds.size() > 0, "no results");
-            var resultGuidanceItems = tmXmlDatabase.xmlDB_GuidanceItems(matchedIds);
-            
-            foreach(var resultGuidanceItem  in resultGuidanceItems)
-                Assert.That(resultGuidanceItem.Metadata.Title.contains(searchFor) || resultGuidanceItem.Content.Data.Value.contains(searchFor), "couldn't find search term in GI");
+            Assert.AreEqual(shouldFindResults, matchedIds.size() > 0, "no results when searching all GIs");
 
-        }    	
+            //test search on view's guidanceItems
+            var view = tmWebServices.GetViewById(viewId);
+            guidanceItemsIds = view.guidanceItems;
+            //var guidanceItems = tmXmlDatabase.xmlDB_GuidanceItems(guidanceItemsIds);			 				
+
+            matchedIds = searchTitleAndHtml(searchFor);
+            Assert.AreEqual(shouldFindResults, matchedIds.size() > 0, "no results");
+            var resultGuidanceItems = tmXmlDatabase.xmlDB_GuidanceItems(matchedIds);
+
+            foreach (var resultGuidanceItem  in resultGuidanceItems)
+            {
+                Assert.AreEqual(shouldFindResults, 
+                    resultGuidanceItem.Metadata.Title.contains(searchFor.trim()) ||
+                    resultGuidanceItem.Content.Data.Value.contains(searchFor.trim()), "couldn't find search term in GI");
+            }
+        }
     } 
 }    
     
