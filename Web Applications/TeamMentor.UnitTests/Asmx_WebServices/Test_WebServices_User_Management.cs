@@ -34,7 +34,7 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
             tmWebServices.Login(newUser.Username, newUser.Password);
             var loginStatus = tmWebServices.GetLoginStatus(newUser.Username);
 
-            Assert.AreEqual(TM_User.LoginFailedReason.None, loginStatus);
+            Assert.AreEqual((int) TM_User.LoginFailedReason.None, loginStatus);
         }
 
         [Test] public void Login_With_Invalid_Username()
@@ -47,6 +47,9 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
             Assert.AreEqual     (sessionId_BeforeLogin  , Guid.Empty        , "sessionId_BeforeLogin should be empty");
             Assert.AreEqual     (sessionId_AfterLogin   , Guid.Empty        , "sessionId should be empty");
             Assert.AreEqual     (login_SessionId        , Guid.Empty        , "login_SessionId should be empty");
+
+            var loginStatus = tmWebServices.GetLoginStatus("Nonexistent user");
+            Assert.AreEqual((int)TM_User.LoginFailedReason.UserUnknown, loginStatus);
         }
 
         [Test] public void Login_With_Expired_Password()
@@ -60,7 +63,7 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
             tmWebServices.Login(newUser.Username, newUser.Password);
             var loginStatus = tmWebServices.GetLoginStatus(newUser.Username);
 
-            Assert.AreEqual(TM_User.LoginFailedReason.PasswordExpired, loginStatus);
+            Assert.AreEqual((int)TM_User.LoginFailedReason.PasswordExpired, loginStatus);
         }
 
         [Test]
@@ -75,7 +78,7 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
             tmWebServices.Login(newUser.Username, newUser.Password);
             var loginStatus = tmWebServices.GetLoginStatus(newUser.Username);
 
-            Assert.AreEqual(TM_User.LoginFailedReason.AccountExpired, loginStatus);
+            Assert.AreEqual((int)TM_User.LoginFailedReason.AccountExpired, loginStatus);
         }
 
         [Test]
@@ -89,7 +92,7 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
             tmWebServices.Login(newUser.Username, newUser.Password);
             var loginStatus = tmWebServices.GetLoginStatus(newUser.Username);
 
-            Assert.AreEqual(TM_User.LoginFailedReason.AccountDisabled, loginStatus);
+            Assert.AreEqual((int)TM_User.LoginFailedReason.AccountDisabled, loginStatus);
         }
 
         [Test]
@@ -102,6 +105,9 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
             Assert.AreEqual(sessionId_BeforeLogin, Guid.Empty, "sessionId_BeforeLogin should be empty");
             Assert.AreEqual(sessionId_AfterLogin, Guid.Empty, "sessionId should be empty");
             Assert.AreEqual(login_SessionId, Guid.Empty, "login_SessionId should be empty");
+
+            var loginStatus = tmWebServices.GetLoginStatus(tmConfig.TMSecurity.Default_AdminUserName);
+            Assert.AreEqual((int)TM_User.LoginFailedReason.UserUnknown, loginStatus);
         }
 
         [Test] public void CheckThatCurrentUserUserMatchesNewUser()

@@ -38,7 +38,7 @@ namespace TeamMentor.CoreLib
         public enum LoginFailedReason
         {
             None,
-            PasswordInvalid,
+            UserUnknown,
             PasswordExpired,
             AccountExpired,
             AccountDisabled

@@ -60,7 +60,7 @@ namespace TeamMentor.CoreLib
                         {
                             tmUser.Stats.LoginFail++;
                             tmUser.logUserActivity("Login Fail", "bad pwd");
-                            tmUser.LastLoginFailureReason = TM_User.LoginFailedReason.PasswordInvalid;
+                            tmUser.LastLoginFailureReason = TM_User.LoginFailedReason.UserUnknown;
                             return Guid.Empty;
                         }
 

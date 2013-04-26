@@ -39,6 +39,6 @@ namespace TeamMentor.CoreLib
         [WebMethod(EnableSession = true)]	[Admin]	                    			public TM_User      SetUser_PostLoginView   (string userName, string postLoginView)	    {	return userName.tmUser().set_PostLoginView(postLoginView).user();        }
         [WebMethod(EnableSession = true)]	[Admin]	                    			public TM_User      SetUser_PostLoginScript (string userName, string postLoginScript)   {	return userName.tmUser().set_PostLoginScript(postLoginScript).user();    }
 
-        [WebMethod(EnableSession = true)]                                           public TM_User.LoginFailedReason GetLoginStatus(string username)    { return userData.tmUser(username).LastLoginFailureReason; }
+        [WebMethod(EnableSession = true)]                                           public int          GetLoginStatus(string username) { return userData.LoginStatus(username); }
     }
 }

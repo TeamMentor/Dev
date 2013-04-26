@@ -61,7 +61,7 @@ namespace TeamMentor.UnitTests.TM_XmlDatabase
                 Assert.Greater  (timeSpan.TotalMilliseconds, 50); // slowest calculation should be slower than 50 milliseconds
             }
         }
-        [Test] public void PBKDF2_Default()
+        [Ignore][Test] public void PBKDF2_Default()
         {
             20000.set_DEFAULT_PBKDF2_INTERACTIONS(); // restore this value since that is what we are testing
             Action<string,string> checkPassword = 
