@@ -14,58 +14,95 @@
 	
 	<script src="/aspx_Pages/scriptCombiner.ashx?s=WebServices_JS" type="text/javascript"></script>
 
-	<script type="text/javascript">
-	
-		function loginResponse(loginId)
-		{									
-			if(loginId =='00000000-0000-0000-0000-000000000000')
-			{		
-				$("#loginFailed").fadeIn();
-				$("#loginButton").html('Login');
-			}
-			else
-			{	
-                if (document.referrer != "" &&                                      // it's valid
-                    document.referrer != document.location &&                       // not the current page
+    <script type="text/javascript">
+        var username = "unknown";
+        var password = "not set";
+
+        function notifyLoginFailure(message) {
+            //Not sure why this is no longer coming from forms.css!?
+		    $('#loginFailed').css("background", "#C00");
+		    $('#loginFailed').css("font-size", "10px");
+		    $('#loginFailed').css("display", "inline-block");
+		    $('#loginFailed').css("color", " #FFF");
+		    $('#loginFailed').css("padding", "0 8px");
+		    $('#loginFailed').css("-moz-border-radius", "3px");
+		    $('#loginFailed').css("-webkit-border-radius", "3px");
+		    $('#loginFailed').css("border-radius", "3px");
+            
+            $('#loginFailed').html(message).fadeIn(1000);
+            $("#loginButton").html('Login');
+        }
+
+        function loginFailed(status)
+        {
+            $('#LoginMainContent').css('display', '');
+            TM.Debug.LastLoginResult = "Failed";
+
+            if (status === TM.Const.LoginUserUnknown) {
+                notifyLoginFailure('Incorrect username or password');
+                return;
+            }
+            if (status === TM.Const.LoginPasswordExpired) {
+                notifyLoginFailure('Password expired');
+                return;
+            }
+            if (status === TM.Const.LoginAccountExpired) {
+                notifyLoginFailure('Account expired');
+                return;
+            }
+            if (status === TM.Const.LoginAccountDisabled) {
+                notifyLoginFailure('Account disabled');
+                return;
+            }
+        }	    
+        
+        function loginResponse(loginId)
+        {
+            if (loginId != '00000000-0000-0000-0000-000000000000')
+            {
+                if (document.referrer != "" && // it's valid
+                    document.referrer != document.location && // not the current page
                     document.referrer.split("/").indexOf("passwordReset") == -1)    // not back into the password Reset page
                 {
                     document.location = document.referrer;
+                    return;
                 }
-                else			
-				    document.location = "/Login_OK" + document.location.search;
-			}
-		}
+                document.location = "/Login_OK" + document.location.search;
+                return;
+            }
 
-		var onSubmit = function()
-		    {
-		        $("#loginFailed").fadeOut();
-				$("#loginButton").html('Logging in');
-				var username = $("#username").attr('value');
-				var password = $("#password").attr('value');
-				//console.log("login in with: " + username + " : " + password);
-				TM.WebServices.WS_Users.login(username, password, loginResponse);				
-                $("#passwordForgotLink").relative().top(7)
-		                                .css("","");
-				return false; 
-			};
+            TM.WebServices.WS_Users.loginStatus(username, loginFailed);
+        }
 
-		$(function()
-			{
-				//css fixes
-				$("#loginFailed").hide()
-								 .absolute()
-								 .left(90)
-								 .top(67);
-		        $("h1").css('background-image', '/Images/HeaderImage.jpg');
-				$("#SI_Logo").width(250);
-		        $(".form").height(209);
-		        $("#passwordForgotLink").relative().top(7);
+        var onSubmit = function()
+        {
+            $("#loginFailed").fadeOut();
+            $("#loginButton").html('Logging in');
+            username = $("#username").attr('value');
+            password = $("#password").attr('value');
+            //console.log("login in with: " + username + " : " + password);
+            TM.WebServices.WS_Users.login(username, password, loginResponse);				
+            $("#passwordForgotLink").relative().top(7).css("","");
+            return false; 
+        };
 
-				//set the click event for the login button 
-				$("#loginButton").click(onSubmit);	
+        $(function()
+        {
+            //css fixes
+            $("#loginFailed").hide()
+                .absolute()
+                .left(90)
+                .top(67);
+            $("h1").css('background-image', '/Images/HeaderImage.jpg');
+            $("#SI_Logo").width(250);
+            $(".form").height(209);
+            $("#passwordForgotLink").relative().top(7);
 
-			});
-	</script>
+            //set the click event for the login button 
+            $("#loginButton").click(onSubmit);	
+
+        });
+    </script>
 </head> 
  
 <body> 

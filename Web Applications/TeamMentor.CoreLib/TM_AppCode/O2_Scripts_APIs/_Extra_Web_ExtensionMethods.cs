@@ -5,7 +5,6 @@ using System.Net;
 using System.Web;
 using O2.DotNetWrappers.ExtensionMethods;
 
-
 namespace FluentSharp
 {
 
@@ -14,15 +13,15 @@ namespace FluentSharp
         public static WebHeaderCollection HEAD_Headers(this Uri uri)
         {
             var request = (HttpWebRequest) WebRequest.Create(uri);
-            request.Timeout = 1000;
             request.AllowAutoRedirect = false;            
             request.Method = "HEAD";
+            request.Timeout = 10000;
             try
             {
-                return request.GetResponse().Headers;                                
+                return request.GetResponse().Headers;
             }
             catch (WebException)
-            {                
+            {
                 return null;
             }
         }

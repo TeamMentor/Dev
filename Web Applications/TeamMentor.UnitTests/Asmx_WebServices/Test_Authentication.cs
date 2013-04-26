@@ -197,7 +197,7 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
             Assert.DoesNotThrow             (()=> tmWebServices.RBAC_Demand_EditArticles(), "logged in as Admin");   
             Assert.DoesNotThrow             (()=> tmWebServices.RBAC_Demand_ManageUsers (), "logged in as Admin");
             Assert.DoesNotThrow             (()=> tmWebServices.RBAC_Demand_ReadArticles(), "logged in as Admin");
-            /*var randomSessionID = Guid.NewGuid();			//TMLoginHelper.login_As_Admin();  ;//Guid.NewGuid();			
+            /*var randomSessionID = Guid.NewGuid().crypto();			//TMLoginHelper.login_As_Admin();  ;//Guid.NewGuid().crypto();			
             teamMentorSecurity.CredentialsValue = new Credentials() {AdminSessionID = randomSessionID } ;
             
             try { teamMentorSecurity.DemandPrivileges_Admin(); } 

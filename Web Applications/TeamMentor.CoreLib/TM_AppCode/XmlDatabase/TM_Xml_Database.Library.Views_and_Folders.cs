@@ -88,7 +88,7 @@ namespace TeamMentor.CoreLib
             if (tmLibrary.notNull())
             {				
                 if (tmView.id.isNull() || (tmView.id.isGuid() && tmView.id == Guid.Empty.str()))
-                    tmView.id = Guid.NewGuid().str();
+                    tmView.id = Guid.NewGuid().crypto().str();
                 var view = tmView.view();
 
                 if (parentFolderId == Guid.Empty)
@@ -398,7 +398,7 @@ namespace TeamMentor.CoreLib
                 var newFolder = new urn.microsoft.guidanceexplorer.Folder
                     { 
                             caption = folderCaption, 
-                            folderId = Guid.NewGuid().str()
+                            folderId = Guid.NewGuid().crypto().str()
                         };
                 var guidanceExplorer= tmLibrary.guidanceExplorer(tmDatabase);                
                 if (parentFolderId == Guid.Empty)
@@ -482,7 +482,7 @@ namespace TeamMentor.CoreLib
                     conflictsDetected++;
                     if (verbose)
                         "[ensureFoldersAndViewsIdsAreUnique] there was repeated viewId for view {0}: {1}".error(view.caption, view.id);
-                    view.id = Guid.NewGuid().str();
+                    view.id = Guid.NewGuid().crypto().str();
                     if (verbose)
                         "[ensureFoldersAndViewsIdsAreUnique] new Guid assigned to view {0}: {1}".debug(view.caption, view.id);					
                 }					
@@ -495,7 +495,7 @@ namespace TeamMentor.CoreLib
                 {
                     if (verbose)
                         "[ensureFoldersAndViewsIdsAreUnique] there was repeated folderId for folder {0}: {1}".error(folder.caption, folder.folderId);
-                    folder.folderId = Guid.NewGuid().str();
+                    folder.folderId = Guid.NewGuid().crypto().str();
                     if (verbose)
                         "[ensureFoldersAndViewsIdsAreUnique] new Guid assigned to view {0}: {1}".debug(folder.caption, folder.folderId);
                     conflictsDetected++;

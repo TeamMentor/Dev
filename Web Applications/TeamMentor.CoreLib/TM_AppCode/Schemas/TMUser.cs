@@ -21,6 +21,7 @@ namespace TeamMentor.CoreLib
         
         [XmlAttribute] public string    PostLoginView        { get; set; }
         [XmlAttribute] public string    PostLoginScript      { get; set; }
+        [XmlAttribute] public TM_User.LoginFailedReason LastLoginFailureReason { get; set; }
         
         [XmlElement]   public UserSecretData        SecretData	{ get; set; }
         [XmlElement]   public UserAccountStatus     AccountStatus	{ get; set; }
@@ -29,10 +30,10 @@ namespace TeamMentor.CoreLib
 
         public TMUser()
         {
-            ID = Guid.NewGuid();
+            ID = Guid.NewGuid().crypto();
             SecretData      = new UserSecretData
                                     {
-                                        //SingleUseLoginToken = Guid.NewGuid(),
+                                        //SingleUseLoginToken = Guid.NewGuid().crypto(),
                                         PasswordResetToken  = null                  // default to Null
                                     };
 
@@ -59,7 +60,7 @@ namespace TeamMentor.CoreLib
         //[XmlAttribute]  public string   SSOKey              { get; set; }    
         
         [XmlAttribute]  public string	CSRF_Token  { get; set; }        
-        [XmlAttribute]  public Guid	    SessionID  { get; set; } 
+        [XmlAttribute]  public Guid	    SessionID  { get; set; }
     }
     public class UserAccountStatus
     {

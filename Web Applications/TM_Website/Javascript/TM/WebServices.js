@@ -212,6 +212,21 @@ TM.WebServices.WS_Users.login = function(username, password, callback)
                 });		
     };
 
+TM.WebServices.WS_Users.loginStatus = function (username, callback) 
+    {
+        if (isUndefined(callback))
+            callback = function () { };
+        var params =  { username: username };
+
+        TM.WebServices.Helper.invoke_TM_WebService(
+            'GetLoginStatus',
+            params,
+            function (result) {
+                //TM.Events.onUserChange();
+                callback(result)
+            });
+};
+
 TM.WebServices.WS_Users.logout = function(username, password, callback)
     {			
         if(isUndefined(callback))

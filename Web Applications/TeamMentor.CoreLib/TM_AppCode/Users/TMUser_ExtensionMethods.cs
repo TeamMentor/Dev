@@ -76,7 +76,7 @@ namespace TeamMentor.CoreLib
         {
             if (reset || tmUser.SecretData.SingleUseLoginToken == Guid.Empty)
             {
-                tmUser.SecretData.SingleUseLoginToken = Guid.NewGuid();
+                tmUser.SecretData.SingleUseLoginToken = Guid.NewGuid().crypto();
                 tmUser.saveTmUser();
                 tmUser.logUserActivity("SingleUseLoginToken Requested", "by asp.netSessionId: {0}".format(HttpContextFactory.Session.SessionID));
             }
@@ -134,13 +134,13 @@ namespace TeamMentor.CoreLib
             var tmUser = email.tmUser_FromEmail();
             if (tmUser.notNull())
                 return tmUser.passwordResetToken_getTokenAndSetHash();
-            return Guid.NewGuid();
+            return Guid.NewGuid().crypto();
         }
         public static Guid passwordResetToken_getTokenAndSetHash(this TMUser tmUser)
         {
             if (tmUser.notNull())
             {
-                var newToken = Guid.NewGuid();
+                var newToken = Guid.NewGuid().crypto();
                 tmUser.SecretData.PasswordResetToken = tmUser.passwordResetToken_getHash(newToken);
                 tmUser.saveTmUser();
                 return newToken;

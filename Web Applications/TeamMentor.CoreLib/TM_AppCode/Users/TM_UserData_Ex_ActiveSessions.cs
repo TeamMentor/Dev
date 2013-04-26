@@ -45,21 +45,32 @@ namespace TeamMentor.CoreLib
                         if (tmUser.account_Expired())
                         {
                             tmUser.logUserActivity("Account Expired", "Expiry date: {0}".format(tmUser.AccountStatus.ExpirationDate));
+                            tmUser.LastLoginFailureReason = TM_User.LoginFailedReason.AccountExpired;
+                            return Guid.Empty;
+                        }
+
+                        if (tmUser.password_Expired())
+                        {
+                            tmUser.logUserActivity("Password Expired", "User: {0}".format(tmUser.UserID));
+                            tmUser.LastLoginFailureReason = TM_User.LoginFailedReason.PasswordExpired;
                             return Guid.Empty;
                         }
                         var pwdOk = tmUser.SecretData.PasswordHash == tmUser.createPasswordHash(password);
-                        if (pwdOk)
-                        {
-                            if(tmUser.account_Enabled())
-                                return tmUser.login(Guid.NewGuid());                    // call login with a new SessionID            
-                            
-                            tmUser.logUserActivity("Login Fail",  "pwd ok, but account disabled");
-                        }
-                        else
+                        if (!pwdOk)
                         {
                             tmUser.Stats.LoginFail++;
-                            tmUser.logUserActivity("Login Fail", "bad pwd");                            
+                            tmUser.logUserActivity("Login Fail", "bad pwd");
+                            tmUser.LastLoginFailureReason = TM_User.LoginFailedReason.UserUnknown;
+                            return Guid.Empty;
                         }
+
+                        if (!tmUser.account_Enabled())
+                        {
+                            tmUser.logUserActivity("Login Fail", "pwd ok, but account disabled");
+                            tmUser.LastLoginFailureReason = TM_User.LoginFailedReason.AccountDisabled;
+                            return Guid.Empty;
+                        }
+                        return tmUser.login(Guid.NewGuid().crypto()); // call login with a new SessionID            
                     }
                 }
             }
@@ -71,7 +82,7 @@ namespace TeamMentor.CoreLib
         }
         public static Guid              login (this TMUser tmUser)                                         
         {
-            return tmUser.login(Guid.NewGuid());
+            return tmUser.login(Guid.NewGuid().crypto());
         }        
         public static Guid              login (this TMUser tmUser, Guid sessionId)                         
         {

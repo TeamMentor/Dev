@@ -8,19 +8,108 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
     [TestFixture]
     public class Test_WebServices_User_Management : TM_WebServices_InMemory
     {        
-        [Test] public void Login()
+        [SetUp] public void Setup()
         {
             tmWebServices.Logout();
+        }
+
+        [Test] public void Login()
+        {
             var sessionId_BeforeLogin = tmWebServices.Current_SessionID();
             var login_SessionId       = tmWebServices.Login       (tmConfig.TMSecurity.Default_AdminUserName, tmConfig.TMSecurity.Default_AdminPassword);
             HttpContextFactory.Context.addCookieFromResponseToRequest("Session");            
             var sessionId_AfterLogin  = tmWebServices.Current_SessionID();
                         
-            Assert.AreEqual    (sessionId_BeforeLogin, Guid.Empty          , "sessionId should be empty");
+            Assert.AreEqual    (sessionId_BeforeLogin, Guid.Empty          , "sessionId_BeforeLogin should be empty");
             Assert.AreNotEqual (sessionId_AfterLogin , Guid.Empty          , "sessionId should Not empty");
             Assert.AreNotEqual (login_SessionId      , Guid.Empty          , "login_SessionId  should not be empty");
             Assert.AreEqual    (sessionId_AfterLogin, sessionId_AfterLogin , "sessionsIds should be the same");
         }
+
+        [Test] public void Login_With_Valid_Credentials_Should_Set_LoginFailedReason_To_None()
+        {
+            var newUser = newTempUser();
+            tmWebServices.CreateUser(newUser);
+
+            tmWebServices.Login(newUser.Username, newUser.Password);
+            var loginStatus = tmWebServices.GetLoginStatus(newUser.Username);
+
+            Assert.AreEqual((int) TM_User.LoginFailedReason.None, loginStatus);
+        }
+
+        [Test] public void Login_With_Invalid_Username()
+        {
+            var sessionId_BeforeLogin = tmWebServices.Current_SessionID();
+            var login_SessionId = tmWebServices.Login("Nonexistent user", tmConfig.TMSecurity.Default_AdminPassword);
+            HttpContextFactory.Context.addCookieFromResponseToRequest("Session");
+            var sessionId_AfterLogin = tmWebServices.Current_SessionID();
+
+            Assert.AreEqual     (sessionId_BeforeLogin  , Guid.Empty        , "sessionId_BeforeLogin should be empty");
+            Assert.AreEqual     (sessionId_AfterLogin   , Guid.Empty        , "sessionId should be empty");
+            Assert.AreEqual     (login_SessionId        , Guid.Empty        , "login_SessionId should be empty");
+
+            var loginStatus = tmWebServices.GetLoginStatus("Nonexistent user");
+            Assert.AreEqual((int)TM_User.LoginFailedReason.UserUnknown, loginStatus);
+        }
+
+        [Test] public void Login_With_Expired_Password()
+        {
+            var newUser = newTempUser();
+            var userId = tmWebServices.CreateUser(newUser);
+            var tmUser = userId.tmUser();
+
+            tmUser.expire_Password();
+
+            tmWebServices.Login(newUser.Username, newUser.Password);
+            var loginStatus = tmWebServices.GetLoginStatus(newUser.Username);
+
+            Assert.AreEqual((int)TM_User.LoginFailedReason.PasswordExpired, loginStatus);
+        }
+
+        [Test]
+        public void Login_With_Expired_Account()
+        {
+            var newUser = newTempUser();
+            var userId = tmWebServices.CreateUser(newUser);
+            var tmUser = userId.tmUser();
+
+            tmUser.expire_Account();
+
+            tmWebServices.Login(newUser.Username, newUser.Password);
+            var loginStatus = tmWebServices.GetLoginStatus(newUser.Username);
+
+            Assert.AreEqual((int)TM_User.LoginFailedReason.AccountExpired, loginStatus);
+        }
+
+        [Test]
+        public void Login_With_Disabled_Account() {
+            var newUser = newTempUser();
+            var userId = tmWebServices.CreateUser(newUser);
+            var tmUser = userId.tmUser();
+
+            tmUser.disable_Account();
+
+            tmWebServices.Login(newUser.Username, newUser.Password);
+            var loginStatus = tmWebServices.GetLoginStatus(newUser.Username);
+
+            Assert.AreEqual((int)TM_User.LoginFailedReason.AccountDisabled, loginStatus);
+        }
+
+        [Test]
+        public void Login_With_Invalid_Password() {
+            var sessionId_BeforeLogin = tmWebServices.Current_SessionID();
+            var login_SessionId = tmWebServices.Login(tmConfig.TMSecurity.Default_AdminUserName, "Wrong password!");
+            HttpContextFactory.Context.addCookieFromResponseToRequest("Session");
+            var sessionId_AfterLogin = tmWebServices.Current_SessionID();
+
+            Assert.AreEqual(sessionId_BeforeLogin, Guid.Empty, "sessionId_BeforeLogin should be empty");
+            Assert.AreEqual(sessionId_AfterLogin, Guid.Empty, "sessionId should be empty");
+            Assert.AreEqual(login_SessionId, Guid.Empty, "login_SessionId should be empty");
+
+            var loginStatus = tmWebServices.GetLoginStatus(tmConfig.TMSecurity.Default_AdminUserName);
+            Assert.AreEqual((int)TM_User.LoginFailedReason.UserUnknown, loginStatus);
+        }
+
         [Test] public void CheckThatCurrentUserUserMatchesNewUser()
         {
             var newUser     = newTempUser();
@@ -48,6 +137,7 @@ namespace TeamMentor.UnitTests.Asmx_WebServices
             Assert.AreEqual   (currentUser.UserId       , userId);
             Assert.AreEqual   (currentUser.UserName     , newUser.Username);            
         }
+
         [Test] public void ChangeCurrentUserPassword()        
         {                     
             var newUser     = newTempUser();

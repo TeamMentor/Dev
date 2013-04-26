@@ -16,6 +16,8 @@ namespace TeamMentor.CoreLib
         {
             return tmDatabase.guidanceItems_SearchTitleAndHtml(tmDatabase.xmlDB_GuidanceItems() , searchText);
         }        
+
+        [TrimSearchTextAspect]
         public static List<Guid> guidanceItems_SearchTitleAndHtml(this TM_Xml_Database tmDatabase, List<Guid> guidanceItemsIds, string searchText)
         {
             List<TeamMentor_Article> guidanceItems;
@@ -54,30 +56,32 @@ namespace TeamMentor.CoreLib
                 return tmDatabase.guidanceItems_SearchTitleAndHtml(guidanceItems, searchText);
             return tmDatabase.guidanceItems_SearchTitle(guidanceItems, searchText);
         }
-        
+
+        [TrimSearchTextAspect]
         public static List<Guid> guidanceItems_SearchTitleAndHtml(this TM_Xml_Database tmDatabase, List<TeamMentor_Article> guidanceItems, string searchText)
         {
-            var searchTextEncoded = HttpUtility.HtmlEncode(searchText).lower();   
+            //var searchTextEncoded = HttpUtility.HtmlEncode(searchText).lower();   
             
             //var maxNumberOfItemsToReturn = 100;			
             "There are {0} GIs to search".error(guidanceItems.size());
             return 	(from guidanceItem in guidanceItems
                      where guidanceItem.Metadata.Title.valid() &&
-                           (guidanceItem.Metadata.Title.lower().contains(searchTextEncoded)       ||
+                           (guidanceItem.Metadata.Title.lower().contains(searchText) ||
 //					        guidanceItem.title.regEx	   				(searchText) 	 ||
-                            guidanceItem.Content.Data.Value.lower().contains(searchTextEncoded) )
+                            guidanceItem.Content.Data.Value.lower().contains(searchText))
 //                       || guidanceItem.htmlContent.regEx			(searchText)           )									
                      select guidanceItem.Metadata.Id
                     ).toList(); 
         }
 
+        [TrimSearchTextAspect]
         public static List<Guid> guidanceItems_SearchTitle(this TM_Xml_Database tmDatabase, List<TeamMentor_Article> guidanceItems, string searchText)
         {
-            var searchTextEncoded = HttpUtility.HtmlEncode(searchText).lower();
+            //var searchTextEncoded = HttpUtility.HtmlEncode(searchText).lower();
                        
             return (from guidanceItem in guidanceItems
                     where guidanceItem.Metadata.Title.valid() &&
-                          guidanceItem.Metadata.Title.lower().contains(searchTextEncoded)            
+                          guidanceItem.Metadata.Title.lower().contains(searchText)            
                     select guidanceItem.Metadata.Id
                     ).toList();
         }        
@@ -194,7 +198,7 @@ namespace TeamMentor.CoreLib
         }
         public static TeamMentor_Article        fixGuidanceItemFileDueToGuidConflict(this TM_Xml_Database tmDatabase, Guid original_Guid, string fullPath)
         {			
-            var newGuid = Guid.NewGuid();
+            var newGuid = Guid.NewGuid().crypto();
             var newPath = fullPath.replace(original_Guid.str(), newGuid.str());
             Files.moveFile(fullPath, newPath);
             "[xmlDB_GuidanceItem] resolved GuidanceItem ID conflict for  Id '{0}' was already mapped. \nExisting path: \t{1} \nNew path:  \t{2}".error(original_Guid, fullPath , newPath);
@@ -256,7 +260,7 @@ namespace TeamMentor.CoreLib
                             return article;
                         }
                         else
-					        "[xmlDB_GuidanceItem] Failed to load article at path: {0} (see errors for reason)".error(fullPath);
+                            "[xmlDB_GuidanceItem] Failed to load article at path: {0} (see errors for reason)".error(fullPath);
                     }
                     else
                         "[xmlDB_GuidanceItem] could not find file: {0}".error(fullPath);
@@ -276,7 +280,7 @@ namespace TeamMentor.CoreLib
     {
         [EditArticles]  public static TeamMentor_Article xmlDB_RandomGuidanceItem(this TM_Xml_Database tmDatabase)
         {
-            return tmDatabase.xmlDB_RandomGuidanceItem(Guid.NewGuid());
+            return tmDatabase.xmlDB_RandomGuidanceItem(Guid.NewGuid().crypto());
         }
         [EditArticles]  public static TeamMentor_Article xmlDB_RandomGuidanceItem(this TM_Xml_Database tmDatabase, Guid libraryId)
         {
@@ -303,7 +307,7 @@ namespace TeamMentor.CoreLib
                     Metadata = new TeamMentor_Article_Metadata
                         {
                             Id = (guidanceItemId == Guid.Empty)
-                                     ? Guid.NewGuid()
+                                     ? Guid.NewGuid().crypto()
                                      : guidanceItemId,
                             Library_Id = libraryId,
                             Author = author,
@@ -326,7 +330,7 @@ namespace TeamMentor.CoreLib
         }
         [EditArticles]  public static Guid xmlDB_Create_Article(this TM_Xml_Database tmDatabase, TeamMentor_Article article)
         {             
-            article.Metadata.Id = Guid.NewGuid();
+            article.Metadata.Id = Guid.NewGuid().crypto();
             if(article.xmlDB_Save_Article(tmDatabase))
                 return article.Metadata.Id;
             return Guid.Empty;
