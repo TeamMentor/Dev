@@ -4,17 +4,7 @@
 @using TeamMentor.CoreLib
 
 @{
-    var weekAgo = DateTime.Today.AddDays(-7).ToFileTimeUtc();
-    var userName = System.Web.HttpContext.Current.Request["userName"];
-    var max = System.Web.HttpContext.Current.Request["max"].toInt();
-
-    if (max == 0) {
-        max = 50;
-    }
-}
-
-@{
-    <h5>Users Logged in Pages Viewed</h5>
+    <h5>Users With Disabled Accounts</h5>
 
     <ul>
         <table class="table table-striped table-condensed">
@@ -24,12 +14,12 @@
                 <th>When</th>                        
                 <th>IPAdress</th>  
             </tr> 
-            @foreach (var user in TM_UserData.Current.TMUsers.Where(x => x.UserActivities.Any(y => y.When > weekAgo)))
+            @foreach (var user in TM_UserData.Current.TMUsers.Where(x => !x.AccountStatus.UserEnabled))
             {
                 <tr>
-                    <td><a href="User_Action_History_Filtered?userName=@user.UserName&userAction=User%20Login">@user.UserName</a></td>
+                    <td>@user.UserName </td>
                     <td>@user.FirstName.replace("FName", "") @user.LastName.replace("LName", "")</td>
-                    <td>@user.UserActivities.Last().When.ToDateTime()</td>
+                    <td>@user.UserActivities.Last().When.ToDateTimeString()</td>
                     <td>@user.UserActivities.Last().IPAddress</td>
                 </tr>
             }

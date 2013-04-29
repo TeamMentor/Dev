@@ -1,0 +1,89 @@
+﻿@using System
+@using System.Collections.Generic
+@using System.Globalization
+@using System.Linq
+@using O2.DotNetWrappers.ExtensionMethods
+@using TeamMentor.CoreLib
+
+@{
+    var today = DateTime.Today.ToFileTimeUtc();
+    var week = DateTime.Today.AddDays(-7).ToFileTimeUtc();
+    var twoWeeks = DateTime.Today.AddDays(-14).ToFileTimeUtc();
+    var month = DateTime.Today.AddMonths(-1).ToFileTimeUtc();
+    
+    var max = System.Web.HttpContext.Current.Request["max"].toInt();
+    if (max == 0) {
+        max = 50;
+    }
+    
+    long fromDate = 0;
+    var period = System.Web.HttpContext.Current.Request["period"];
+    switch (period)
+    {
+        case "today":
+            fromDate = today;
+            break;
+        case "week":
+            fromDate = week;
+            break;
+        case "twoweeks":
+            fromDate = twoWeeks;
+            break;
+        case "month":
+            fromDate = month;
+            break;
+        default:
+            fromDate = today;
+            break;
+    }
+
+    var loggedInUsers = TM_UserData.Current.TMUsers.Where(x => x.UserActivities.Any(y => y.When > fromDate));
+    var pagesVisited = new List<string>();
+    var inUsers = loggedInUsers as TMUser[] ?? loggedInUsers.ToArray();
+    foreach (var page in inUsers.SelectMany(user => user.UserActivities.Where(z => z.When > fromDate).Select(x => x.Detail).Where(page => !pagesVisited.Contains(page))))
+    {
+        pagesVisited.add(page);
+    }
+}
+
+@{
+    <h5>View History by User Page View Count</h5>
+    if (fromDate == today) { <h5><a href="View_History_by_Statistics?period=today">Today</a></h5> } else { <p><a href="View_History_by_Statistics?period=today">Today</a></p>}
+    if (fromDate == week) { <h5><a href="View_History_by_Statistics?period=week">Last Week</a></h5> } else { <p><a href="View_History_by_Statistics?period=week">Last Week</a></p>}
+    if (fromDate == twoWeeks) { <h5><a href="View_History_by_Statistics?period=twoweeks">Last 2 weeks</a></h5> } else { <p><a href="View_History_by_Statistics?period=twoweeks">Last 2 weeks</a></p>}
+    if (fromDate == month) { <h5><a href="View_History_by_Statistics?period=month">Last month</a></h5> } else { <p><a href="View_History_by_Statistics?period=month">Last month</a></p>}
+    
+    <ul>
+        <table class="table table-striped table-condensed">
+            <tr>
+                <th>Page</th>
+                @foreach (var user in inUsers) {
+                    <th>@user.UserName</th>
+                }
+            </tr> 
+            @foreach (var page in pagesVisited.OrderBy(x => x).take(max)) {
+                <tr>
+                    <td>@page</td>
+                    @foreach (var user in inUsers) {
+                        <td>
+                            @{
+                                var capturedPage = page;
+                                var views = user.UserActivities.Where(x => x.Detail == capturedPage && x.When > fromDate).toList();
+                            }
+                            @if (views.Any())
+                            {
+                                <a href="History_Filtered?detail=@page&username=@user.UserName">@views.Count().ToString(CultureInfo.InvariantCulture)</a>
+                            } 
+                            else 
+                            {
+                                <a>@string.Empty</a>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    </ul>
+}
+
+It's @DateTime.Now.ToLongTimeString()  on @DateTime.Now.ToLongDateString()

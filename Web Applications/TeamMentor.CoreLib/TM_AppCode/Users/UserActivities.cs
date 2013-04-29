@@ -17,10 +17,14 @@ namespace TeamMentor.CoreLib
 
     public static class UserActivities_Ex
     {
-        public static string ToDateTime(this long when)
+        public static string ToDateTimeString(this long when)
         {
             var result = DateTime.FromFileTimeUtc(ConvertFileTimeToLocalTime(when));
             return string.Format("{0:G}", @result);
+        }
+
+        public static DateTime ToDate(this long when) {
+            return DateTime.FromFileTimeUtc(ConvertFileTimeToLocalTime(when)).Date;
         }
 
         private static long ConvertFileTimeToLocalTime(long fileTime) {

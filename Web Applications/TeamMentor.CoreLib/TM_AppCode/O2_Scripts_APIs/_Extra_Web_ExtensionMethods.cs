@@ -13,6 +13,7 @@ namespace FluentSharp
         public static WebHeaderCollection HEAD_Headers(this Uri uri)
         {
             var request = (HttpWebRequest) WebRequest.Create(uri);
+            request.Timeout = 10000;
             request.AllowAutoRedirect = false;            
             request.Method = "HEAD";
             try

@@ -17,6 +17,5 @@
   <UseBuildPlatform></UseBuildPlatform>
   <ProxyProcessPath></ProxyProcessPath>
   <UseCPUArchitecture>AutoDetect</UseCPUArchitecture>
-  <AdditionalFilesToInclude>..\TeamMentor.CoreLib\**.*;..\packages\**.*;..\TM_Website\**.*</AdditionalFilesToInclude>
-  <HiddenWarnings>LongTestTimesWithoutParallelExecution</HiddenWarnings>
+  <AdditionalFilesToInclude>..\packages\**.*</AdditionalFilesToInclude>
 </ProjectConfiguration>

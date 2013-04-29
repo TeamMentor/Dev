@@ -1,4 +1,5 @@
 ﻿
+@using System
 @using System.Linq
 @using O2.DotNetWrappers.ExtensionMethods
 @using TeamMentor.CoreLib
@@ -30,15 +31,24 @@
 
     <ul>
         <table class="table table-striped table-condensed">
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Details</th>
-                <th>When</th>                        
-                <th>IPAdress</th>  
-            </tr> 
+            @{ 
+                var date = DateTime.MinValue; 
+                var count = 0; 
+            }
             @foreach (var userActivity in tmUser.UserActivities.OrderByDescending((activity)=> activity.When).take(max))
             {
+                if (userActivity.When.ToDate() != date)
+                {
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Details</th>
+                        <th>@userActivity.When.ToDate().ToShortDateString()</th>
+                        <th>IPAdress</th>  
+                    </tr>
+
+                    date = userActivity.When.ToDate();
+                }                
                 <tr>
                     <td>@(index--)</td>
                     <td>@userActivity.Action </td>
@@ -46,6 +56,7 @@
                     <td>@userActivity.When.fromFileTimeUtc() </td>
                     <td>@userActivity.IPAddress </td>
                 </tr>
+                count++;
             }
         </table>
     </ul>    
@@ -57,9 +68,7 @@
     <ul>
         <pre>@tmUser.toXml();</pre>
     </ul>*@
-}
-else
-{
+} else {
     <p>No user found</p>
 }
 

@@ -1,0 +1,67 @@
+﻿@using System
+@using System.Collections.Generic
+@using System.Linq
+@using O2.DotNetWrappers.ExtensionMethods
+@using TeamMentor.CoreLib
+
+@{
+    var twoWeeksAgo = DateTime.Today.AddDays(-14).ToFileTimeUtc();
+    var ipAddress = System.Web.HttpContext.Current.Request["ipAddress"];
+    var max = System.Web.HttpContext.Current.Request["max"].toInt();
+    if (max == 0) {
+        max = 50;
+    }
+
+    var loggedInUsers = TM_UserData.Current.TMUsers.Where(x => x.UserActivities.Any(y => y.When > twoWeeksAgo));
+    var ipAddresses = new List<string>();
+    var inUsers = loggedInUsers as TMUser[] ?? loggedInUsers.ToArray();
+
+    if (ipAddress == null)
+    {
+        foreach (var ip in inUsers.SelectMany(user => user.UserActivities.Select(x => x.IPAddress).Where(ip => !ipAddresses.Contains(ip)))) {
+            ipAddresses.add(ip);
+        }
+    }
+    else
+    {
+        ipAddresses.add(ipAddress);
+    }
+}
+
+@{
+    <h5>View History by IP Address</h5>
+    <h6><a href="View_History_by_Page">Views History by Page</a></h6>
+
+    <ul>
+        <table class="table table-striped table-condensed">
+            @{ 
+                var date = DateTime.MinValue; 
+                var count = 0; 
+            }
+            @foreach (var userActivity in inUsers.SelectMany(x => x.UserActivities).Where(y => y.Action == "View Article Html" && ipAddresses.Contains(y.IPAddress)).OrderByDescending(z => z.When))
+            {
+                if (userActivity.When.ToDate() != date)
+                {
+                    <tr>
+                        <th>IP Address</th>
+                        <th>@userActivity.When.ToDate().ToShortDateString()</th>
+                        <th>Page</th>
+                    </tr>
+
+                    date = userActivity.When.ToDate();
+                }
+
+                <tr>
+                    <td><a href="View_History_by_IP_Address?ipAddress=@userActivity.IPAddress">@userActivity.IPAddress</a></td>
+                    <td>@userActivity.When.ToDateTimeString()</td>
+                    <td><a href="View_History_by_Page?page=@userActivity.Detail">@userActivity.Detail</a></td>
+                </tr>
+                if (count++ > max) {
+                    break;
+                }
+            }
+        </table>
+    </ul>
+}
+
+It's @DateTime.Now.ToLongTimeString()  on @DateTime.Now.ToLongDateString()
