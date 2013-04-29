@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0"  DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -585,7 +585,6 @@
     <Content Include="TBot\UsersActivities\View_History_by_Page.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="TBot\UsersActivities\Who_Logged_In_This_Week.cshtml" />
     <Content Include="TBot\TBotMain.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -670,11 +669,9 @@
     <Content Include="TBot\Users\New Random User.cshtml" />
     <Content Include="TBot\Admin\UserData FirstScript.cshtml" />
     <Content Include="TBot\Tests\theTime.cshtml" />
-    <Content Include="TBot\UsersActivities\Logged_In_Users_Pages_Viewed.cshtml" />
     <Content Include="TBot\UsersExpiration\Users_With_Expired_Passwords.cshtml" />
     <Content Include="TBot\UsersExpiration\Users_With_Expired_Accounts.cshtml" />
     <Content Include="TBot\UsersExpiration\Users_With_Disabled_Accounts.cshtml" />
-    <Content Include="TBot\UsersActivities\X.cshtml" />
     <Content Include="TBot\UsersActivities\History.cshtml" />
     <Content Include="TBot\UsersActivities\History_Filtered.cshtml" />
     <Content Include="TBot\UsersActivities\View_History_by_IP_Address.cshtml" />
@@ -682,6 +679,8 @@
     <Content Include="TBot\Reports\User_Action_History.cshtml" />
     <Content Include="TBot\Reports\User_Action_History_Filtered.cshtml" />
     <Content Include="TBot\Messaging\View_Feedback.cshtml" />
+    <Content Include="TBot\UsersActivities\Login_History.cshtml" />
+    <Content Include="TBot\UsersActivities\View_History_by_Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
