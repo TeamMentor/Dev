@@ -13,6 +13,8 @@ namespace TeamMentor.UnitTests.TM_XmlDatabase
                 Assert.Ignore("Ignoring Test because we are offline");   
         }
 
+        //TODO: Kofi to Reinstate
+        [Ignore]
         [Test]
         public void DownloadAndInstallLibraryFromZip()
         {            
