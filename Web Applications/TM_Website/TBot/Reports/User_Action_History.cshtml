@@ -39,7 +39,7 @@
                     <td><a href="User_Action_History?action=@login.Action">@login.Action</a> </td>
                     <td><a href="User_Action_History?detail=@login.Detail">@login.Detail</a> </td>
                     <td><a href="User_Action_History?username=@login.Who">@login.Who</a> </td>
-                    <td>@login.When.ToDateTime() </td>
+                    <td>@login.When.ToDateTimeString() </td>
                     <td>@login.IPAddress </td>
                 </tr>
                 displayCount[0]++;
