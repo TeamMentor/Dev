@@ -1,0 +1,32 @@
+﻿@using System
+@using System.Linq
+@using O2.DotNetWrappers.ExtensionMethods
+@using TeamMentor.CoreLib
+
+@{
+    <h5>Users With Expired Accounts</h5>
+
+    <ul>
+        <table class="table table-striped table-condensed">
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Expired</th>                        
+                <th>Last Activity</th>                        
+                <th>IPAdress</th>  
+            </tr> 
+            @foreach (var user in TM_UserData.Current.TMUsers.Where(x => x.AccountStatus.ExpirationDate <= DateTime.Today))
+            {
+                <tr>
+                    <td>@user.UserName </td>
+                    <td>@user.FirstName.replace("FName", "") @user.LastName.replace("LName", "")</td>
+                    <td>@user.AccountStatus.ExpirationDate.ReplaceZeroWith("Never")</td>
+                    <td>@user.UserActivities.Last().When.ToDateTimeString()</td>
+                    <td>@user.UserActivities.Last().IPAddress</td>
+                </tr>
+            }
+        </table>
+    </ul>
+}
+
+It's @DateTime.Now.ToLongTimeString()  on @DateTime.Now.ToLongDateString()
