@@ -675,9 +675,6 @@
     <Content Include="TBot\UsersActivities\History.cshtml" />
     <Content Include="TBot\UsersActivities\History_Filtered.cshtml" />
     <Content Include="TBot\UsersActivities\View_History_by_IP_Address.cshtml" />
-    <Content Include="TBot\Reports\Page_Views_History.cshtml" />
-    <Content Include="TBot\Reports\User_Action_History.cshtml" />
-    <Content Include="TBot\Reports\User_Action_History_Filtered.cshtml" />
     <Content Include="TBot\Messaging\View_Feedback.cshtml" />
     <Content Include="TBot\UsersActivities\Login_History.cshtml" />
     <Content Include="TBot\UsersActivities\View_History_by_Statistics.cshtml" />
