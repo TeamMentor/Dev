@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using O2.DotNetWrappers.ExtensionMethods;
 
 namespace TeamMentor.CoreLib    
@@ -34,8 +35,9 @@ namespace TeamMentor.CoreLib
         }
         public class TMSecurity_Config
         {
-            public bool 		Show_ContentToAnonymousUsers { get; set; }
+            [ConfigurationProperty("requireSSL", DefaultValue = false)]
             public bool         SSL_RedirectHttpToHttps      { get; set; }
+            public bool         Show_ContentToAnonymousUsers { get; set; }
             public bool         EvalAccounts_Enabled         { get; set; }
             public int          EvalAccounts_Days            { get; set; }
             public bool         REST_AllowCrossDomainAccess  { get; set; }
