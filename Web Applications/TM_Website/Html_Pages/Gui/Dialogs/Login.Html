@@ -17,14 +17,34 @@
 			}			
 			
 		}
-		
-		function loginUser()
-		{		
-			$('#errorMessageLogin').hide();			
+
+		function loginUser() 
+		{
+		    var username = $('#UsernameBox').attr('value');
+		    var password = $('#PasswordBox').attr('value');
+		    
+            if (username == '' && password == '')
+            {
+                $('#errorMessageLogin')
+                    .html('Please enter username and password')
+					.fadeIn(1000);
+                return;
+            }
+            if (username == '') {
+                $('#errorMessageLogin')
+                    .html('Please enter username')
+					.fadeIn(1000);
+                return;
+            }
+            if (password == '') {
+                $('#errorMessageLogin')
+                    .html('Please enter password')
+					.fadeIn(1000);
+                return;
+            }
+
+		    $('#errorMessageLogin').hide();			
 			$('#LoginMainContent').css('display','none');						
-			var username = $('#UsernameBox').attr('value');
-			var password = $('#PasswordBox').attr('value');			
-			
 			
 			TM.WebServices.WS_Users.login(username, password, loginResponse);			
 		}
@@ -80,9 +100,9 @@
 	<div id="LoginDialog" class="_LoginArea">							
 		<!--<h1>Login</h1>-->
 		
-		<span id="usernameLabel" style="display:inline-block;width:130px;">Username:</span><input name="ctl00$ContentPlaceHolder1$UsernameBox" type="text" id="UsernameBox" class="otherTextBox" style="width:200px;" /><br />
+		<span id="usernameLabel" style="display:inline-block;width:130px;">Username:</span><input name="ctl00$ContentPlaceHolder1$UsernameBox" type="text" id="UsernameBox" class="required otherTextBox" style="width:200px;" /><br />
 		<br />
-		<span id="passwordLabel" style="display:inline-block;width:130px;">Password:</span><input name="ctl00$ContentPlaceHolder1$PasswordBox" type="password" id="PasswordBox" class="otherTextBox" style="width:200px;" /><br />		
+		<span id="passwordLabel" style="display:inline-block;width:130px;">Password:</span><input name="ctl00$ContentPlaceHolder1$PasswordBox" type="password" id="PasswordBox" class="required otherTextBox" style="width:200px;" /><br />		
 		<br />		
 	    <span class="errorMessageLogin" id ="errorMessageLogin" ></span>        
 	</div>
