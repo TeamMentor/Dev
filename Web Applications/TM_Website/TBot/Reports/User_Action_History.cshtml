@@ -1,0 +1,51 @@
+﻿@using System
+@using System.Linq
+@using O2.DotNetWrappers.ExtensionMethods
+@using TeamMentor.CoreLib
+
+@{
+    var weekAgo = DateTime.Today.AddDays(-7).ToFileTimeUtc();
+    var username = System.Web.HttpContext.Current.Request.QueryString["username"];
+    var detail = System.Web.HttpContext.Current.Request.QueryString["detail"];
+    var action = System.Web.HttpContext.Current.Request.QueryString["action"];
+    int[] displayCount = {0};
+    var maxDisplayCount = System.Web.HttpContext.Current.Request["max"].toInt();
+
+    if (maxDisplayCount == 0) {
+        maxDisplayCount = 50;
+    }
+}
+
+@{
+    <h5>@username @action History</h5>
+
+    <ul>
+        <table class="table table-striped table-condensed">
+            <tr>
+                <th>Action</th>
+                <th>Detail</th>
+                <th>Who</th>
+                <th>When</th>                        
+                <th>IPAdress</th>  
+            </tr> 
+            @foreach (var login in TM_UserData
+                .Current
+                .TMUsers
+                .First(x => x.UserName.Equals(username ?? x.UserName, StringComparison.InvariantCultureIgnoreCase))
+                .UserActivities.Where(y => y.Action == (action ?? y.Action) && y.Detail == (detail ?? y.Detail))
+                .OrderByDescending(z => z.When).TakeWhile(login => displayCount[0] <= maxDisplayCount))
+            {
+                <tr>
+                    <td><a href="User_Action_History?action=@login.Action">@login.Action</a> </td>
+                    <td><a href="User_Action_History?detail=@login.Detail">@login.Detail</a> </td>
+                    <td><a href="User_Action_History?username=@login.Who">@login.Who</a> </td>
+                    <td>@login.When.ToDateTimeString() </td>
+                    <td>@login.IPAddress </td>
+                </tr>
+                displayCount[0]++;
+}
+        </table>
+    </ul>
+}
+
+It's @DateTime.Now.ToLongTimeString()  on @DateTime.Now.ToLongDateString()

@@ -298,6 +298,26 @@ h1.ItemTitle
 	font-size: 160%;
 }
 
+.AppFeedback 
+{
+    padding: 5px;
+	margin-top: 0px;
+    text-align: right;
+}
+
+.AppFeedback div
+{
+    padding: 5px;
+}
+
+.ItemFeedback 
+{
+	padding: 20px;
+	margin-top: 10px;
+    text-align: right;
+    display: none;
+}
+
 .ItemContent
 {
 	padding: 10px;

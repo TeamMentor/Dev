@@ -29,13 +29,15 @@ body { background: #222; font: 12px/1.7em arial, sans-serif; margin: 75px; }
 }
 
 #login_panel .login_fields { padding: 22px 15px 15px; }
-	#login_panel .login_fields input { width: 355px; }
+	#login_panel .login_fields input { width: 355px; color: black; background: none; }
 
 #login_panel .field { margin-bottom: 1.75em; }
 	#login_panel .field:last-child { margin-bottom: .85em; }
 	
-	#login_panel .field label { font-weight: bold; color: #555; display: block; position: relative; } 	
+	#login_panel .field label { font-weight: bold; color: #555; display: block; position: relative;; background: none; } 	
 		#login_panel .field label small { position: absolute; right: 0; top: -2px; }
 			#login_panel .field label small a { color: #999; }
 
 #login .login_actions { background: #E8E8E8; width: auto; padding: 12px 15px; border-top: 1px dotted #CCC; }
+
+html body div#login div#login_panel form#loginForm.form div.login_fields div.field label.error {height: 0px;width: 0px;padding: 0px;margin: 0px; visibility: hidden; display: none; }

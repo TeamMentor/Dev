@@ -582,7 +582,9 @@
     <Content Include="Javascript\_mappings\HomePage_JS.txt" />
     <Content Include="Javascript\_mappings\HomePage_JS_TM.txt" />
     <Content Include="TBot\Tests\hello.cshtml" />
-    <Content Include="TBot\Tests\theTime.cshtml" />
+    <Content Include="TBot\UsersActivities\View_History_by_Page.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="TBot\TBotMain.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -666,6 +668,16 @@
     <Content Include="TBot\Admin\Import Legacy Users.cshtml" />
     <Content Include="TBot\Users\New Random User.cshtml" />
     <Content Include="TBot\Admin\UserData FirstScript.cshtml" />
+    <Content Include="TBot\Tests\theTime.cshtml" />
+    <Content Include="TBot\UsersExpiration\Users_With_Expired_Passwords.cshtml" />
+    <Content Include="TBot\UsersExpiration\Users_With_Expired_Accounts.cshtml" />
+    <Content Include="TBot\UsersExpiration\Users_With_Disabled_Accounts.cshtml" />
+    <Content Include="TBot\UsersActivities\History.cshtml" />
+    <Content Include="TBot\UsersActivities\History_Filtered.cshtml" />
+    <Content Include="TBot\UsersActivities\View_History_by_IP_Address.cshtml" />
+    <Content Include="TBot\Messaging\View_Feedback.cshtml" />
+    <Content Include="TBot\UsersActivities\Login_History.cshtml" />
+    <Content Include="TBot\UsersActivities\View_History_by_Statistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

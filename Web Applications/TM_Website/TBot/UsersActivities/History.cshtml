@@ -1,0 +1,78 @@
+﻿
+@using System
+@using System.Collections.Generic
+@using System.Linq
+@using O2.DotNetWrappers.ExtensionMethods
+@using TeamMentor.CoreLib
+
+@{
+    var username = System.Web.HttpContext.Current.Request.QueryString["username"];
+    var detail = System.Web.HttpContext.Current.Request.QueryString["detail"];
+    var action = System.Web.HttpContext.Current.Request.QueryString["action"];
+    int[] displayCount = {0};
+    var maxDisplayCount = System.Web.HttpContext.Current.Request["max"].toInt();
+
+    if (maxDisplayCount == 0) {
+        maxDisplayCount = 50;
+    }
+
+    IEnumerable<UserActivity> userActivity;
+
+    if (username == null)
+    {
+        userActivity = TM_UserData
+            .Current
+            .TMUsers
+            .SelectMany(x => x.UserActivities
+                                .Where(y => y.Action == (action ?? y.Action) && 
+                                            y.Detail == (detail ?? y.Detail)));
+    }
+    else
+    {
+        userActivity = TM_UserData
+            .Current
+            .TMUsers
+            .First(x => x.UserName.Equals(username, StringComparison.InvariantCultureIgnoreCase))
+            .UserActivities.Where(y => y.Action == (action ?? y.Action) && y.Detail == (detail ?? y.Detail));
+    }
+    
+}
+
+@{
+    <h5>@username @action History</h5>
+
+    <ul>
+        <table class="table table-striped table-condensed">
+            @{ 
+                var date = DateTime.MinValue; 
+                var count = 0; 
+            }
+            @foreach (var activity in userActivity.OrderByDescending(z => z.When)
+                                                .TakeWhile(login => displayCount[0] <= maxDisplayCount))
+            {
+                if (activity.When.ToDate() != date)
+                {
+                    <tr>
+                        <th>Action</th>
+                        <th>Detail</th>
+                        <th>Who</th>
+                        <th>@activity.When.ToDate().ToShortDateString()</th>
+                        <th>IP Address</th>
+                    </tr>
+
+                    date = activity.When.ToDate();
+                }                
+                <tr>
+                    <td><a href="User_Action_History?action=@activity.Action">@activity.Action</a> </td>
+                    <td><a href="User_Action_History?detail=@activity.Detail">@activity.Detail</a> </td>
+                    <td><a href="User_Action_History?username=@activity.Who">@activity.Who</a> </td>
+                    <td>@activity.When.ToDateTimeString() </td>
+                    <td>@activity.IPAddress </td>
+                </tr>
+                displayCount[0]++;
+            }
+        </table>
+    </ul>
+}
+
+It's @DateTime.Now.ToLongTimeString() on @DateTime.Now.ToLongDateString()
