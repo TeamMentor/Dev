@@ -336,6 +336,12 @@ namespace TeamMentor.CoreLib
         { 
             return article.xmlDB_Save_Article(article.Metadata.Library_Id, tmDatabase);
         }
+        [EditArticles]public static TeamMentor_Article xmlDB_Preview_Article(this TeamMentor_Article article)
+        {
+            article.sanitize();
+            
+            return article;
+        }
         [EditArticles]  public static bool xmlDB_Save_Article(this TeamMentor_Article article, Guid libraryId, TM_Xml_Database tmDatabase)
         {
             if (libraryId == Guid.Empty)                                                // ensure we have a library to put the Article in
@@ -344,15 +350,8 @@ namespace TeamMentor.CoreLib
                 return false;
             }                         
                         
-            if(article.Content.DataType.lower() == "html")                              // tidy the html
-            {
-                var cdataContent=  article.Content.Data.Value.replace("]]>", "]] >");   // xmlserialization below will break if there is a ]]>  in the text                
-                var tidiedHtml = cdataContent.tidyHtml();
-                
-                article.Content.Data.Value = tidiedHtml;
-                if (article.serialize(false).inValid())                                 // see if the tidied content can be serialized  and if not use the original data              
-                    article.Content.Data.Value = cdataContent;
-            }            
+            article.sanitize();
+      
             article.Metadata.Library_Id = libraryId;                                    // ensure the LibraryID is correct
 
             if (article.serialize(false).notValid())                                    // make sure the article can be serilialized  correctly

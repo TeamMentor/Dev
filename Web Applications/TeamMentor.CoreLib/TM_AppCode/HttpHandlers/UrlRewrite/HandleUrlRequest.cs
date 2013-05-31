@@ -28,6 +28,7 @@ namespace TeamMentor.CoreLib
         {
             Server_Transfers.add("teammentor", "/html_pages/Gui/TeamMentor.html")
                             .add("articleviewer", "/html_pages/GuidanceItemViewer/GuidanceItemViewer.html")
+                            .add("preview", "/html_pages/GuidanceItemViewer/GuidanceItemViewer.html")
                             .add("articleeditor", "/html_pages/GuidanceItemEditor/GuidanceItemEditor.html")
                             .add("passwordreset", "/Html_Pages/Gui/Pages/passwordReset.html")
                             .add("passwordforgot", "/Html_Pages/Gui/Pages/passwordForgot.html")

@@ -26,8 +26,9 @@ namespace TeamMentor.CoreLib
         [WebMethod(EnableSession = true)] 	public List<String>             GetAllLibraryIds   () 						        { return tmXmlDatabase.tmLibraries().ids().toStringList();  }
         [WebMethod(EnableSession = true)] 	public Library                  GetLibraryById     (Guid libraryId) 				{ return tmXmlDatabase.tmLibrary(libraryId).library(tmXmlDatabase);	    }  	
         [WebMethod(EnableSession = true)] 	public Library                  GetLibraryByName   (string libraryName) 			{ return tmXmlDatabase.tmLibrary(libraryName).library(tmXmlDatabase);	}  	
-        [WebMethod(EnableSession = true)]	public TeamMentor_Article       GetGuidanceItemById(Guid guidanceItemId)		    { return tmXmlDatabase.tmGuidanceItem(guidanceItemId);                  }  	
-
+        [WebMethod(EnableSession = true)]	public TeamMentor_Article       GetGuidanceItemById(Guid guidanceItemId)		    { return tmXmlDatabase.tmGuidanceItem(guidanceItemId);                  }
+        
+        [WebMethod(EnableSession = true)][EditArticles]                         public TeamMentor_Article GetPreview(TeamMentor_Article guidanceItem) { return guidanceItem.xmlDB_Preview_Article(); }  	
         [WebMethod(EnableSession = true)] 	[EditArticles]	                        public Library_V3 CreateLibrary(Library library)	{ resetCache(); return tmXmlDatabase.xmlDB_NewGuidanceExplorer(library.id.guid(), library.caption).libraryV3();                            }  	
         [WebMethod(EnableSession = true)] 	[EditArticles]	                     	public bool UpdateLibrary(Library library) 			{ resetCache(); return tmXmlDatabase.xmlDB_UpdateGuidanceExplorer(library.id.guid(), library.caption, library.delete);                     }  	                        
         [WebMethod(EnableSession = true)]	[EditArticles]	                     	public View_V3 CreateView(Guid folderId, View view) { resetCache(); return tmXmlDatabase.newView(folderId, view); }  	

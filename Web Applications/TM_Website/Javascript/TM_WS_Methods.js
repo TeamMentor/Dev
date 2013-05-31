@@ -178,6 +178,15 @@ function updateGuidanceItemHtml(id, htmlContent, callback)
                         }};
     updateGuidanceItem(guidanceItem, callback);
 }*/
+
+function previewGuidanceItem(guidanceItem, callback)
+{
+    var url = TM.tmWebServices + 'GetPreview';
+    var params =  JSON.stringify(guidanceItem);
+//	alert("previewing data" + params);						
+    invokeWebService( url, params, callback, defaultErrorHandler);
+}
+
 function updateGuidanceItem(guidanceItem, callback)
 {
     var url = TM.tmWebServices + 'UpdateGuidanceItem';
