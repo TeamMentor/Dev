@@ -175,7 +175,6 @@
     <Content Include="Html_Pages\ControlPanel\Views\Admin_Links_LeftMenu.html" />
     <Content Include="Html_Pages\ControlPanel\Views\Admin_Tasks.html" />
     <Content Include="Html_Pages\ControlPanel\Views\File_Upload.html" />
-    <Content Include="Html_Pages\ControlPanel\Views\GitHub_Sync.html" />
     <Content Include="Html_Pages\ControlPanel\Views\Install_Libraries.html" />
     <Content Include="Html_Pages\ControlPanel\Views\TeamMentor_QUnitTests.html" />
     <Content Include="Html_Pages\ControlPanel\Views\Top_Banner.html" />
