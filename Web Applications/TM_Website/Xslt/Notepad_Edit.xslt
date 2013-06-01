@@ -105,7 +105,7 @@
                   $.ctrl('S', saveContent);
                   $(".Content").keydown(setSaveButtonText);
                   $("#OpenArticle").click(openArticle);
-                  $("#PreviewChanges").click(function () { previewEditorCode(id); });
+                  $("#PreviewChanges").click(function () { previewEditorCode(id); return false;});
                   setSaveButtonText();     
                   $("textarea").tabby();
                   $("body").show();                  

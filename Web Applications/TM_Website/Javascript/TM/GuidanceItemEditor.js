@@ -394,7 +394,7 @@
 
                 loadedGuidanceItem.Content.Data_Json = htmlCode;
 
-                var savedGuidanceItem = { guidanceItem: loadedGuidanceItem };
+                savedGuidanceItem = { guidanceItem: loadedGuidanceItem };    // this needs to be a global variable since it is used on the updateCacheWithSavedGuidanceItem function below (todo: this should be a global variable)
 
                 return savedGuidanceItem;
             }
