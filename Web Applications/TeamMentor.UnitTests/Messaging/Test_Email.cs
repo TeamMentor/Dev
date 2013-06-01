@@ -27,7 +27,7 @@ namespace TeamMentor.UnitTests.CoreLib
         public void Check_TM_Server_URL()
         {
             var tmServerUrl = SendEmails.TM_Server_URL;
-            Assert.IsNull(tmServerUrl);     //shouldn't be set unless the HttpContext exists
+            Assert.IsEmpty(tmServerUrl);     //shouldn't be set unless the HttpContext exists
         }
 
         [Test]
