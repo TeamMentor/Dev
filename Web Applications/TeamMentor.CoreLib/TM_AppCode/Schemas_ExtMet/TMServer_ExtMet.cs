@@ -58,7 +58,7 @@ namespace TeamMentor.CoreLib
         public static string get_Path_TMServer_Config(this TM_Xml_Database tmDatabase)
         {
             return (tmDatabase.notNull() && tmDatabase.UsingFileStorage)
-                        ? tmDatabase.Path_XmlDatabase.pathCombine(TMConsts.TM_Server_FILENAME)
+                        ? tmDatabase.Path_XmlDatabase.pathCombine(TMConsts.TM_SERVER_FILENAME)
                         : null;            
         }
         public static TMServer load_TMServer_Config(this TM_Xml_Database tmDatabase)

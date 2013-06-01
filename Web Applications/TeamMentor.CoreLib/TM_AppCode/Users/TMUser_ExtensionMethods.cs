@@ -112,7 +112,7 @@ namespace TeamMentor.CoreLib
             }
             return Guid.Empty;
         }
-        public static string    passwordExpiredUrl(this TM_User user)
+        public static string    passwordExpiredUrl  (this TM_User user)
         {
             if (user.notNull())
             {
@@ -126,8 +126,7 @@ namespace TeamMentor.CoreLib
             }
             return "/error";
         }
-
-        public static string    userHostAddress(this TMUser tmUser)
+        public static string    userHostAddress     (this TMUser tmUser)
         {
             try
             {
@@ -139,6 +138,17 @@ namespace TeamMentor.CoreLib
                 return "0.0.0.0";
             }
         }
+        public static string    fullName            (this TMUser tmUser)
+        {
+            if (tmUser.notNull())
+                if (tmUser.FirstName.valid())
+                {
+                    if (tmUser.LastName.valid())
+                        return "{0} {1}".format(tmUser.FirstName, tmUser.LastName);
+                    return tmUser.FirstName;
+                }
+            return "";
+        }        
     }
 
     public static class TM_User_ExtensionMethod_Validation
