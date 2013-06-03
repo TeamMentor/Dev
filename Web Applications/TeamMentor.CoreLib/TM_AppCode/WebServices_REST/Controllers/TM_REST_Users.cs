@@ -40,7 +40,7 @@ namespace TeamMentor.CoreLib
 	    {
 	        return TmWebServices.UpdateUser(user.UserId, user.UserName, user.FirstName, 
                                             user.LastName, user.Title, user.Company, user.Email,
-                                            user.Country, user.State, user.ExpirationDate, user.PasswordExpired, user.UserEnabled, -1);
+                                            user.Country, user.State, user.ExpirationDate, user.PasswordExpired, user.UserEnabled, user.GroupID);
 	    }
 	    [Admin] public TM_User			user(string userNameOrId)
 		{
@@ -61,7 +61,12 @@ namespace TeamMentor.CoreLib
         [Admin] public bool				DeleteUser(string userId)
 		{
 			return TmWebServices.DeleteUser(userId.toInt());
-		}		
+		}
+        [Admin]
+        public bool change_password(string userId, string newPassword)
+        {
+            return TmWebServices.SetUserPassword(userId.toInt(), newPassword);
+        }	
         [Admin] public bool             user_Update(TM_User user)
 		{
 			var groupId = -1; //not implemented for now

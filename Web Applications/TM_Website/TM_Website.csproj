@@ -678,6 +678,7 @@
     <Content Include="TBot\VirtualArticles\Article_Links.cshtml" />
     <Content Include="TBot\Admin\Config\Edit_TMConfig.cshtml" />
     <Content Include="TBot\Admin\Config\TMServer_Config.cshtml" />
+    <Content Include="TBot\Views\User_ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

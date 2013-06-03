@@ -22,8 +22,9 @@
     
     <a href="User_View?userName=@tmUser.UserName" class="btn btn-info" >View User</a>
     <a href="User_Edit?@tmUser.UserName" class="btn btn-info" >Edit User</a>
-    <a href="User_Activities?userName={{userData.UserName}}" class="btn btn-info" disabled>View Activity/Logs</a>
-    <a href="User_Raw?userName=@tmUser.UserName">Raw/Xml Data</a>
+    <a href="User_ChangePassword?@tmUser.UserName" class="btn btn-info">Change Password</a>
+    <a href="User_Activities?userName=@tmUser.UserName" class="btn btn-info" disabled>View Activity/Logs</a>
+    <a href="User_Raw?userName=@tmUser.UserName" class="btn btn-info">Raw/Xml Data</a>
 
     <h5>User Activity (top @max of @tmUser.UserActivities.size())</h5>
 

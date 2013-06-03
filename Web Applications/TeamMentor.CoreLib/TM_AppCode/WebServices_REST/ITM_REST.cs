@@ -48,6 +48,7 @@ namespace TeamMentor.CoreLib
 						
 		[OperationContract] [WebGet	  (UriTemplate = "/user/{nameOrId}"			)]					TM_User		user(string nameOrId);
         [OperationContract] [WebInvoke(UriTemplate = "/user", Method = "PUT"    )]		            bool		user_Save(TM_User user);
+        [OperationContract] [WebInvoke(UriTemplate = "/user/changePassword", Method = "PUT", BodyStyle=WebMessageBodyStyle.WrappedRequest   )]		            bool		change_password(string UserId, string newPassword);
 		//[OperationContract] [WebGet	  (UriTemplate = "/users/{usersIds}"	)]					List<TM_User>	users(string usersIds);
 		[OperationContract] [WebGet	  (UriTemplate = "/users"				    )]					List<TM_User>	users();
 
