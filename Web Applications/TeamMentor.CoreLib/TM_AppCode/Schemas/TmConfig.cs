@@ -11,6 +11,17 @@ namespace TeamMentor.CoreLib
         public WindowsAuthentication_Config WindowsAuthentication		{ get; set; }
         public Git_Config			        Git				            { get; set; }
         public OnInstallation_Config		OnInstallation				{ get; set; }
+        public VirtualArticles_Config       VirtualArticles             { get; set; }
+
+        public TMConfig()
+        {            
+            TMSetup                 = new TMSetup_Config();
+            TMSecurity              = new TMSecurity_Config();
+            WindowsAuthentication   = new WindowsAuthentication_Config();
+            OnInstallation          = new OnInstallation_Config();
+            Git                     = new Git_Config();
+            VirtualArticles         = new VirtualArticles_Config();
+        }
 
         public class TMSetup_Config
         {
@@ -56,7 +67,6 @@ namespace TeamMentor.CoreLib
                 Default_AdminEmail           = "TM_alerts@securityinnovation.com";
             }
         }
-
         public class WindowsAuthentication_Config
         {				
             public bool		    Enabled		                { get; set; }
@@ -72,16 +82,23 @@ namespace TeamMentor.CoreLib
                 AdminGroup            = "TM_Admin";
             }
         }        
-
         public class Git_Config
         {
-            public bool         AutoCommit_UserData         { get; set; }
-            public bool         AutoCommit_LibraryData      { get; set; }         
+            public bool         UserData_Git_Enabled         { get; set; }
+            public bool         UserData_Auto_Pull           { get; set; }
+            public bool         UserData_Auto_Push           { get; set; }
+            public bool         LibraryData_Git_Enabled      { get; set; }
+            public bool         LibraryData_Auto_Pull        { get; set; }
+            public bool         LibraryData_Auto_Push        { get; set; }         
 
             public Git_Config()
             {
-                AutoCommit_LibraryData          = false;            // (disabled by default) will only work if the library is a git repository
-                AutoCommit_UserData             = false;            // (disabled by default)  should always trigger, since the UserData folder repo is created if not there before
+                LibraryData_Git_Enabled          = true;                 // all user and library data should be controled by Git
+                UserData_Git_Enabled             = true;            
+                LibraryData_Auto_Pull            = true;                 // pull is automatic (or changed on TMConfig file                
+                UserData_Auto_Pull               = true;               
+                LibraryData_Auto_Push            = false;                // push must be set on the TM config
+                UserData_Auto_Push               = false;
             }
         }
         public class OnInstallation_Config
@@ -96,77 +113,46 @@ namespace TeamMentor.CoreLib
                 DefaultLibraryToInstall_Name     = "";
                 DefaultLibraryToInstall_Location = "";
             }
-        }        
+        }
+        public class VirtualArticles_Config
+        {
+            public bool         AutoRedirectIfGuidNotFound          { get; set; }
+            public string       AutoRedirectTarget                  { get; set; }
+
+            public VirtualArticles_Config()
+            {
+                AutoRedirectIfGuidNotFound = false;
+                AutoRedirectTarget         = "https://teammentor.net/article/";
+            }
+        }
     }
     
     
-    //load and save functionality
+    //with static vars load and save 
     public partial class TMConfig
-    {	
-        private static string		_baseFolder;
-        private static TMConfig		_current;
+    {
+        public static TMConfig Current          { get; set; }
+        public static string   Location         { get; set; }
+        public static string   WebRoot          { get; set; }
+        public static string   AppData_Folder   { get; set; }
 
-        public static string        BaseFolder      
-        { 
-            get {
-                    if (_baseFolder.isNull())
-                        _baseFolder = AppDomain.CurrentDomain.BaseDirectory;
-                    return _baseFolder;
-                } 
-                
-            set {
-                    _baseFolder = value;
-                }
-        }
-        public static String        AppData_Folder  
+        static TMConfig()
         {
-            get { return BaseFolder.pathCombine("App_Data"); }
-        }
-        public static string        Location	    
-        {
-            get
-            {				
-                return BaseFolder.pathCombine("TMConfig.config");
-            }
-        }				        
-        public static TMConfig      Current         
-        { 
-            get
-            {					                
-                if (_current.isNull())
-                    loadConfig();
-                return _current;
-            }
-            set { _current = value; }
-        }
-        public static TMConfig      loadConfig()    
-        {             
-            if (Location.fileExists())
-                _current = Location.load<TMConfig>();
-            else
-            {
-             //   "In TMConfig.loadConfig, provided location was not found(returning default object): {0}".debug(Location);
-                _current = new TMConfig();
-                _current.SaveTMConfig();
-            }
-            return _current;
+            Current         = new TMConfig();
+            WebRoot         = AppDomain.CurrentDomain.BaseDirectory;
+            AppData_Folder  = WebRoot.pathCombine("App_Data");
         }
 
-        public TMConfig()
+        public TMConfig      reloadConfig()
         {
-            //this.setDefaultValues();
-            TMSetup                 = new TMSetup_Config();
-            TMSecurity              = new TMSecurity_Config();
-            WindowsAuthentication   = new WindowsAuthentication_Config();
-            OnInstallation          = new OnInstallation_Config();
-            Git                     = new Git_Config();
+            return Current = Location.fileExists() 
+                                ? Location.load<TMConfig>() 
+                                : new TMConfig();            
         }
-                                                
+
         public bool SaveTMConfig()
         {
-            if (Location.valid())
-                return this.saveAs(Location);
-            return false;
+            return Location.valid() && this.saveAs(Location);
         }
     }
 }

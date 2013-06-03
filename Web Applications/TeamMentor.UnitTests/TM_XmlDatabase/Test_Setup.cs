@@ -10,11 +10,11 @@ namespace TeamMentor.UnitTests.TM_XmlDatabase
         [Test]
         public void Copy_FilesIntoWebRoot()
         {
-            TMConfig.BaseFolder = "TM_BaseFolder".tempDir(true);                                // Temp webroot folder
-            userData.Path_UserData      = TMConfig.BaseFolder.pathCombine("..//UserData");       // set temp location
+            TMConfig.WebRoot = "TM_BaseFolder".tempDir(true);                                // Temp webroot folder
+            userData.Path_UserData      = TMConfig.WebRoot.pathCombine("..//UserData");       // set temp location
             userData.UsingFileStorage   = true;
 
-            var targetFolder = TMConfig.BaseFolder;
+            var targetFolder = TMConfig.WebRoot;
             var userDataPath = userData.Path_UserData;
             var webRootFiles = userData.Path_WebRootFiles;
             var sourceFolder   = userDataPath.pathCombine(webRootFiles);

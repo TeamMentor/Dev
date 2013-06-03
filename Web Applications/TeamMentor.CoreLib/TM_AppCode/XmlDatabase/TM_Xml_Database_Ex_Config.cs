@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.Windows;
 
@@ -12,7 +11,7 @@ namespace TeamMentor.CoreLib
             var sourceFolder = tmDatabase.UserData.webRootFiles();
             if (sourceFolder.notValid())
                 return false;
-            var targetFolder = TMConfig.BaseFolder;            
+            var targetFolder = tmDatabase.webRoot();
             if (targetFolder.pathCombine("web.config").fileExists().isFalse())
             {
                 "[copy_FilesIntoWebRoot] failed because web.config was not found on targetFolder: {0}".error(targetFolder);

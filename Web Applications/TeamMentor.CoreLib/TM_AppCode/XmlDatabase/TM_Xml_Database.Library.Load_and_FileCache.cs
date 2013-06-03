@@ -12,19 +12,21 @@ namespace TeamMentor.CoreLib
     public static class TM_Xml_Database_Git
     {
         public static TM_Xml_Database setupGitSupport(this TM_Xml_Database tmDatabase)
-        {            
-            if (tmDatabase.AutoGitCommit)
+        {
+            var gitConfig = tmDatabase.tmConfig().Git;
+
+            if (gitConfig.LibraryData_Git_Enabled)
             {
                 foreach (var library in tmDatabase.tmLibraries())
                 {
-                    var libraryPath = tmDatabase.xmlDB_LibraryPath(library.Caption).parentFolder();
+                    var libraryPath = tmDatabase.xmlDB_Path_Library_XmlFile(library).parentFolder();
                     if (libraryPath.isGitRepository())
                     {
                         var nGit = libraryPath.git_Open();
                         try
                         {
-                            nGit.pull();                            
-                            nGit.push();
+                            nGit.git_Pull_Library();
+                            nGit.git_Push_Library();
                         }
                         catch (Exception ex)
                         {
@@ -34,23 +36,47 @@ namespace TeamMentor.CoreLib
                         tmDatabase.NGits.Add(nGit);
                     }
                 }
-                tmDatabase.triggerGitCommit();
-                /*tmDatabase.NGit = tmDatabase.Path_XmlLibraries.isGitRepository() 
-                                        ? tmDatabase.Path_XmlLibraries.git_Open() 
-                                        : tmDatabase.Path_XmlLibraries.git_Init();
-                tmDatabase.triggerGitCommit();*/
+                tmDatabase.triggerGitCommit();                
             }
             return tmDatabase;        
         }
         public static TM_Xml_Database   triggerGitCommit (this TM_Xml_Database tmDatabase)
         {
-            if (tmDatabase.AutoGitCommit)
+            if (tmDatabase.tmConfig().Git.LibraryData_Git_Enabled)
             {
                 foreach(var nGit in tmDatabase.NGits)
                     if (nGit.status().valid())
                         nGit.gitCommit_SeparateThread();
             }
             return tmDatabase;
+        }
+
+        public static API_NGit git_Push_Library(this API_NGit nGit)
+        {
+            if (TMConfig.Current.Git.LibraryData_Auto_Push)
+                try
+                {
+                    nGit.push();
+                }
+                catch (Exception ex)
+                {
+                    ex.log("git_Push_Library");
+                }
+            return nGit;
+        }
+
+        public static API_NGit git_Pull_Library(this API_NGit nGit)
+        {
+            if (TMConfig.Current.Git.LibraryData_Auto_Pull)
+                try
+                {
+                    nGit.pull();
+                }
+                catch (Exception ex)
+                {
+                    ex.log("git_Pull_Library");
+                }
+            return nGit;
         }
 
         public static API_NGit gitCommit_SeparateThread(this API_NGit nGit)
@@ -60,15 +86,7 @@ namespace TeamMentor.CoreLib
                         lock (nGit)
                         {
                             nGit.add_and_Commit_using_Status();
-                            try
-                            {
-                                nGit.push();
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.log();
-                            }
-                            
+                            nGit.git_Push_Library();
                         }
                 });
             return nGit;
@@ -107,7 +125,7 @@ namespace TeamMentor.CoreLib
     }
 
     // this is a (bit) time consumining (less 1s for 8000 files), so it should only be done once (this is another good cache target)
-    public static class TM_Xml_Database_Load_and_FileCache_Utils
+    public static class TM_Xml_Database_Load_And_FileCache_Utils
     {		
         public static void populateGuidanceItemsFileMappings(this TM_Xml_Database tmXmlDatabase)
         {
@@ -133,7 +151,7 @@ namespace TeamMentor.CoreLib
         }
     }
 
-    public static class TM_Xml_Database_ExtensionMethods_Load_and_FileCache
+    public static class TM_Xml_Database_ExtensionMethods_Load_And_FileCache
     {
         public static Thread thread_Save_GuidanceItemsCache;
 
@@ -377,15 +395,7 @@ namespace TeamMentor.CoreLib
                 //"in getXmlFilePathForGuidanceId, found id in current mappings: {0}".info( guidanceItemId);
                 return TM_Xml_Database.Current.GuidanceItems_FileMappings[guidanceItemId];
             }
-            //then update the GuidanceItems_FileMappings dictionary
-
-            //tmDatabase.populateGuidanceItemsFileMappings();
-
-            if (TM_Xml_Database.Current.GuidanceItems_FileMappings.hasKey(guidanceItemId))
-            {
-                "[getXmlFilePathForGuidanceId] found id after reindex: {0}".info( guidanceItemId);
-                return TM_Xml_Database.Current.GuidanceItems_FileMappings[guidanceItemId];
-            }
+            //then update the GuidanceItems_FileMappings dictionary            
             
             if (libraryId == Guid.Empty)
             {
@@ -398,13 +408,12 @@ namespace TeamMentor.CoreLib
                 "[getXmlFilePathForGuidanceId] When creating a new GuidanceItem could not find library for libraryId: {0}".error(libraryId);
                 return null;
             }
-            var newGuidanceVirtualFolder = "{0}\\Articles".format(tmLibrary.Caption);
-            // if not store it on a _GuidanceItems folder
-            var xmlPath = TM_Xml_Database.Current.Path_XmlLibraries
-                                         .pathCombine(newGuidanceVirtualFolder)
-                                         .createDir()
+            var libraryPath = tmDatabase.xmlDB_Path_Library_RootFolder(tmLibrary);
+            var newArticleFolder = libraryPath.pathCombine(TMConsts.DEFAULT_ARTICLE_FOLDER_NAME);
+            var xmlPath = newArticleFolder.createDir()                                         
                                          .pathCombine("{0}.xml".format(guidanceItemId));
-            "in getXmlFilePathForGuidanceId, no previous mapping found so guidanceitem to :{0}".info(xmlPath);
+
+            "in getXmlFilePathForGuidanceId, no previous mapping found so adding new GuidanceItems_FileMappings for :{0}".info(xmlPath);
 
             TM_Xml_Database.Current.GuidanceItems_FileMappings.add(guidanceItemId, xmlPath); //add it to the file_mappings dictionary so that we know it for next time
             return xmlPath;

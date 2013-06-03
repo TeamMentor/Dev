@@ -68,12 +68,8 @@ namespace TeamMentor.CoreLib
         [XmlAttribute]	public bool     UserEnabled		    { get; set; }        
     }
     public class UserStats
-    {
-        
-        [XmlAttribute]	public DateTime CreationDate		{ get; set; }		
-        [XmlAttribute]	public DateTime LastLogin			{ get; set; }
-        [XmlAttribute] public int       LoginOk		        { get; set; }
-        [XmlAttribute] public int       LoginFail           { get; set; }
+    {        
+        [XmlAttribute]	public DateTime CreationDate		{ get; set; }		        
     }
 
 }

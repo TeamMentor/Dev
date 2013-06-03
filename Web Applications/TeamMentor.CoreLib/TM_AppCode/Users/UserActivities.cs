@@ -71,7 +71,7 @@ namespace TeamMentor.CoreLib
                         Detail    = detail, 
                         Who       = tmUser.notNull() ? tmUser.UserName :"[NoUser]",
                         When      = DateTime.Now.ToFileTimeUtc(),
-                        IPAddress = HttpContextFactory.Request.UserHostAddress
+                        IPAddress = tmUser.userHostAddress()
                     };
                 return userActivites.LogUserActivity(tmUser , userActivity);
             }

@@ -17,9 +17,9 @@ namespace TeamMentor.UnitTests.REST_Direct
             var dllLocation		    = assembly.CodeBase.subString(8);
             var webApplications     = dllLocation.parentFolder().pathCombine(@"\..\..\..");
             var tmWebsite 		    = webApplications.pathCombine("TM_Website");
-            var tmConfig            = tmWebsite.pathCombine("TmConfig.config");
+            var webConfig            = tmWebsite.pathCombine("Web.config");
             moq_HttpContext.BaseDir = tmWebsite;
-            Assert.IsTrue(tmConfig.fileExists(), "couldn't find tmconfig file at: {0}".format(tmConfig));
+            Assert.IsTrue(webConfig.fileExists(), "couldn't find webConfig file at: {0}".format(webConfig));
         }
 
         [Test]

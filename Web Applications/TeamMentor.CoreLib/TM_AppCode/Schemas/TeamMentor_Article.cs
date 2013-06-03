@@ -2,6 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using FluentSharp;
 using O2.DotNetWrappers.ExtensionMethods;
 using System.Web.Script.Serialization;
 using Microsoft.Security.Application;
@@ -222,6 +223,25 @@ namespace TeamMentor.CoreLib
             }
 
             return article;
+        }
+
+        public static void sanitize(this TeamMentor_Article article)
+        {
+            if (article.Content.DataType.lower() == "html") // tidy the html
+            {
+                string cdataContent = article.Content.Data.Value.replace("]]>", "]] >");
+                // xmlserialization below will break if there is a ]]>  in the text                
+
+                string tidiedHtml = cdataContent.tidyHtml();
+
+                article.Content.Data.Value = tidiedHtml;
+
+                if (article.serialize(false).inValid())
+                    // see if the tidied content can be serialized  and if not use the original data              
+                {
+                    article.Content.Data.Value = cdataContent;
+                }
+            }
         }
 
         //fix double encoding caused by JSON?CDATA/XML transfer of XML data

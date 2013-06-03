@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Security.Application;
-using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
-using O2.FluentSharp;
 
 namespace TeamMentor.CoreLib
 {
@@ -115,11 +113,12 @@ namespace TeamMentor.CoreLib
             "[updateTmUser] provided username didn't match provided tmUser".error();
             return false;
         }
-        
 
-        public static TM_UserData   handle_UserData_ConfigActions(this TM_UserData userData)
-        {
-            var userConfigFile = userData.Path_UserData.pathCombine("TMConfig.config");
+
+        public static TM_UserData load_TMConfigFile(this TM_UserData userData)
+        {            
+            TMConfig.Location = userData.Path_UserData.pathCombine(TMConsts.TM_CONFIG_FILENAME);
+            var userConfigFile = TMConfig.Location; 
             if (userConfigFile.fileExists())
             {
                 var newConfig = userConfigFile.load<TMConfig>();
@@ -127,10 +126,11 @@ namespace TeamMentor.CoreLib
                     "[handleUserDataConfigActions] failed to load config file from: {0}".error(userConfigFile);
                 else
                 {
-                    TMConfig.Current = newConfig;
-                    userData.AutoGitCommit = newConfig.Git.AutoCommit_UserData;     // in case this changed
+                    TMConfig.Current = newConfig;                    
+                    return userData;
                 }
             }
+            TMConfig.Current.SaveTMConfig(); // if the TMConfig.config doesn't exist or failed to load, save it with the current TMConfig.Current
             return userData;
         }
 

@@ -56,8 +56,7 @@ namespace TeamMentor.CoreLib
                             tmUser.logUserActivity("Login Fail",  "pwd ok, but account disabled");
                         }
                         else
-                        {
-                            tmUser.Stats.LoginFail++;
+                        {                            
                             tmUser.logUserActivity("Login Fail", "bad pwd");                            
                         }
                     }
@@ -84,12 +83,9 @@ namespace TeamMentor.CoreLib
                 if (tmUser.notNull())               // there is a valid user
                 {
                     if (sessionId != Guid.Empty)    // there was a valid session set
-                    {                        
-                        tmUser.Stats.LastLogin = DateTime.Now;
-                        tmUser.Stats.LoginOk++;
+                    {                                                
                         tmUser.SecretData.SessionID = sessionId;
-                        tmUser.logUserActivity("User Login", tmUser.UserName);          // will save the user                                              
-                        SendEmails.SendEmailAboutUserToTM("Logged In", tmUser);
+                        tmUser.logUserActivity("User Login", tmUser.UserName);          // will save the user                                                                      
                         return sessionId;
                     }                    
                 }
@@ -120,9 +116,7 @@ namespace TeamMentor.CoreLib
                 if (tmUser.notNull() && sessionId.validSession())
                 {
                     tmUser.logUserActivity("User Logout", tmUser.UserName);
-                    tmUser.SecretData.SessionID = Guid.Empty;
-                    //userData.ActiveSessions.Remove(sessionId);
-                    SendEmails.SendEmailAboutUserToTM("Logged Out", tmUser);
+                    tmUser.SecretData.SessionID = Guid.Empty;                                        
                     return true;
                 }
             }

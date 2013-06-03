@@ -14,14 +14,12 @@ namespace TeamMentor.CoreLib
         public string 	                Path_UserData 	    { get; set; }	
         public string 	                Path_UserData_Base 	{ get; set; }
         public string 	                Path_WebRootFiles   { get; set; }
-        public string                   FirstScriptToInvoke { get; set; }
-        public string 	                Git_UserData 	    { get; set; }
+        public string                   FirstScriptToInvoke { get; set; }        
         public List<TMUser>	            TMUsers			    { get; set; }
         public TM_SecretData            SecretData          { get; set; }
         
         //public Dictionary<Guid, TMUser>	ActiveSessions	    { get; set; }
-        public bool                     UsingFileStorage    { get; set; }        
-        public bool                     AutoGitCommit       { get; set; }
+        public bool                     UsingFileStorage    { get; set; }                
         public API_NGit                 NGit                { get; set; }
         
         
@@ -40,30 +38,18 @@ namespace TeamMentor.CoreLib
         {
             FirstScriptToInvoke = "H2Scripts//FirstScriptToInvoke.h2";
             Path_WebRootFiles   = "WebRoot_Files";
-            TMUsers             = new List<TMUser>();            
-            //ActiveSessions      = new Dictionary<Guid, TMUser>();
-            SecretData          = new TM_SecretData();
-            AutoGitCommit       = TMConfig.Current.Git.AutoCommit_UserData;           
+            TMUsers             = new List<TMUser>();                        
+            SecretData          = new TM_SecretData();            
             return this;
         }
 
         public TM_UserData SetUp()
         {
-        /*    return SetUp(true);
-        }
-        public TM_UserData SetUp(bool createDefaultAdminUser)
-        {*/
             try
             {
-                this.setupGitSupport();
+                this.setupGitSupportAndLoadTMConfigFile();
                 this.firstScript_Invoke();                
-                SecretData = this.secretData_Load();
-                
-                //this.secretDataScript_Invoke();
-            
-            
-                //if (createDefaultAdminUser)
-                //   this.createDefaultAdminUser();  // make sure the admin user exists and is configured                            
+                SecretData = this.secretData_Load();                
             }
             catch (Exception ex)
             {

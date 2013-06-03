@@ -108,7 +108,7 @@ namespace TeamMentor.CoreLib
             userData.TMUsers.Add(tmUser);            
         
             //save it
-            SendEmails.SendNewUserEmails("New user created: {0}".format(tmUser.UserName), tmUser);
+            tmUser.email_NewUser_Welcome();
             tmUser.saveTmUser();            
                     
             return userId;    		

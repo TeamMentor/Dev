@@ -16,10 +16,10 @@ namespace TeamMentor.UnitTests.TM_XmlDatabase
         [Test]
         public void DownloadAndInstallLibraryFromZip()
         {            
-            var tmLibraries_Before = tmXmlDatabase.tmLibraries();            
+            var tmLibraries_Before = tmXmlDatabase.tmLibraries();
 
-            Install_LibraryFromZip_TopVulns();
-            Install_LibraryFromZip_TopVulns();          //2nd time should skip install
+            Install_LibraryFromZip_Docs();
+            Install_LibraryFromZip_Docs();          //2nd time should skip install
 
             Assert.IsEmpty(tmLibraries_Before, "No Libraries should be there before install");
             Assert.IsNotEmpty(tmXmlDatabase.tmLibraries(), "After install, no Libraries");
