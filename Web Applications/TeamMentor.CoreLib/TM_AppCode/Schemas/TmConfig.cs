@@ -32,6 +32,7 @@ namespace TeamMentor.CoreLib
             public string 		LibrariesUploadedFiles	    { get; set; }	                           
             public bool         EnableGZipForWebServices	{ get; set; }
             public bool         Enable304Redirects			{ get; set; }
+            public bool         ShowDotNetDebugErrors	    { get; set; }
 
             public TMSetup_Config()
             {
@@ -41,6 +42,7 @@ namespace TeamMentor.CoreLib
                 LibrariesUploadedFiles      = "LibrariesUploadedFiles";
                 Enable304Redirects          = true;
                 EnableGZipForWebServices    = true;
+                ShowDotNetDebugErrors       = false;
             }
         }
         public class TMSecurity_Config
