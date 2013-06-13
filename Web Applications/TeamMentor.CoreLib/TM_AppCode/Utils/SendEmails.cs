@@ -143,17 +143,17 @@ namespace TeamMentor.CoreLib
             try
             {                 
 var userMessage =
-@"Hi {0} {1},  a password reminder was requested for your account.
+@"Hi {0}, a password reminder was requested for your account.
 
-You can change the password of your {2} account using {4}/passwordReset/{2}/{3}
+You can change the password of your {1} account using {3}/passwordReset/{1}/{2}
 
-If you didn't make this request, please let us know at support@teammentor.net.
-             ".format(tmUser.FirstName, tmUser.LastName, tmUser.UserName, passwordResetToken,TM_Server_URL);
+If you didn't make this request, please let us know at support@securityinnovation.com.
+             ".format(tmUser.fullName(), tmUser.UserName, passwordResetToken,TM_Server_URL);
              
                 SendEmailToEmail(tmUser.EMail, "TeamMentor Password Reset", userMessage);
              
-                userMessage = "(sent to: {0})\n\n{1}".format(tmUser.EMail, userMessage);
-                SendEmailToTM("(user email) TeamMentor Password Reset", userMessage);
+                //userMessage = "(sent to: {0})\n\n{1}".format(tmUser.EMail, userMessage);
+                //SendEmailToTM("(user email) TeamMentor Password Reset", userMessage);
                 return true;
             }
             catch (Exception ex)
