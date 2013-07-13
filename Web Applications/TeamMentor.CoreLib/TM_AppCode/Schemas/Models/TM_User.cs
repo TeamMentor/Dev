@@ -23,7 +23,7 @@ namespace TeamMentor.CoreLib
         [DataMember][StringLength(30)]    public string	Title		    { get; set; }
         [DataMember][Required]	                    public int		UserId		    { get; set; }
         [DataMember][Required][StringLength(30)]    public string	UserName	    { get; set; }
-        
+		
         [DataMember][Required][StringLength(50)]  
         [RegularExpression(ValidationRegex.Email)]	public string	Email		    { get; set; }
         
