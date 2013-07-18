@@ -211,8 +211,7 @@ If you didn't make this request, please let us know at support@securityinnovatio
             else
             {
                 var subject = TMConsts.EMAIL_SUBJECT_NEW_USER_WELCOME;
-                var fullName = tmUser.fullName();
-                var userMessage = TMConsts.EMAIL_BODY_NEW_USER_WELCOME.format(fullName, tmUser.UserName, serverUrl);
+                var userMessage = TMConsts.EMAIL_BODY_NEW_USER_WELCOME.format(serverUrl, tmUser.UserName);
                 return SendEmails.SendEmailToEmail(email, subject, userMessage);
             }
             return null;

@@ -12,11 +12,19 @@ namespace TeamMentor.CoreLib
         public static string EMAIL_SUBJECT_NEW_USER_WELCOME   = "Welcome to TeamMentor";
 
         public static string EMAIL_BODY_NEW_USER_WELCOME      =
-@"Hi {0}, welcome to TeamMentor.
+@"Hello,
 
-You can login with your '{1}' account at {2}
+It's a pleasure to confirm that a new TeamMentor account has been created for you and that you'll now be able to access
+the entire set of guidance available in the TM repository.
 
-                ";
+To access the service:
+
+- Go to {0} and login at the top right-hand corner of the page.
+- Use your username : {1}.
+
+Thanks,
+
+";
         public static string EMAIL_DEFAULT_FOOTER             =
 @"
 Sent by TeamMentor. 
