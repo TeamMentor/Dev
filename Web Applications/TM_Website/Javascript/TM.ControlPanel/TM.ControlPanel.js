@@ -23,7 +23,6 @@ TM.ControlPanel =
         
                 
         
-        ,	open_WebServices	: function(targetDiv)		{	TM.ControlPanel.open_Page(targetDiv, "../WebServices/TM_Webservices.html"	);	}        
 
         ,	open_QUnitTests		: function(targetDiv)		{	TM.ControlPanel.open_Page(targetDiv, "TeamMentor_QUnitTests.html"		);	}
         ,	open_InstallLibrary	: function(targetDiv)		{	TM.ControlPanel.open_Page(targetDiv, "Install_Libraries.html"			);	}
