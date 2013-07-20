@@ -258,7 +258,7 @@ var buildGui = function () {
         $("#notAViewerErrorMessage").hide();
     }
     else {
-        $("#notAViewerErrorMessage").show().html("<h2>Access denied.</h2><br/><p>Please close this window or <a href='/Login'>login</a></p>");
+        $("#notAViewerErrorMessage").show().html("<h2>Access denied.</h2><br/><p>If you have a valid account, please <a href='/Login'>login</a>, if not, please <a href='/teamMentor'>sign up</a> for an account to gain access. </p>");
     }
 
     /*if(TM.Gui.CurrentUser.isEditor() )				
