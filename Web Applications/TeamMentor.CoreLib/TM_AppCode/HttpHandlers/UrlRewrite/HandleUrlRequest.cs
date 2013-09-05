@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.WinForms;
+using FluentSharp.CoreLib;
 using Microsoft.Security.Application;
 using System.IO;
 using System.Security;
@@ -28,6 +29,7 @@ namespace TeamMentor.CoreLib
         {
             Server_Transfers.add("teammentor", "/html_pages/Gui/TeamMentor.html")
                             .add("articleviewer", "/html_pages/GuidanceItemViewer/GuidanceItemViewer.html")
+                            .add("preview", "/html_pages/GuidanceItemViewer/GuidanceItemViewer.html")
                             .add("articleeditor", "/html_pages/GuidanceItemEditor/GuidanceItemEditor.html")
                             .add("passwordreset", "/Html_Pages/Gui/Pages/passwordReset.html")
                             .add("passwordforgot", "/Html_Pages/Gui/Pages/passwordForgot.html")
