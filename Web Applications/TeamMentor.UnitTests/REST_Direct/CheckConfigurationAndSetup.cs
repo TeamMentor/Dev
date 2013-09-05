@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 using O2.FluentSharp;
 using TeamMentor.CoreLib;
 
