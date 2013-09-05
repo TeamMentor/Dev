@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#"  Trace="true" %>
-<%@ Import Namespace ="O2.Kernel" %>
-<%@ Import Namespace ="O2.DotNetWrappers.ExtensionMethods" %>
+<%@ Import Namespace="FluentSharp.BCL" %>
+<%@ Import Namespace="FluentSharp.CoreLib" %>
+<%@ Import Namespace="FluentSharp.CoreLib.API" %>
 <%@ Import Namespace="TeamMentor.CoreLib" %>
 
 <%	
@@ -52,7 +53,8 @@
                 color = "green";
             else if (line.starts(new List<string> {"ERROR:", "Exception:"}))
                 color = "red";
-            Response.Write("<span style='color:{0}'>{1}<span><br/>".format(color,line.htmlEncode()));
+            var encodedLine = line.htmlEncode();
+            Response.Write("<span style='color:{0}'>{1}<span><br/>".format(color, encodedLine));
         }
     %>
         </pre>        
