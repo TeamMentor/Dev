@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 
 
 namespace FluentSharp
@@ -26,23 +26,23 @@ namespace FluentSharp
                 return null;
             }
         }
-        public static bool HEAD(this Uri uri)
+        /*public static bool HEAD(this Uri uri)
         {
             return uri.HEAD_Headers().notNull();
-        }
+        }*/
     }
 
     public static class Extra_ExtensionMethods_DateTime
     {
-        public static DateTime fromFileTimeUtc(this long fileTimeUtc)
+        /*public static DateTime fromFileTimeUtc(this long fileTimeUtc)
         {
             return DateTime.FromFileTimeUtc(fileTimeUtc); 
-        }
+        }*/
     }
 
     public static class Extra_ExtensionMethods_Collections
     {
-        public static List<string>  toStringList(this List<Guid> guids)
+        /*public static List<string>  toStringList(this List<Guid> guids)
         {
             return (from guid in guids
                     select guid.str()).toList();
@@ -58,7 +58,7 @@ namespace FluentSharp
             if (list.notNull())
                 list.Reverse();
             return list;
-        }
+        }*/
     }
 
     public static class Extra_ExtensioMethods_Cookies
@@ -113,7 +113,7 @@ namespace FluentSharp
                 response.Cookies.Add(httpCookie);
             return httpCookie;
         }
-
+        
         public static HttpCookie set_Cookie(this HttpRequestBase request, string name, string value)
         {
             if (request.isNull())
