@@ -193,9 +193,13 @@ window.TM.Gui.LibraryTree.selectNode        = function(node)        {
         if (node !==undefined) // isDefined(node))
         {					
             var selectedNodeId = $(node).attr('id');
-            if (selectedNodeId === undefined || selectedNodeId==="") //isUndefined(selectedNodeId) || selectedNodeId==="")
+            if (selectedNodeId === undefined || selectedNodeId === "") //isUndefined(selectedNodeId) || selectedNodeId==="")
             {
                 selectedNodeId = $(node).parent().attr('id');
+                if (selectedNodeId === undefined)                      // cases where the user clicked on the image, and we need to go two parents up
+                {
+                    selectedNodeId = $(node).parent().parent().attr('id');   
+                }
             }
             if (selectedNodeId !== undefined) //isDefined(selectedNodeId))
             {			

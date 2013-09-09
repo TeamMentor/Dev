@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security;
 using System.Web;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 
 namespace TeamMentor.CoreLib
 {
@@ -39,8 +39,10 @@ namespace TeamMentor.CoreLib
             //O2_Utils.showLogViewer_if_LocalHost();                
                           
             TmXmlDatabase           = new  TM_Xml_Database(true);                                   // Create FileSystem Based database            
-            TrackingApplication     = new Tracking_Application(TmXmlDatabase.Path_XmlDatabase);    // Enabled Application Tracking
-            TM_REST.SetRouteTable();	// Set REST routes            
+            TrackingApplication     = new Tracking_Application(TmXmlDatabase.Path_XmlDatabase);     // Enabled Application Tracking
+            
+            TM_REST.SetRouteTable();	                                                            // Set REST routes            
+            MVC4.MapDefaultRoutes();                                                                // Add support for ASP.NET MVC Controllers on the TM_Website
             TrackingApplication.saveLog();
         } 
         public void Application_End()
@@ -61,7 +63,8 @@ namespace TeamMentor.CoreLib
                 
             "[TM][Application_Error]: {0}".error(lastError);
             TrackingApplication.saveLog();
-            HttpContextFactory.Response.Redirect("/error");
+            if (TMConfig.Current.TMSetup.ShowDotNetDebugErrors.isFalse())
+                HttpContextFactory.Response.Redirect(TMConsts.DEFAULT_ERROR_PAGE_REDIRECT);
         }           
         public void Application_BeginRequest()
         {            

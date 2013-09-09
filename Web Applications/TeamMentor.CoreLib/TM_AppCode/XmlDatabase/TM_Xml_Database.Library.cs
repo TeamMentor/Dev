@@ -2,8 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Security.Application;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.FluentSharp;
+using FluentSharp.CoreLib;
 
 //using urn.microsoft.guidanceexplorer.guidanceItem;
 
@@ -71,6 +70,8 @@ namespace TeamMentor.CoreLib
                     }
                 case "wikitext":
                     return "<div id ='tm_datatype_wikitext'>{0}</div>".format(articleContent);
+                case "markdown":
+                    return articleContent.markdown_transform();
                 default:
                     return articleContent;
             }			
@@ -500,6 +501,10 @@ namespace TeamMentor.CoreLib
         public static TMConfig tmConfig(this  TM_Xml_Database tmDatabase)
         {
             return TMConfig.Current;
+        }
+        public static string webRoot(this  TM_Xml_Database tmDatabase)
+        {
+            return TMConfig.WebRoot;
         }
     }
     public static class TM_Xml_Database_ExtensionMethods_OnInstallationActions

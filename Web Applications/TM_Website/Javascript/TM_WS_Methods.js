@@ -85,19 +85,23 @@ function updateUser(userId, userName, firstname, lastname, title, company, email
     var url = TM.tmWebServices + 'UpdateUser';
     var params =  JSON.stringify(
         {
-                 userId          : userId  ,
-                 userName        : userName , 
-                 firstname       : firstname, 
-                 lastname        : lastname, 
-                 title           : title, 
-                 company         : company, 
-                 email           : email, 
-                 country         : country, 
-                 state           : state,  
-                 accountExpiration  : accountExpiration,
-                 passwordExpired : passwordExpired, 
-                 userEnabled     : userEnabled,
-                 groupId         : groupId
+                tmUserViewModel : 
+                {
+                    userId: userId,
+                    userName: userName,
+                    firstname: firstname,
+                    lastname: lastname,
+                    title: title,
+                    company: company,
+                    email: email,
+                    country: country,
+                    state: state,
+                    accountExpiration: accountExpiration,
+                    passwordExpired: passwordExpired,
+                    userEnabled: userEnabled,
+                    groupId: groupId    
+                }
+                
         } );	
     //alert("updating user with: {0}".format(JSON.stringify(params)));
     invokeWebService( url, params, callback, defaultErrorHandler);
@@ -178,6 +182,15 @@ function updateGuidanceItemHtml(id, htmlContent, callback)
                         }};
     updateGuidanceItem(guidanceItem, callback);
 }*/
+
+function previewGuidanceItem(guidanceItem, callback)
+{
+    var url = TM.tmWebServices + 'GetPreview';
+    var params =  JSON.stringify(guidanceItem);
+//	alert("previewing data" + params);						
+    invokeWebService( url, params, callback, defaultErrorHandler);
+}
+
 function updateGuidanceItem(guidanceItem, callback)
 {
     var url = TM.tmWebServices + 'UpdateGuidanceItem';
