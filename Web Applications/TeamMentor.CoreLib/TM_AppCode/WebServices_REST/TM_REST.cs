@@ -8,7 +8,7 @@ using System.ServiceModel.Dispatcher;
 using System.ServiceModel.Web;
 using System.Web;
 using System.Web.Routing;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 
 namespace TeamMentor.CoreLib  
 {
