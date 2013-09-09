@@ -1,0 +1,2 @@
+﻿/javascript/TM/GuidanceItemEditor.js
+/javascript/TM/GuidanceItemPreview.js

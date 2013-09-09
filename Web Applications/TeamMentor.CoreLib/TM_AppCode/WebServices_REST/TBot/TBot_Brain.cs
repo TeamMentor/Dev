@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.WinForms;
+using FluentSharp.CoreLib;
 using RazorEngine;
 using RazorEngine.Templating;
 
@@ -122,9 +123,12 @@ namespace TeamMentor.CoreLib
         public static List<string> TBotScriptsFiles()
         {
             var files = TBotScriptsFolder().files(true, "*.cshtml");
-            var userDataFolder = TM_UserData.Current.Path_UserData.pathCombine("TBot");
-            if (userDataFolder.dirExists())
-                files.add(userDataFolder.files(true, "*.cshtml"));
+            if (TM_UserData.Current.notNull())
+            {
+                var userDataFolder = TM_UserData.Current.Path_UserData.pathCombine("TBot");
+                if (userDataFolder.dirExists())
+                    files.add(userDataFolder.files(true, "*.cshtml"));
+            }
             return files;
         }
         public static Dictionary<string, string> GetAvailableScripts()

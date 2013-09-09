@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Network;
+using FluentSharp.CoreLib;
 using TeamMentor.CoreLib;
 
 namespace TeamMentor.UnitTests.CoreLib
@@ -27,7 +26,7 @@ namespace TeamMentor.UnitTests.CoreLib
         public void Check_TM_Server_URL()
         {
             var tmServerUrl = SendEmails.TM_Server_URL;
-            Assert.IsNull(tmServerUrl);     //shouldn't be set unless the HttpContext exists
+            Assert.IsEmpty(tmServerUrl);     //shouldn't be set unless the HttpContext exists
         }
 
         [Test]
@@ -48,8 +47,67 @@ namespace TeamMentor.UnitTests.CoreLib
 
         }
 
-        //    var stmpServerOnline = Mail.isMailServerOnline(sendEmails.Smtp_Server);
-        //    Assert.IsTrue(stmpServerOnline);
+        [Test]
+        public void Send_Welcome_Email()
+        {
+            var emailTo   = "qa@teammentor.net";
+            var userName  = "username".add_RandomLetters(5);
+            var firstName = "Jonh";
+            var lastName  = "Smith";
+            var tmUser = new TMUser();
+            var sentEmailsCount = SendEmails.Sent_EmailMessages.size();
+            
+            //try with no values
+            var emailThread1 = tmUser.email_NewUser_Welcome();
+            Assert.IsNull(emailThread1);
+            Assert.AreEqual(sentEmailsCount, SendEmails.Sent_EmailMessages.size());
 
+            //adding valid Email
+            tmUser.EMail = emailTo;
+            var emailThread2 = tmUser.email_NewUser_Welcome();
+            Assert.IsNull(emailThread2);
+            Assert.AreEqual(sentEmailsCount, SendEmails.Sent_EmailMessages.size());
+
+            //adding valid username
+            tmUser.UserName = userName;
+            var emailThread3 = tmUser.email_NewUser_Welcome();
+            Assert.IsNull(emailThread3);
+            Assert.AreEqual(sentEmailsCount, SendEmails.Sent_EmailMessages.size());
+
+            //adding valid serverUrl (email should be sent now)
+            SendEmails.TM_Server_URL = "http://localhost:88/";
+            tmUser.email_NewUser_Welcome().Join();                      // join will wait until the email thread completes execution
+            var lastMessageSent1 = SendEmails.Sent_EmailMessages.last();
+            
+            Assert.AreEqual(sentEmailsCount+1, SendEmails.Sent_EmailMessages.size());
+            Assert.AreEqual(lastMessageSent1.To, emailTo);
+            Assert.AreEqual(lastMessageSent1.Subject, TMConsts.EMAIL_SUBJECT_NEW_USER_WELCOME);
+            Assert.IsTrue (lastMessageSent1.Message.contains("Sent by TeamMentor."));
+            Assert.IsTrue(lastMessageSent1.Message.contains("It's a pleasure to confirm that a new TeamMentor"));
+            
+            //adding a valid firstName
+            tmUser.FirstName = firstName;
+            tmUser.email_NewUser_Welcome().Join();                     
+            var lastMessageSent2 = SendEmails.Sent_EmailMessages.last();
+            lastMessageSent2.toXml().info();
+            Assert.IsTrue(lastMessageSent2.Message.contains("It's a pleasure to confirm that a new TeamMentor"));
+
+            //adding a valid firstName
+            tmUser.LastName = lastName;
+            tmUser.email_NewUser_Welcome().Join();
+            var lastMessageSent3 = SendEmails.Sent_EmailMessages.last();
+            Assert.IsTrue(lastMessageSent3.Message.contains("It's a pleasure to confirm that a new TeamMentor"), "Not found string");
+        }
+
+        [Test]
+        public void MessageBody_Is_Correct()
+        {
+            const string serverURL = @"https://www.teammentor.net";
+            const string username = "tmadmin";
+            var tmMessage = TMConsts.EMAIL_BODY_NEW_USER_WELCOME.format(serverURL, username);
+            var expectedMessage =
+                "Hello,\r\n\r\nIt's a pleasure to confirm that a new TeamMentor account has been created for you and that you'll now be able to access\r\nthe entire set of guidance available in the TM repository.\r\n\r\nTo access the service:\r\n\r\n- Go to {0} and login at the top right-hand corner of the page.\r\n- Use your username : {1}.\r\n\r\nThanks,\r\n\r\n".format(serverURL,username);
+            Assert.IsTrue(tmMessage == expectedMessage);
+        }
     }
 }
