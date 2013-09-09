@@ -1,0 +1,12 @@
+﻿/Javascript/jQuery/jquery-1.7.1.min.js
+/Javascript/jQuery/jquery.textarea.js
+/Javascript/TM/GlobalVariables.js
+/Javascript/TM/Settings.js
+/Javascript/TM/WebServices.js
+/Javascript/TM/Events.js
+/Javascript/TM.Gui/TM.Gui.CurrentUser.js
+/Javascript/jQuery/jquery.validate.min.js
+/Javascript/jO2/jO2_jQuery_ExtensionMethods.js
+/Javascript/json/json2.js
+/Javascript/IE_Fixes.js
+/Javascript/TM/GuidanceItemPreview.js
