@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 using TeamMentor.CoreLib;
 
 namespace TeamMentor.UnitTests.CoreLib
@@ -38,7 +38,8 @@ namespace TeamMentor.UnitTests.CoreLib
         public void Validation_NewUser_RequiredFields()
         {            
             var newUser            = new NewUser();                        
-            var requiredValues    = "Company,Country,Firstname,Lastname,Note,Password,State,Title,Username,Email".split(",");
+            //var requiredValues    = "Company,Country,Firstname,Lastname,Note,Password,State,Title,Username,Email".split(",");
+            var requiredValues    = "Password,Username,Email".split(",");
             var validationResults = newUser.validate();
             var resultsMapped     = validationResults.indexed_By_MemberName();
             var validationok      = newUser.validation_Ok();
@@ -145,7 +146,7 @@ namespace TeamMentor.UnitTests.CoreLib
                 var seconds = (DateTime.Now - dateStart).TotalSeconds;
                 Assert.Less(seconds,maxSeconds, "A email with size {0} took more {1} sec to calculate (max is {2})".format(i, seconds, maxSeconds));
                 Assert.IsTrue(resultsMapped["Email"].first().contains("The field Email must match the regular expression"));
-                "for {0} size, it took {2}".info(i, validationResults.size(), dateStart.duration_to_Now());
+                "for {0} size, it took {2}".info(i, validationResults.size(), dateStart.duration_To_Now());
             }
         }
          */

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Security;
+using FluentSharp.Git.APIs;
 using NUnit.Framework;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 using TeamMentor.CoreLib;
 using TeamMentor.UnitTests.REST;
 
@@ -17,9 +18,9 @@ namespace TeamMentor.UnitTests.REST_Direct
             var dllLocation		    = assembly.CodeBase.subString(8);
             var webApplications     = dllLocation.parentFolder().pathCombine(@"\..\..\..");
             var tmWebsite 		    = webApplications.pathCombine("TM_Website");
-            var tmConfig            = tmWebsite.pathCombine("TmConfig.config");
+            var webConfig            = tmWebsite.pathCombine("Web.config");
             moq_HttpContext.BaseDir = tmWebsite;
-            Assert.IsTrue(tmConfig.fileExists(), "couldn't find tmconfig file at: {0}".format(tmConfig));
+            Assert.IsTrue(webConfig.fileExists(), "couldn't find webConfig file at: {0}".format(webConfig));
         }
 
         [Test]
@@ -98,7 +99,7 @@ namespace TeamMentor.UnitTests.REST_Direct
         public void SetUpNGit()
         {
             TmRest.TBot_Run("Git");// trigger unpack of NGit and Sharpen dlls
-            var fluentSharpGit = new O2.FluentSharp.API_NGit();
+            var fluentSharpGit = new API_NGit();
             Assert.NotNull(fluentSharpGit, "fluentSharpGit was null");
         }
     }

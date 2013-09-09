@@ -1,4 +1,4 @@
-﻿using O2.FluentSharp;
+﻿using FluentSharp.Git;
 
 namespace TeamMentor.CoreLib
 {

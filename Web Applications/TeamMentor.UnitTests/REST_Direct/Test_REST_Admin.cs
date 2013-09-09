@@ -1,8 +1,7 @@
 ﻿using FluentSharp;
+using FluentSharp.CoreLib.API;
 using NUnit.Framework;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Kernel;
+using FluentSharp.CoreLib;
 using TeamMentor.CoreLib;
 
 namespace TeamMentor.UnitTests.REST
@@ -55,11 +54,11 @@ namespace TeamMentor.UnitTests.REST
             var lastMessage      = sentMessages.last();
    
             Assert.IsTrue     (new SendEmails().serverNotConfigured());
-            Assert.Greater    (emailsSent_Before   , 0);
+            //Assert.AreEqual   (emailsSent_Before   , 0);
             Assert.AreNotEqual(emailsSent_Before   , emailsSent_After);
             Assert.AreEqual   (lastMessage.To      , emailMessagePost.To);
             Assert.AreEqual   (lastMessage.Subject , emailMessagePost.Subject);
-            Assert.AreEqual   (lastMessage.Message , emailMessagePost.Message);
+            Assert.AreEqual   (lastMessage.Message , emailMessagePost.Message + TMConsts.EMAIL_DEFAULT_FOOTER);
         }
     }
 }
