@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.Security.Application;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 
 namespace TeamMentor.CoreLib
 {
@@ -20,6 +21,7 @@ namespace TeamMentor.CoreLib
                 
                 if (adminUser.notNull())
                 {
+                    adminUser.AccountStatus.ExpirationDate = DateTime.Now.AddYears(10);        // default to setting the expiry value to 10 years in the future
                     if (adminUser.SecretData.PasswordHash.notValid() || tmConfig.OnInstallation.ForceAdminPasswordReset)
                     {
                         "[createDefaultAdminUser] reseting password since passwordHash was not valid and ForceAdminPasswordReset was set".error();
@@ -110,7 +112,7 @@ namespace TeamMentor.CoreLib
             userData.TMUsers.Add(tmUser);            
         
             //save it
-            SendEmails.SendNewUserEmails("New user created: {0}".format(tmUser.UserName), tmUser);
+            tmUser.email_NewUser_Welcome();
             tmUser.saveTmUser();            
                     
             return userId;    		
@@ -141,7 +143,7 @@ namespace TeamMentor.CoreLib
         public static List<int>     createTmUsers               (this TM_UserData userData, string batchUserData) 
         {						
             var newUsers = new List<NewUser>();
-            foreach(var line in batchUserData.fixCRLF().split_onLines())
+            foreach(var line in batchUserData.fix_CRLF().split_onLines())
             {
                 var newUser = new NewUser();
                 //return _newUser;
@@ -294,11 +296,11 @@ namespace TeamMentor.CoreLib
         [ManageUsers]   public static bool          deleteTmUser        (this TM_UserData userData, int userId)
         {
             return userData.deleteTmUser(userId.tmUser());
-        }        
-        [ManageUsers]   public static bool          updateTmUser        (this TM_UserData userData, int userId, string userName, string firstname, string lastname, string title, string company, string email, string country, string state, DateTime accountExpiration, bool passwordExpired, bool userEnabled, int groupId)
+        }
+        [ManageUsers] public static bool updateTmUser(this TM_UserData userData, TM_User tmUserViewModel)
         {
-            return userData.tmUser(userId).updateTmUser(userName, firstname, lastname,  title, company, email,country, state, accountExpiration, passwordExpired,userEnabled,groupId);
-        }		                
+            return userData.tmUser(tmUserViewModel.UserId).updateTmUser(tmUserViewModel);
+        }	                
         [ManageUsers]   public static List<string>  getUserRoles        (this TM_UserData userData, int userId)
         {
             var tmUser = userData.tmUser(userId);
@@ -335,6 +337,6 @@ namespace TeamMentor.CoreLib
                 tmUser.saveTmUser();                
             }
             return tmUser;
-        }        
+        }
     }
 }
