@@ -1,0 +1,78 @@
+﻿@using System.Web.Mvc.Html
+@using System.Web.Mvc
+@using TeamMentor.CoreLib
+@inherits WebViewPage
+
+@{
+    ViewBag.Title = "Edit Markdown page";
+    Layout = "_Layout.cshtml";    
+}
+
+<link rel="stylesheet" type="text/css" href="/javascript/MarkdownDeep/mdd_styles.css" />
+<script type="text/javascript" src="/Javascript/jQuery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="/javascript/MarkdownDeep/MarkdownDeepLib.min.js"></script>
+
+<script type="text/javascript">
+    $(function ()
+        {            
+            $("textarea.mdd_editor").MarkdownDeep({
+                help_location:"/javascript/MarkdownDeep/mdd_help.htm",                
+                ExtraMode: true,
+                SafeMode: @(MarkdownDeep_ExtensionMethods.SafeMode ? "true" : "false")
+            });
+            $("#backToArticle").click(function()
+                {
+                    document.location = "/article/@ViewBag.ArticleId";
+                });  
+        })
+</script>
+
+
+<form action="/Markdown/SaveContent" method="post">
+    
+   <h3>Markdown Editor</h3>       
+    <input class="btn btn-Info" type="button" value="Back to article" id="backToArticle" />    
+    <input class="btn btn-primary" type="submit" value="Save" />
+    <div class="mdd_toolbar"></div>   
+    <input name="articleId" value="@ViewBag.ArticleId" type="hidden"/>
+    @Html.TextArea("Content", new { @class="mdd_editor",rows=10})
+    <div class="mdd_resizer"></div>
+    <div class="well mdd_preview"></div>
+
+@{
+    
+    return;
+    
+    
+}
+@*    
+    <hr />
+    <h1>Previous versions</h1>
+
+    <script src="http://twitter.github.io/bootstrap/assets/js/bootstrap-collapse.js" ></script>
+
+    <div class="accordion" id="accordion2">
+        @foreach(var version in ViewBag.PreviousVersions)
+        {        
+            
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                        <b>When: @version.When</b> <b>by:</b>  @version.Author
+                    </a>
+                </div>
+                <div id="collapseOne" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                        <pre>@version.FileContents</pre>
+                    </div>
+                </div>
+            </div>            
+        
+        }
+    </div>
+    *@
+</form>
+
+
+
+
