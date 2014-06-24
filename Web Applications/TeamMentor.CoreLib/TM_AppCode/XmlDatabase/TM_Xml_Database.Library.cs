@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using FluentSharp.WinForms;
 using Microsoft.Security.Application;
 using FluentSharp.CoreLib;
+using Algorim.CreoleWiki;
+using TeamMentor.CoreLib.TM_AppCode.ExtensionMethods;
 
 //using urn.microsoft.guidanceexplorer.guidanceItem;
 
@@ -70,7 +72,7 @@ namespace TeamMentor.CoreLib
                         return articleContent.sanitizeHtmlContent();
                     }
                 case "wikitext":
-                    return "<div id ='tm_datatype_wikitext'>{0}</div>".format(articleContent.htmlEncode());
+                    return articleContent.wikiText_Transform();
                 default:
                     return articleContent;
             }			

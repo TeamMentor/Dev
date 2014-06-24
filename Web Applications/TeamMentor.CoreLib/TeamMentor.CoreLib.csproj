@@ -34,6 +34,9 @@
     <SkipPostSharp>False</SkipPostSharp>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Algorim.CreoleWiki">
+      <HintPath>..\packages\Algorim.CreoleWiki.1.0.4335.37128\lib\net40\Algorim.CreoleWiki.dll</HintPath>
+    </Reference>
     <Reference Include="AntiXssLibrary, Version=4.2.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
       <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\AntiXssLibrary.dll</HintPath>
     </Reference>
@@ -94,6 +97,7 @@
     <Compile Include="TM_AppCode\Authentication\ExtensionMethods\RoleBaseSecurity_ExtensionMethods.cs" />
     <Compile Include="TM_AppCode\Authentication\ExtensionMethods\TeamMentorUserManagement_ExtensionMethods.cs" />
     <Compile Include="TM_AppCode\Authentication\TokenAuthentication.cs" />
+    <Compile Include="TM_AppCode\ExtensionMethods\CreoleWiki_ExtensionMethods.cs" />
     <Compile Include="TM_AppCode\ExtensionMethods\Extra\Extra_DateTime_ExtensionMethods.cs" />
     <Compile Include="TM_AppCode\ExtensionMethods\Extra\Extra_Double_ExtensionMethods.cs" />
     <Compile Include="TM_AppCode\ExtensionMethods\Extra\Extra_Headers_ExtensioMethods.cs" />
