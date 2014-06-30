@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using FluentSharp.WinForms;
 using Microsoft.Security.Application;
 using FluentSharp.CoreLib;
-
+using TeamMentor.CoreLib;
 //using urn.microsoft.guidanceexplorer.guidanceItem;
 
 namespace TeamMentor.CoreLib
@@ -70,7 +70,7 @@ namespace TeamMentor.CoreLib
                         return articleContent.sanitizeHtmlContent();
                     }
                 case "wikitext":
-                    return "<div id ='tm_datatype_wikitext'>{0}</div>".format(articleContent.htmlEncode());
+                    return articleContent.wikiText_Transform();
                 default:
                     return articleContent;
             }			
