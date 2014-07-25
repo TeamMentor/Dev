@@ -4,13 +4,11 @@ using System.Web.Services;
 using FluentSharp.CoreLib;
 using TeamMentor.CoreLib;
 using System;
-using System.Text;
-using System.Net;
 using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
+using HtmlAgilityPack;
 namespace CheckmarxService
 {
     [WebService(Namespace = "http://teammentor.net")]
@@ -101,28 +99,28 @@ namespace CheckmarxService
             //There is not mapping article for the CWE and Language
             if (String.IsNullOrEmpty(articleGuid))
                 return "";
-            
             //Setting authentication token
             _authentication.sessionID = authentication_token;
             //Fetch article in HTML
             var htmlResponse = _xmlDatabase.getGuidanceItemHtml(authentication_token, articleGuid.guid());
-            var article = _xmlDatabase.getGuidanceItem(articleGuid.guid());
-            //Loading Html template
-            var htmlTemplate = context.Server.MapPath(HtmlTemplateFile).fileContents();
-
-            var htmlContent = htmlTemplate.replace("#ARTICLE_TITLE", article.Metadata.Title)
-                                          .replace("#ARTICLE_HTML", htmlResponse);
-            if (htmlContent.notNull())
+            //Safe check, if the article does not exist, htmlResponse becomes null
+            if (htmlResponse.notNull())
             {
-                htmlContent = htmlContent.Replace("<HEAD>",
-                                                    string.Format(
-                                                        @"<HEAD><br\><meta http-equiv=""Content-Type"" content=""text/html;charset=utf-8""/><br\><base href=""{0}"" target=""_blank"">",
-                                                        _baseArticleUrl));
-                htmlContent = htmlContent
-                              .Replace(@"/Images/HeaderImage.jpg", String.Format("{0}{1}", _baseUrl, "/Images/HeaderImage.jpg"))
-                              .Replace("/aspx_Pages/", String.Format("{0}{1}", _baseUrl, "/aspx_Pages/"));
+                var article = _xmlDatabase.getGuidanceItem(articleGuid.guid());
+                //Safe check, it could be the case that the article GUID does not exist.
+                if (article.notNull())
+                {
+                    var htmlTemplate = context.Server.MapPath(HtmlTemplateFile).fileContents();
+                    var htmlContent = htmlTemplate.replace("#ARTICLE_TITLE", article.Metadata.Title)
+                                                  .replace("#ARTICLE_HTML", htmlResponse);
+                    return HttpUtility.HtmlDecode(GetAbsoluteUrls(htmlContent));
+                }
+                else
+                {
+                    String.Format("{0} not found!", articleGuid).error();
+                }
             }
-            return HttpUtility.HtmlDecode(htmlContent);
+            return "";
         }
         public string FindArticleUrl(int cweId, string technology)
         {
@@ -141,6 +139,46 @@ namespace CheckmarxService
                 }
             }
             return "";
+        }
+        /// <summary>
+        /// This function gets the raw HTML returned from the service and using HtmlAgilityPack,return AbsoluteUris for images and hyperlinks.
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        private string GetAbsoluteUrls(string html)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            //Finding images
+            foreach (var img in doc.DocumentNode.Descendants("img"))
+            {
+                if (img != null)
+                    img.Attributes["src"].Value = new Uri(new Uri(_baseUrl),
+                                                        img.Attributes["src"].Value).AbsoluteUri;
+            }
+            //Finding styles
+            foreach (var link in doc.DocumentNode.Descendants("link"))
+            {
+                if (link != null)
+                    link.Attributes["href"].Value = new Uri(new Uri(_baseUrl),
+                                                    link.Attributes["href"].Value).AbsoluteUri;
+            }
+            //Finding hyperlinks
+            foreach (var link in doc.DocumentNode.Descendants("a"))
+            {
+                //Ignoring Absolute Urls and mailto
+                if (link != null && (!link.Attributes["href"].Value.Contains("http")
+                                     && !link.Attributes["href"].Value.Contains("mailto")))
+                {
+                    //Article link needs to be a GUID
+                    if (link.Attributes["href"].Value.isGuid())
+                    {
+                        link.Attributes["href"].Value = new Uri(new Uri(_baseUrl + "/html/"), 
+                                                                link.Attributes["href"].Value).AbsoluteUri;
+                    }
+                }
+            }
+            return doc.DocumentNode.InnerHtml;
         }
     }
 }
