@@ -143,7 +143,7 @@ namespace TeamMentor.CoreLib
             {
                 requestUrl = "... no availabled due to: {0}".format(ex.Message);
             }
-            HttpContextFactory.Context.Request.url();
+            
             @"******** [logThreadPrincipal] Thread.CurrentPrincipal on request URL: {0}
 
                  Name      : {1} , 
