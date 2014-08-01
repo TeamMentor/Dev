@@ -133,10 +133,18 @@ namespace TeamMentor.CoreLib
 		public static IPrincipal setThreadPrincipalWithRoles(this string[] userRoles)
 		{
 			var newIdentity = new GenericIdentity("TM_User"); // note that this needs to be set or the SecurityAction.Demand for roles will not work
-            var newPrincipal = new GenericPrincipal(newIdentity, userRoles);		
-			
-            if(HttpContextFactory.Request.notNull() && HttpContextFactory.Request.Url.notNull())
-                "******** [setThreadPrincipalWithRoles] for request: {0}".debug(HttpContextFactory.Request.url());
+            var newPrincipal = new GenericPrincipal(newIdentity, userRoles);
+
+            try
+            {
+                if(HttpContextFactory.Request.notNull() && HttpContextFactory.Request.Url.notNull())
+                    "******** [setThreadPrincipalWithRoles] for request: {0}".debug(HttpContextFactory.Request.url());    
+            }
+            catch(Exception ex)
+            {
+                ex.log("[setThreadPrincipalWithRoles]");
+            }
+            
 
 //            "******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal = {0}".info(Thread.CurrentPrincipal);
 //	        "******** [setThreadPrincipalWithRoles] new newPrincipal = {0}".info(newPrincipal);
