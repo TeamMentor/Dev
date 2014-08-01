@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Configuration;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 using System.ServiceModel.Web;
@@ -42,10 +43,8 @@ namespace TeamMentor.CoreLib
             "[TM_REST] serviceHostBase: {0}".error(serviceHostBase);
             "[TM_REST] serviceHostBase.Authorization: {0}".error(serviceHostBase.Authorization);
             "[TM_REST] serviceHostBase.Authorization.PrincipalPermissionMode: {0}".error(serviceHostBase.Authorization.PrincipalPermissionMode);
-
-             serviceHostBase.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;  
-
-            "[TM_REST] serviceHostBase.Authorization.PrincipalPermissionMode: {0}".error(serviceHostBase.Authorization.PrincipalPermissionMode);
+            
+             //serviceHostBase.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;   //throws 'Object is read-only.' exception            
         }
 
         //
@@ -74,6 +73,10 @@ namespace TeamMentor.CoreLib
 
             var serviceDebugBehaviour = TM_REST.serviceHostBase.Description.Behaviors.Find<ServiceDebugBehavior>();            
             serviceDebugBehaviour.IncludeExceptionDetailInFaults = true;
+
+            var serviceAuthorizationBehaviour = TM_REST.serviceHostBase.Description.Behaviors.Find<ServiceAuthorizationBehavior>();      
+            serviceAuthorizationBehaviour.PrincipalPermissionMode = PrincipalPermissionMode.Custom;
+
             return TM_REST.serviceHostBase;
         }
 
