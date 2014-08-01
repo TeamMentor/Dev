@@ -64,18 +64,18 @@ namespace TeamMentor.CoreLib
             }
             catch(SecurityException ex)
             { 
+                ex.log("[demand] for {0} permission failed".format(userRole));
                 try
                 {
                     if(HttpContextFactory.Request.notNull() && HttpContextFactory.Request.Url.notNull())
-                        "******** [setThreadPrincipalWithRoles] for request: {0}".debug(HttpContextFactory.Request.url());    
+                        "\n\n******** [demand] for request: {0}".error(HttpContextFactory.Request.url());    
                 }
                 catch(Exception ex2)
                 {
                     ex2.log("[Demand]");
-                }
-                "******** [TeamMentorUserManagement_UserRole] demand for '{0}': for request = {1}"            .debug(userRole.str(), HttpContextFactory.Request.url());
-                "******** [TeamMentorUserManagement_UserRole] demand for '{0}': Thread.CurrentPrincipal = {1}".info (userRole.str(), Thread.CurrentPrincipal);
-                ex.log("[demand] for {0} permission failed".format(userRole));
+                }                
+                "******** [demand] Thread.CurrentPrincipal , Name = {0} , Roles = {1}".debug(Thread.CurrentPrincipal.Identity.Name , Thread.CurrentPrincipal.roles().asString());               
+                
                 // ReSharper disable once PossibleIntendedRethrow
                 throw ex;    
             }
