@@ -64,8 +64,8 @@ namespace TeamMentor.CoreLib
             }
             catch(SecurityException ex)
             { 
-                "******** [TeamMentorUserManagement_UserRole] demand for '{0}': for request = {1}"            .debug(userRole.str(), HttpContextFactory.Request.url());
-                "******** [TeamMentorUserManagement_UserRole] demand for '{0}': Thread.CurrentPrincipal = {1}".info (userRole.str(), Thread.CurrentPrincipal);
+              //  "******** [TeamMentorUserManagement_UserRole] demand for '{0}': for request = {1}"            .debug(userRole.str(), HttpContextFactory.Request.url());
+              //  "******** [TeamMentorUserManagement_UserRole] demand for '{0}': Thread.CurrentPrincipal = {1}".info (userRole.str(), Thread.CurrentPrincipal);
                 ex.logWithStackTrace("[demand] for {0} permission failed".format(userRole));
                 // ReSharper disable once PossibleIntendedRethrow
                 throw ex;    
