@@ -134,23 +134,28 @@ namespace TeamMentor.CoreLib
 		
         public static IPrincipal logThreadPrincipal(this IPrincipal principal, [CallerMemberName] string callerName = "")
         {
-            var requestUrl = "";
-            try
-            {
-                requestUrl =  HttpContextFactory.Request.url();                
-            }
-            catch(Exception ex)
-            {
-                requestUrl = "... no availabled due to: {0}".format(ex.Message);
-            }
-            
-            @"******** [logThreadPrincipal] Thread.CurrentPrincipal on request URL: {0}
+            var requestUrl = HttpContextFactory.Context.request().url();            
+            var stackTrace = new StackTrace().GetFrames().asString();
+            @"******** [logThreadPrincipal] 
 
-                 Name      : {1} , 
-                 Roles     : {2}
-                 CallerName: {3}
+                 IPrincipal on request URL: {0}
+                 StackTrace               : {1}               
 
-            **********".debug(requestUrl, principal.Identity.Name, principal.roles().asString(),callerName);            
+                 IPrincipal is            : {2}   
+                 IPrincipal.Indentiry is  : {3}   
+
+
+                 Name      : {4} , 
+                 Roles     : {5}
+                 CallerName: {6}
+
+            **********".debug(requestUrl, 
+                              stackTrace,
+                              principal.typeFullName(),
+                              principal.Identity.typeFullName(),
+                              principal.Identity.Name, 
+                              principal.roles().asString(),
+                              callerName);            
             return principal;
         }
 		public static IPrincipal setThreadPrincipalWithRoles(this string[] userRoles)
@@ -160,7 +165,7 @@ namespace TeamMentor.CoreLib
 
                                     
             Thread.CurrentPrincipal = newPrincipal;
-
+            
             Thread.CurrentPrincipal.logThreadPrincipal();            
 			return newPrincipal;
 		}

@@ -81,6 +81,7 @@
     <Compile Include="Users\UserActivities_ExtensionMethods.cs" />
     <Compile Include="Users\Users_Creation.cs" />
     <Compile Include="Utils\SendEmails.cs" />
+    <Compile Include="_Extra_ExtensionMethods\Extra_HttpContextBase_ExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TeamMentor.Schemas\TeamMentor.Schemas.csproj">
