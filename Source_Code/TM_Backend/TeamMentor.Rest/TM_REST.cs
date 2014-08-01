@@ -35,16 +35,20 @@ namespace TeamMentor.CoreLib
             Context       = HttpContextFactory.Current;
             Session       = HttpContextFactory.Session;
 			check_CSRF_Header();						
-            //TmWebServices = new TM_WebServices(true);	//Disabling CSRF            
-            TmWebServices = new TM_WebServices(disable_Csrf_Check : false);	//Disabling CSRF            
+                   
+            TmWebServices = new TM_WebServices(disable_Csrf_Check : false);	
 
             Thread.CurrentPrincipal.logThreadPrincipal();   
             "[TM_REST] serviceHostBase: {0}".error(serviceHostBase);
             "[TM_REST] serviceHostBase.Authorization: {0}".error(serviceHostBase.Authorization);
             "[TM_REST] serviceHostBase.Authorization.PrincipalPermissionMode: {0}".error(serviceHostBase.Authorization.PrincipalPermissionMode);
-            //serviceHostBase.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;
+
+             serviceHostBase.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;  
+
+            "[TM_REST] serviceHostBase.Authorization.PrincipalPermissionMode: {0}".error(serviceHostBase.Authorization.PrincipalPermissionMode);
         }
 
+        //
         public void check_CSRF_Header()
         {
             
