@@ -3,7 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Security;
 using System.Security.Permissions;
+using System.Threading;
 using FluentSharp.CoreLib;
+using FluentSharp.Web;
 
 namespace TeamMentor.CoreLib
 {    
@@ -61,7 +63,9 @@ namespace TeamMentor.CoreLib
 			    new PrincipalPermission(null, userRole.str()).Demand();         
             }
             catch(SecurityException ex)
-            {                
+            { 
+                "******** [TeamMentorUserManagement_UserRole] demand for '{0}': for request = {1}"            .debug(userRole.str(), HttpContextFactory.Request.url());
+                "******** [TeamMentorUserManagement_UserRole] demand for '{0}': Thread.CurrentPrincipal = {1}".info (userRole.str(), Thread.CurrentPrincipal);
                 ex.logWithStackTrace("[demand] for {0} permission failed".format(userRole));
                 // ReSharper disable once PossibleIntendedRethrow
                 throw ex;    
