@@ -146,8 +146,8 @@ namespace TeamMentor.CoreLib
             }
             
 
-            "******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal = {0}".info(Thread.CurrentPrincipal.toXml());
-	        "******** [setThreadPrincipalWithRoles] new newPrincipal = {0}".info(newPrincipal.toXml());
+            "******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal, Name = {0} , Roles = {1}".info(Thread.CurrentPrincipal.Identity.Name, Thread.CurrentPrincipal.roles().asString());
+	        "******** [setThreadPrincipalWithRoles] new newPrincipal       , Name = {0} , Roles = {1}".info(newPrincipal.Identity.Name , newPrincipal.roles().asString());
             Thread.CurrentPrincipal = newPrincipal;
             //"******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal = {0}".info(Thread.CurrentPrincipal);
 			return newPrincipal;
