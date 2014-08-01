@@ -135,7 +135,8 @@ namespace TeamMentor.CoreLib
         public static IPrincipal logThreadPrincipal(this IPrincipal principal, [CallerMemberName] string callerName = "")
         {
             var requestUrl = HttpContextFactory.Context.request().url();            
-            var stackTrace = new StackTrace(false).GetFrames().asString();
+            //var stackTrace = new StackTrace(false).GetFrames().asString();
+            var stackTrace = new StackTrace().GetFrames().toList().select(frame=>frame.GetMethod().Name).join(",");
             @"******** [logThreadPrincipal] 
 
                  IPrincipal on request URL: {0}
