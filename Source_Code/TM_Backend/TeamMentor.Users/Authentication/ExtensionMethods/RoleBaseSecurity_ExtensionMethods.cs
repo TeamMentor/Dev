@@ -146,10 +146,10 @@ namespace TeamMentor.CoreLib
             }
             
 
-            "******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal = {0}".info(Thread.CurrentPrincipal);
-	        "******** [setThreadPrincipalWithRoles] new newPrincipal = {0}".info(newPrincipal);
+            "******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal = {0}".info(Thread.CurrentPrincipal.toXml());
+	        "******** [setThreadPrincipalWithRoles] new newPrincipal = {0}".info(newPrincipal.toXml());
             Thread.CurrentPrincipal = newPrincipal;
-            "******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal = {0}".info(Thread.CurrentPrincipal);
+            //"******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal = {0}".info(Thread.CurrentPrincipal);
 			return newPrincipal;
 		}
         public static string[] getThreadPrincipalWithRoles(this HttpContextBase httpContext)
