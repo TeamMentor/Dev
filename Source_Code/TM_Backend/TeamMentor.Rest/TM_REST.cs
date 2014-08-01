@@ -5,8 +5,10 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 using System.ServiceModel.Web;
+using System.Threading;
 using System.Web;
 using System.Web.Routing;
+using FluentSharp.CoreLib;
 using FluentSharp.Web;
 
 namespace TeamMentor.CoreLib  
@@ -35,6 +37,12 @@ namespace TeamMentor.CoreLib
 			check_CSRF_Header();						
             //TmWebServices = new TM_WebServices(true);	//Disabling CSRF            
             TmWebServices = new TM_WebServices(disable_Csrf_Check : false);	//Disabling CSRF            
+
+            Thread.CurrentPrincipal.logThreadPrincipal();   
+            "[TM_REST] serviceHostBase: {0}".error(serviceHostBase);
+            "[TM_REST] serviceHostBase.Authorization: {0}".error(serviceHostBase.Authorization);
+            "[TM_REST] serviceHostBase.Authorization.PrincipalPermissionMode: {0}".error(serviceHostBase.Authorization.PrincipalPermissionMode);
+            //serviceHostBase.Authorization.PrincipalPermissionMode = PrincipalPermissionMode.Custom;
         }
 
         public void check_CSRF_Header()

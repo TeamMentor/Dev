@@ -107,6 +107,8 @@ namespace TeamMentor.CoreLib
 
         [Admin] public TM_SecretData Get_TM_SecretData()
         {
+            Thread.CurrentPrincipal.logThreadPrincipal();   
+
             UserRole.Admin.demand();
             return TM_UserData.Current.SecretData;
         }

@@ -135,7 +135,7 @@ namespace TeamMentor.CoreLib
         public static IPrincipal logThreadPrincipal(this IPrincipal principal, [CallerMemberName] string callerName = "")
         {
             var requestUrl = HttpContextFactory.Context.request().url();            
-            var stackTrace = new StackTrace().GetFrames().asString();
+            var stackTrace = new StackTrace(false).GetFrames().asString();
             @"******** [logThreadPrincipal] 
 
                  IPrincipal on request URL: {0}
@@ -161,11 +161,9 @@ namespace TeamMentor.CoreLib
 		public static IPrincipal setThreadPrincipalWithRoles(this string[] userRoles)
 		{
 			var newIdentity = new GenericIdentity("TM_User"); // note that this needs to be set or the SecurityAction.Demand for roles will not work
-            var newPrincipal = new GenericPrincipal(newIdentity, userRoles);
+            var newPrincipal = new GenericPrincipal(newIdentity, userRoles);                                    
+            Thread.CurrentPrincipal = newPrincipal;            
 
-                                    
-            Thread.CurrentPrincipal = newPrincipal;
-            
             Thread.CurrentPrincipal.logThreadPrincipal();            
 			return newPrincipal;
 		}
