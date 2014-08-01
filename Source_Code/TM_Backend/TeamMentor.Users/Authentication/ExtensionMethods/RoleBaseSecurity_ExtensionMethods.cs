@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Security.Principal;
 using System.Threading;
 using System.Web;
@@ -130,27 +132,36 @@ namespace TeamMentor.CoreLib
 			return userGroup.userRoles().ToArray().toStringArray().setThreadPrincipalWithRoles();
 		}
 		
+        public static IPrincipal logThreadPrincipal(this IPrincipal principal, [CallerMemberName] string callerName = "")
+        {
+            var requestUrl = "";
+            try
+            {
+                requestUrl =  HttpContextFactory.Request.url();                
+            }
+            catch(Exception ex)
+            {
+                requestUrl = "... no availabled due to: {0}".format(ex.Message);
+            }
+            HttpContextFactory.Context.Request.url();
+            @"******** [logThreadPrincipal] Thread.CurrentPrincipal on request URL: {0}
+
+                 Name      : {1} , 
+                 Roles     : {2}
+                 CallerName: {3}
+
+            **********".debug(requestUrl, principal.Identity.Name, principal.roles().asString(),callerName);            
+            return principal;
+        }
 		public static IPrincipal setThreadPrincipalWithRoles(this string[] userRoles)
 		{
 			var newIdentity = new GenericIdentity("TM_User"); // note that this needs to be set or the SecurityAction.Demand for roles will not work
             var newPrincipal = new GenericPrincipal(newIdentity, userRoles);
 
-            try
-            {
-                if(HttpContextFactory.Request.notNull() && HttpContextFactory.Request.Url.notNull())
-                    "\n\n******** [setThreadPrincipalWithRoles] for request: {0}".debug(HttpContextFactory.Request.url());    
-            }
-            catch(Exception ex)
-            {
-                ex.log("[setThreadPrincipalWithRoles]");
-            }
-            
-
-            "******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal (before), Name = {0} , Roles = {1}".debug(Thread.CurrentPrincipal.Identity.Name, Thread.CurrentPrincipal.roles().asString());
-	        "******** [setThreadPrincipalWithRoles] new newPrincipal       , Name = {0} , Roles = {1}".debug(newPrincipal.Identity.Name , newPrincipal.roles().asString());
+                                    
             Thread.CurrentPrincipal = newPrincipal;
-            "******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal (after), Name = {0} , Roles = {1}".debug(Thread.CurrentPrincipal.Identity.Name, Thread.CurrentPrincipal.roles().asString());
-            //"******** [setThreadPrincipalWithRoles] Thread.CurrentPrincipal = {0}".info(Thread.CurrentPrincipal);
+
+            Thread.CurrentPrincipal.logThreadPrincipal();            
 			return newPrincipal;
 		}
         public static string[] getThreadPrincipalWithRoles(this HttpContextBase httpContext)

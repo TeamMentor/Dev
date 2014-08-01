@@ -65,16 +65,8 @@ namespace TeamMentor.CoreLib
             catch(SecurityException ex)
             { 
                 ex.log("[demand] for {0} permission failed".format(userRole));
-                try
-                {
-                    if(HttpContextFactory.Request.notNull() && HttpContextFactory.Request.Url.notNull())
-                        "\n\n******** [demand] for request: {0}".error(HttpContextFactory.Request.url());    
-                }
-                catch(Exception ex2)
-                {
-                    ex2.log("[Demand]");
-                }                
-                "******** [demand] Thread.CurrentPrincipal , Name = {0} , Roles = {1}".debug(Thread.CurrentPrincipal.Identity.Name , Thread.CurrentPrincipal.roles().asString());               
+
+                Thread.CurrentPrincipal.logThreadPrincipal();
                 
                 // ReSharper disable once PossibleIntendedRethrow
                 throw ex;    
