@@ -35,6 +35,7 @@ namespace TeamMentor.CoreLib
         public static string DEFAULT_PASSWORD_CHANGE_ERROR_MESSAGE          = "The password cannot be changed at this time";
         public static string DEFAULT_PASSWORD_RESET_ERROR_MESSAGE           = "The password cannot be reset at this time";
 	    public static string DEFAULT_EMAIL_DOES_NOT_EXIST_ERROR_MESSAGE     = "Email address does not exist";
+	    public static string DEFAULT_EMAIL_ADDRESS_IS_INVALID               = "This is not a valid e-mail address";
 
         public static int    FIREBASE_SUBMIT_QUEUE_MAX_WAIT                 = 60000;
         public static string FIREBASE_AREA_DEBUG_MSGS                       = "debugMsgs";
@@ -65,7 +66,7 @@ the entire set of guidance available in the TM repository.
 To access the service:
 
 - Go to {0} and login at the top right-hand corner of the page.
-- Use your username : {1}.
+- Use your username : {1}
 
 Thanks,
 
